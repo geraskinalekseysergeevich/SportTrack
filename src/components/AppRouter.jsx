@@ -2,6 +2,10 @@ import React from 'react';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import RouterMenu from './RouterMenu';
 import { privateRoutes, publicRoutes } from '../router';
+import Register from '../pages/RegisterPage';
+import StartPage from '../pages/StartPage';
+import Login from '../pages/LoginPage';
+import Loader from './Loader';
 
 const AppRouter = () => {
 
@@ -14,7 +18,7 @@ const AppRouter = () => {
                 <RouterMenu />
                 <Routes>
                     {privateRoutes.map(route =>
-                        <Route path={route.path} exact element={route.element} />
+                        <Route path={route.path} element={route.element} />
                     )}
                 </Routes>
             </Router>

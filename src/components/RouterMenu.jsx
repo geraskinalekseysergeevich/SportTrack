@@ -12,6 +12,24 @@ const RouterMenu = () => {
                 <li>
                     <Link to={'/register'}>Register</Link>
                 </li>
+                <li>
+                    <Link to={'/login'}>Login</Link>
+                </li>
+                <li>
+                    <Link to={'/home'}>Home</Link>
+                </li>
+                <li>
+                    <Link to={'/tainings'}>Trainings</Link>
+                </li>
+                <li>
+                    <Link to={'/meals'}>Meals</Link>
+                </li>
+                <li>
+                    <Link to={'/statistics'}>Stats</Link>
+                </li>
+                <li>
+                    <Link to={'/profile'}>Profile</Link>
+                </li>
             </ul>
         </nav>
     );

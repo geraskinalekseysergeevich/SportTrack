@@ -1,13 +1,17 @@
-import Calorie from '../pages/Calorie';
-import Login from '../pages/Login';
-import Register from '../pages/Register';
-import Start from '../pages/Start';
+import LoginPage from '../pages/LoginPage';
+import RegisterPage from '../pages/RegisterPage';
+import StartPage from '../pages/StartPage';
 
 export const publicRoutes = [
-    { path: '/', element: Start },
-    { path: '/register', element: Register },
-    { path: '/login', element: Login },
-    { path: '/calorie', element: Calorie },
+    { path: '/', element: StartPage },
+    { path: '/register', element: RegisterPage },
+    { path: '/login', element: LoginPage },
+    {path: '*', element: StartPage}
 ];
 
-export const privateRoutes = [];
+export const privateRoutes = [
+    { path: '/', element: StartPage },
+    { path: '/register', element: RegisterPage },
+    { path: '/login', element: LoginPage },
+    {path: '*', element: StartPage} 
+];

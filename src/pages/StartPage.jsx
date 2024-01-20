@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import classes from '../UI/Start.module.css'
 
-const Start = () => {
+const StartPage = () => {
     return (
         <div className={classes.start__container}>
             <div className={classes.body__container}>
@@ -18,15 +18,9 @@ const Start = () => {
                         <p>Начать</p>
                     </div>
                 </Link>
-                <div className={classes.footer_text}>
-                    <div className={classes.flex__container}>
-                        <p className={classes.noaccount_link}>Нет аккаунта?</p>
-                        <Link className={classes.register_link} to={'/register'}>Регистрация</Link>
-                    </div>
-                </div>
             </div>
         </div>
     );
 };
 
-export default Start;
+export default StartPage;

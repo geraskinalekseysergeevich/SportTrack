@@ -73,35 +73,3 @@
     line-height: 20px; /* 71.429% */
     letter-spacing: 0.28px;
 }
-.footer_text {
-    text-align: center;
-    margin-top: 33px;
-}
-.flex__container {
-    display: flex;
-    justify-content: space-between;
-    max-width: 290px;
-    margin: auto;
-}
-.noaccount_link {
-    color: #CCC7C7;
-    font-variant-numeric: lining-nums proportional-nums;
-    font-feature-settings: 'dlig' on;
-    font-family: 'Montserrat';
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: 20px; /* 125% */
-    letter-spacing: 0.16px;
-}
-.register_link {
-    color: #29E33C;
-    font-variant-numeric: lining-nums proportional-nums;
-    font-feature-settings: 'dlig' on;
-    font-family: 'Montserrat';
-    font-size: 18px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: 20px; /* 111.111% */
-    letter-spacing: 0.18px;
-}

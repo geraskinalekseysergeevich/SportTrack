@@ -4,7 +4,7 @@ import styles from '../UI/RegistrationForm.module.css';
 const RegistrationForm = () => {
 
     const [userData, setUserData] = useState({
-        username: 'gjhbgjhgb',
+        username: '',
         email: '',
         password: '',
         confirmPassword: '',
