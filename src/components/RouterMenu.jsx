@@ -19,7 +19,7 @@ const RouterMenu = () => {
                     <Link to={'/home'}>Home</Link>
                 </li>
                 <li>
-                    <Link to={'/tainings'}>Trainings</Link>
+                    <Link to={'/trainings'}>Trainings</Link>
                 </li>
                 <li>
                     <Link to={'/meals'}>Meals</Link>
