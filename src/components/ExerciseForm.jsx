@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import classes from '../UI/ExerciseForm.module.css';
 
 function ExerciseForm() {
-    const [activeTab, setActiveTab] = useState('addExercise', 'selectSaved');
+    const [activeTab, setActiveTab] = useState('');
     const [exerciseData, setExerciseData] = useState({
         name: '',
         category: '',
@@ -17,18 +17,19 @@ function ExerciseForm() {
     });
     const [timer, setTimer] = useState(0);
     const [intervalId, setIntervalId] = useState(null);
+    const [savedWorkouts, setSavedWorkouts] = useState({});
+    const [selectedWorkout, setSelectedWorkout] = useState('')
+    const [selectChange, setSelectChange] = useState(0)
+    const [error, setError] = useState(0)
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        setExerciseData({
-            ...exerciseData,
-            [name]: value,
-        });
+        setExerciseData({...exerciseData, [name]: value});
     };
 
     const handleCheckboxChange = (e) => {
         const { name, checked } = e.target;
-        setExerciseData({ ...exerciseData, [name]: checked ? 1 : null });
+        setExerciseData({ ...exerciseData, [name]: checked ? 1 : '' });
     };
 
     const startStopTimer = () => {
@@ -54,27 +55,26 @@ function ExerciseForm() {
         setTimer(0);
     };
 
-    const [savedWorkouts, setSavedWorkouts] = useState([]);
+    const resetExercise = () => {
+
+        setExerciseData({
+            name: '',
+            category: '',
+            repetitions: '',
+            sets: '',
+            weight: '',
+            location: '',
+            mood: '',
+            comment: '',
+            time: '',
+            timecreated: '',
+        })
+
+    }
 
     const saveExercise = () => {
-        // fetch("YOUR_API_ENDPOINT", {
-        //     method: "POST",
-        //     headers: {
-        //       "Content-Type": "application/json",
-        //     },
-        //     body: JSON.stringify(exerciseData),
-        //   })
-        //     .then((response) => response.json())
-        //     .then((data) => {
-        //       console.log("Success:", data);
-        //       // Обрабатываем полученный ответ
-        //     })
-        //     .catch((error) => {
-        //       console.error("Error:", error);
-        //     });
-
-        var currentdate = new Date();
-        var datetime =
+        const currentdate = new Date();
+        const datetime =
             currentdate.getDate() +
             '/' +
             (currentdate.getMonth() + 1) +
@@ -89,36 +89,40 @@ function ExerciseForm() {
 
         exerciseData.time = getFormattedTime();
         exerciseData.timecreated = datetime;
-        setActiveTab([...activeTab, exerciseData]);
-        // setSavedWorkouts({
-        //     ...savedWorkouts,
-        //     [exerciseData.name]: exerciseData,
-        //   });
-        setSavedWorkouts([...savedWorkouts, exerciseData]);
-        console.log(savedWorkouts);
-        setExerciseData({
-            name: '',
-            category: '',
-            repetitions: null,
-            sets: null,
-            weight: null,
-            location: '',
-            mood: '',
-            comment: '',
-            time: '',
-            timecreated: '',
-        });
-        alert('Упражнение успешно сохранено!');
+        setActiveTab('');
+        resetExercise()
+        setSavedWorkouts(prevState => {
+            const updatedState = {...prevState, [exerciseData.name]: exerciseData}
+            console.log(updatedState)
+            return updatedState
+        })
+
+        console.log('Упражнение успешно сохранено!');
         // Замените URL и настройки на соответствующие вашему API и его требованиям
     };
 
+    const tryToSave = (saveExercise) => {
+        return () => {
+            if (exerciseData.name === '') {
+                setError(1)
+                console.log('пустое имя')
+            } else if (exerciseData.name in savedWorkouts) {
+                setError(2)
+                console.log('такое имя уже существует')
+            } else {
+                setError(0)
+                saveExercise()
+            }
+        }
+    }
+    const tryToSaveExercise = tryToSave(saveExercise)
+
     const deleteExercise = () => {
-        const updatedWorkouts = savedWorkouts.filter(
-            (workout) => workout.name !== exerciseData.name
-        );
+        const updatedWorkouts = { ...savedWorkouts }
+        delete updatedWorkouts[exerciseData.name]
         setSavedWorkouts(updatedWorkouts);
-        setActiveTab([...activeTab, exerciseData]);
-        console.log(savedWorkouts);
+        console.log('Упражнение успешно удалено!');
+        resetExercise()
     };
 
     const getFormattedTime = () => {
@@ -135,43 +139,33 @@ function ExerciseForm() {
         }`;
     };
 
-    const [selectedWorkout, setSelectedWorkout] = useState(null);
-
-    const handleSelectSaved = (workout) => {
-        const selectedWorkout = savedWorkouts.find(
-            (savedWorkout) =>
-                savedWorkout.name === workout.name &&
-                savedWorkout.category === workout.category
-        );
-        if (selectedWorkout) {
-            setExerciseData(selectedWorkout);
-        }
-
-        // setSelectedWorkout(workout);
-    };
-
-    const handleSelectChange = (e) => {
-        setSelectedOption(e.target.value);
-
-        const selectedWorkout = savedWorkouts.find(
-            (savedWorkout) => savedWorkout.name === e.target.value
-        );
-        if (selectedWorkout) {
-            setExerciseData(selectedWorkout);
-            console.log(savedWorkouts);
+    const handleSelectSaved = (workoutName) => {
+        if (workoutName !== '') {
+            setSelectedWorkout(savedWorkouts[workoutName])
+            setSelectChange(1)
         }
     };
 
-    const [selectedOption, setSelectedOption] = useState('');
+    useEffect(() => {
+        if (selectedWorkout) {
+            setExerciseData(selectedWorkout);
+        }
+    }, [selectedWorkout])
 
     return (
-        <div>
-            <div>
-                <span>Добавить новое упражнение</span>
-                <button onClick={() => setActiveTab('addExercise')}>+</button>
+        <div className={classes.exerciseform__container}>
+            <div className={classes.page_header}>
+                <h1>Добавить упражнение</h1>
+                <img src={require('../sources/avatar.png')} alt="" />
             </div>
-            {activeTab === 'addExercise' && (
-                <div>
+            <div className={classes.button__container} onClick={() => setActiveTab('addExercise')}>
+                <div className={classes.button_flexcontainer}>
+                    <div>Добавить свободную тренировку</div>
+                    <div>+</div>
+                </div>
+            </div>
+            {activeTab === 'addExercise' &&
+                <div className={classes.addexercise__container}>
                     <div>
                         <label>Название упражнения:</label>
                         <input
@@ -188,19 +182,13 @@ function ExerciseForm() {
                             name="category"
                             value={exerciseData.category}
                             onChange={handleInputChange}
-                        >
-                            {/* <option value="">Выберите категорию</option>
-            <option value="вело">Вело</option>
-            <option value="бег">Бег</option>
-            <option value="силовая">Силовая</option> */}
-                            {/* Добавьте здесь новые варианты */}
-                        </input>
+                        />
                     </div>
                     <div>
                         <input
                             type="checkbox"
                             name="repetitions"
-                            checked={exerciseData.repetitions !== null}
+                            checked={exerciseData.repetitions !== ''}
                             onChange={handleCheckboxChange}
                         />
                         <label>Количество повторений упражнения:</label>
@@ -209,14 +197,14 @@ function ExerciseForm() {
                             name="repetitions"
                             value={exerciseData.repetitions}
                             onChange={handleInputChange}
-                            disabled={exerciseData.repetitions === null}
+                            disabled={exerciseData.repetitions === ''}
                         />
                     </div>
                     <div>
                         <input
                             type="checkbox"
                             name="sets"
-                            checked={exerciseData.sets !== null}
+                            checked={exerciseData.sets !== ''}
                             onChange={handleCheckboxChange}
                         />
                         <label>Количество подходов:</label>
@@ -225,14 +213,14 @@ function ExerciseForm() {
                             name="sets"
                             value={exerciseData.sets}
                             onChange={handleInputChange}
-                            disabled={exerciseData.sets === null}
+                            disabled={exerciseData.sets === ''}
                         />
                     </div>
                     <div>
                         <input
                             type="checkbox"
                             name="weight"
-                            checked={exerciseData.weight !== null}
+                            checked={exerciseData.weight !== ''}
                             onChange={handleCheckboxChange}
                         />
                         <label>Вес утяжеления:</label>
@@ -241,7 +229,7 @@ function ExerciseForm() {
                             name="weight"
                             value={exerciseData.weight}
                             onChange={handleInputChange}
-                            disabled={exerciseData.weight === null}
+                            disabled={exerciseData.weight === ''}
                         />
                     </div>
                     <div>
@@ -276,36 +264,39 @@ function ExerciseForm() {
                             onChange={handleInputChange}
                         />
                     </div>
-                    <button onClick={saveExercise}>Сохранить</button>
+                    <div>
+                        <button onClick={tryToSaveExercise}>Сохранить</button>
+                        <button onClick={resetExercise}>Очистить</button>
+                    </div>
                 </div>
-            )}
-            <div>
-                <span>Выбрать сохраненное упражнение</span>
-                <button onClick={() => setActiveTab('selectSaved')}>+</button>
+            }
+            <div className={classes.button__container} onClick={() => setActiveTab('selectSaved')}>
+                <div className={classes.button_flexcontainer}>
+                    <div>Выбрать сохраненую тренировку</div>
+                    <div>+</div>
+                </div>
             </div>
 
-            {activeTab === 'selectSaved' && (
-                <div>
+            {activeTab === 'selectSaved' && 
+                <div className={classes.selectsaved__conatiner}>
                     <select
                         name="selectSaved"
-                        value={exerciseData.selectedOption}
-                        onChange={handleSelectChange}
+                        value={selectedWorkout.name}
+                        onChange={(e) => handleSelectSaved(e.target.value)}
                     >
                         <option value="">
                             Выберите сохраненную тренировку
                         </option>
-                        {savedWorkouts.map((workout) => (
+                        {Object.keys(savedWorkouts).map((workoutName) => (
                             <option
-                                key={`${workout.name}-${workout.category}`}
-                                value={workout.name}
-                                onClick={() => handleSelectSaved(workout)}
+                                key={workoutName}
+                                value={workoutName}
                             >
-                                {`${workout.name} ${workout.category}`}
+                                {`${workoutName} ${savedWorkouts[workoutName]['category']}`}
                             </option>
                         ))}
                     </select>
-                    {/* ДОБАВИТЬ реализацию показа выбранной тренировки и изменения ее полей */}
-                    {selectedOption && (
+                    {selectChange === 1 &&
                         <div>
                             <div>
                                 <label>Название упражнения:</label>
@@ -335,7 +326,7 @@ function ExerciseForm() {
                                 <input
                                     type="checkbox"
                                     name="repetitions"
-                                    checked={exerciseData.repetitions !== null}
+                                    checked={exerciseData.repetitions !== ''}
                                     onChange={handleCheckboxChange}
                                 />
                                 <label>Количество повторений упражнения:</label>
@@ -344,14 +335,14 @@ function ExerciseForm() {
                                     name="repetitions"
                                     value={exerciseData.repetitions}
                                     onChange={handleInputChange}
-                                    disabled={exerciseData.repetitions === null}
+                                    disabled={exerciseData.repetitions === ''}
                                 />
                             </div>
                             <div>
                                 <input
                                     type="checkbox"
                                     name="sets"
-                                    checked={exerciseData.sets !== null}
+                                    checked={exerciseData.sets !== ''}
                                     onChange={handleCheckboxChange}
                                 />
                                 <label>Количество подходов:</label>
@@ -360,14 +351,14 @@ function ExerciseForm() {
                                     name="sets"
                                     value={exerciseData.sets}
                                     onChange={handleInputChange}
-                                    disabled={exerciseData.sets === null}
+                                    disabled={exerciseData.sets === ''}
                                 />
                             </div>
                             <div>
                                 <input
                                     type="checkbox"
                                     name="weight"
-                                    checked={exerciseData.weight !== null}
+                                    checked={exerciseData.weight !== ''}
                                     onChange={handleCheckboxChange}
                                 />
                                 <label>Вес утяжеления:</label>
@@ -376,7 +367,7 @@ function ExerciseForm() {
                                     name="weight"
                                     value={exerciseData.weight}
                                     onChange={handleInputChange}
-                                    disabled={exerciseData.weight === null}
+                                    disabled={exerciseData.weight === ''}
                                 />
                             </div>
                             <div>
@@ -398,9 +389,7 @@ function ExerciseForm() {
                                     <option value="">Выберите вариант</option>
                                     <option value="хорошее">Хорошее</option>
                                     <option value="плохое">Плохое</option>
-                                    <option value="не изменилось">
-                                        Не изменилось
-                                    </option>
+                                    <option value="не изменилось">Не изменилось</option>
                                     {/* Добавьте здесь новые варианты */}
                                 </select>
                             </div>
@@ -414,18 +403,19 @@ function ExerciseForm() {
                                 />
                             </div>
                         </div>
-                    )}
-                    <button onClick={saveExercise}>Сохранить</button>
+                    }
+
+                    <button onClick={tryToSaveExercise}>Сохранить</button>
                     <button onClick={deleteExercise}>Удалить</button>
+                    <div>Время: {getFormattedTime()}</div>
+                    <button type="button" onClick={startStopTimer}>
+                        {intervalId ? 'Стоп' : 'Старт'}
+                    </button>
+                    <button type="button" onClick={resetTimer}>
+                        Сброс
+                    </button>
                 </div>
-            )}
-            <div>Время: {getFormattedTime()}</div>
-            <button type="button" onClick={startStopTimer}>
-                {intervalId ? 'Стоп' : 'Старт'}
-            </button>
-            <button type="button" onClick={resetTimer}>
-                Сброс
-            </button>
+            }
         </div>
     );
 }

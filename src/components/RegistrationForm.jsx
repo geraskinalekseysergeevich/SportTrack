@@ -88,7 +88,7 @@ const RegistrationForm = () => {
                     />
                 </div>
                 <button type="submit">
-                    <p>Создать аккаунт</p>
+                    <p className={styles.button_text}>Создать аккаунт</p>
                 </button>
                 { error !== '' && <p className={styles.error_message}>{error}</p> }
             </form>

@@ -11,7 +11,7 @@
     display: block;
     margin-inline: auto;
 }
-.form {
+.login_form {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     text-align: center;
     margin-top: 30px;
@@ -28,13 +28,13 @@
     display: block;
 }
 
-label {
+.formField > label {
     display: block;
     font-weight: bold;
     color: white;
 }
 
-input {
+.formField > input {
     width: 100%;
     padding: 8px;
     box-sizing: border-box;
@@ -42,7 +42,7 @@ input {
     border-radius: 10px;
     font-size: 16px;
 }
-button {
+.login_form > button {
     width: 300px;
     height: 50px;
     border-radius: 30px;
@@ -55,7 +55,7 @@ button {
     margin-top: 30px;
     border: none;
 }
-button > p {
+.button_text {
     color: #FFF;
     text-align: center;
     font-variant-numeric: lining-nums proportional-nums;
@@ -67,7 +67,7 @@ button > p {
     line-height: 20px; /* 71.429% */
     letter-spacing: 0.28px;
 }
-button:hover {
+.login_form > button:hover {
     background-color: #d10a0a;
 }
 .error_message {

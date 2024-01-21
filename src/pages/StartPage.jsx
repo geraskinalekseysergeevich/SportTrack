@@ -13,7 +13,7 @@ const StartPage = () => {
                     <h1>SportTrack</h1>
                     <p>Добро пожаловать в SportTrack - незаменимый помощник для отслеживания питания и тренировок </p>
                 </div>
-                <Link className={classes.button} to={'/login'}>
+                <Link className={classes.start_button} to={'/login'}>
                     <div className={classes.register_button}>
                         <p>Начать</p>
                     </div>

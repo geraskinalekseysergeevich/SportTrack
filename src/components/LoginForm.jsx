@@ -17,7 +17,7 @@ const LoginForm = () => {
         })
         
         startTransition(() => {
-            navigate('/start')
+            navigate('/trainings')
         })
     }
 
@@ -37,7 +37,7 @@ const LoginForm = () => {
             <div className={classes.image_container}>
                 <img src={require('../sources/startpage/ion_fitness.svg')['default']} alt="" />
             </div>
-            <form onSubmit={handleLogin} className={classes.form}>
+            <form onSubmit={handleLogin} className={classes.login_form}>
                 <div className={classes.formField}>
                     <label htmlFor="email"></label>
                     <input
@@ -61,7 +61,7 @@ const LoginForm = () => {
                     />
                 </div>
                 <button type="submit">
-                    <p>Войти</p>
+                    <p className={classes.button_text}>Войти</p>
                 </button>
                 <div className={classes.footer_text}>
                     <div className={classes.flex__container}>
