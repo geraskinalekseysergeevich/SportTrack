@@ -45,13 +45,3 @@
     flex-direction: row;
     justify-content: space-between;
 }
-.addexercise__container {
-    border-radius: 10px;
-    background: #3A3A3A;
-    padding: 6px 15px;
-}
-.selectsaved__conatiner {
-    border-radius: 10px;
-    background: #3A3A3A;
-    padding: 6px 15px;
-}

@@ -1,36 +1,89 @@
 import React, { useEffect, useState } from 'react';
 import classes from '../UI/ExerciseForm.module.css';
+import AddExerciseForm from '../components/AddExerciseForm';
+import SelectExerciseFrom from './SelectExerciseFrom';
 
 function ExerciseForm() {
     const [activeTab, setActiveTab] = useState('');
-    const [exerciseData, setExerciseData] = useState({
-        name: '',
-        category: '',
-        repetitions: '',
-        sets: '',
-        weight: '',
-        location: '',
-        mood: '',
-        comment: '',
-        time: '',
-        timecreated: '',
-    });
+    const [exerciseData, setExerciseData] = useState({});
     const [timer, setTimer] = useState(0);
     const [intervalId, setIntervalId] = useState(null);
-    const [savedWorkouts, setSavedWorkouts] = useState({});
-    const [selectedWorkout, setSelectedWorkout] = useState('')
+    const [savedWorkouts, setSavedWorkouts] = useState([]);
+    const [selectedWorkout, setSelectedWorkout] = useState({})
     const [selectChange, setSelectChange] = useState(0)
+    const [preEditName, setPreEditName] = useState(undefined)
     const [error, setError] = useState(0)
+
+    const resetExercise = () => {
+        setExerciseData({
+            name: '',
+            category: '',
+            repetitions: '',
+            sets: '',
+            weight: '',
+            location: '',
+            mood: '',
+            comment: '',
+            time: '',
+            timecreated: ''
+        })
+    }
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        setExerciseData({...exerciseData, [name]: value});
+        setExerciseData({ ...exerciseData, [name]: value });
     };
+
+    const handleEditChange = (e) => {
+        const { name, value } = e.target
+        setSelectedWorkout({ ...selectedWorkout, [name]: value })
+    }
 
     const handleCheckboxChange = (e) => {
         const { name, checked } = e.target;
         setExerciseData({ ...exerciseData, [name]: checked ? 1 : '' });
     };
+
+    const handleEditCheckboxChange = (e) => {
+        const { name, checked } = e.target;
+        setSelectedWorkout({ ...selectedWorkout, [name]: checked ? 1 : '' })
+    }
+
+    const saveEdits = () => {
+        setSavedWorkouts((prevState) => {
+            const updatedState = {}
+            for (const [key, value] of Object.entries(prevState)) {
+                updatedState[key === preEditName ? selectedWorkout.name : key] = 
+                    key === preEditName 
+                        ? { ...value, ...selectedWorkout, time: getFormattedTime(timer) } 
+                        : value;
+            }
+
+            console.log('resaved workouts', updatedState)
+            return updatedState
+        })
+
+        setSelectChange(0)
+        setActiveTab('')
+        stopTimer()
+        resetTimer()
+        setPreEditName(undefined)
+        setSelectedWorkout({})
+    }
+
+    const tryToEdit = (saveEdits) => {
+        return () => {
+            if (selectedWorkout.name === undefined || exerciseData.name === '') {
+                setError(1)
+                console.log('пустое имя')
+            } else {
+                saveEdits()
+                setError(0)
+            }
+        }
+    }
+
+    const tryToSaveEdits = tryToEdit(saveEdits)
 
     const startStopTimer = () => {
         if (intervalId) {
@@ -39,7 +92,8 @@ function ExerciseForm() {
         } else {
             const startTime = Date.now() - timer;
             const id = setInterval(() => {
-                setTimer(Date.now() - startTime);
+                const newTimer = Date.now() - startTime
+                setTimer(newTimer)
             }, 10);
             setIntervalId(id);
         }
@@ -52,25 +106,8 @@ function ExerciseForm() {
 
     const resetTimer = () => {
         stopTimer();
-        setTimer(0);
+        setTimer(0)
     };
-
-    const resetExercise = () => {
-
-        setExerciseData({
-            name: '',
-            category: '',
-            repetitions: '',
-            sets: '',
-            weight: '',
-            location: '',
-            mood: '',
-            comment: '',
-            time: '',
-            timecreated: '',
-        })
-
-    }
 
     const saveExercise = () => {
         const currentdate = new Date();
@@ -87,15 +124,24 @@ function ExerciseForm() {
             ':' +
             currentdate.getSeconds();
 
-        exerciseData.time = getFormattedTime();
         exerciseData.timecreated = datetime;
+
         setActiveTab('');
+
+        if (Object.keys(savedWorkouts).length === 0) {
+            setSavedWorkouts(() => {
+                const updatedState = {[exerciseData.name]: exerciseData}
+                console.log('saved 1 workouts', updatedState)
+                return updatedState
+            })
+        } else {
+            setSavedWorkouts(prevState => {
+                const updatedState = {...prevState, [exerciseData.name]: exerciseData}
+                console.log('saved 2 workouts', updatedState)
+                return updatedState
+            })
+        }
         resetExercise()
-        setSavedWorkouts(prevState => {
-            const updatedState = {...prevState, [exerciseData.name]: exerciseData}
-            console.log(updatedState)
-            return updatedState
-        })
 
         console.log('Упражнение успешно сохранено!');
         // Замените URL и настройки на соответствующие вашему API и его требованиям
@@ -103,7 +149,7 @@ function ExerciseForm() {
 
     const tryToSave = (saveExercise) => {
         return () => {
-            if (exerciseData.name === '') {
+            if (exerciseData.name === undefined || exerciseData.name === '') {
                 setError(1)
                 console.log('пустое имя')
             } else if (exerciseData.name in savedWorkouts) {
@@ -117,12 +163,18 @@ function ExerciseForm() {
     }
     const tryToSaveExercise = tryToSave(saveExercise)
 
-    const deleteExercise = () => {
+    const deleteWorkout = () => {
         const updatedWorkouts = { ...savedWorkouts }
         delete updatedWorkouts[exerciseData.name]
         setSavedWorkouts(updatedWorkouts);
         console.log('Упражнение успешно удалено!');
+        console.log('update', updatedWorkouts)
         resetExercise()
+        resetTimer()
+        stopTimer()
+        setActiveTab('')
+        setSelectChange(0)
+        setSelectedWorkout({})
     };
 
     const getFormattedTime = () => {
@@ -142,6 +194,7 @@ function ExerciseForm() {
     const handleSelectSaved = (workoutName) => {
         if (workoutName !== '') {
             setSelectedWorkout(savedWorkouts[workoutName])
+            setPreEditName(workoutName)
             setSelectChange(1)
         }
     };
@@ -158,117 +211,20 @@ function ExerciseForm() {
                 <h1>Добавить упражнение</h1>
                 <img src={require('../sources/avatar.png')} alt="" />
             </div>
-            <div className={classes.button__container} onClick={() => setActiveTab('addExercise')}>
+            <div className={classes.button__container} onClick={() => {setActiveTab('addExercise')}}>
                 <div className={classes.button_flexcontainer}>
                     <div>Добавить свободную тренировку</div>
                     <div>+</div>
                 </div>
             </div>
             {activeTab === 'addExercise' &&
-                <div className={classes.addexercise__container}>
-                    <div>
-                        <label>Название упражнения:</label>
-                        <input
-                            type="text"
-                            name="name"
-                            value={exerciseData.name}
-                            onChange={handleInputChange}
-                        />
-                    </div>
-                    <div>
-                        <label>Категория:</label>
-                        <input
-                            type="text"
-                            name="category"
-                            value={exerciseData.category}
-                            onChange={handleInputChange}
-                        />
-                    </div>
-                    <div>
-                        <input
-                            type="checkbox"
-                            name="repetitions"
-                            checked={exerciseData.repetitions !== ''}
-                            onChange={handleCheckboxChange}
-                        />
-                        <label>Количество повторений упражнения:</label>
-                        <input
-                            type="number"
-                            name="repetitions"
-                            value={exerciseData.repetitions}
-                            onChange={handleInputChange}
-                            disabled={exerciseData.repetitions === ''}
-                        />
-                    </div>
-                    <div>
-                        <input
-                            type="checkbox"
-                            name="sets"
-                            checked={exerciseData.sets !== ''}
-                            onChange={handleCheckboxChange}
-                        />
-                        <label>Количество подходов:</label>
-                        <input
-                            type="number"
-                            name="sets"
-                            value={exerciseData.sets}
-                            onChange={handleInputChange}
-                            disabled={exerciseData.sets === ''}
-                        />
-                    </div>
-                    <div>
-                        <input
-                            type="checkbox"
-                            name="weight"
-                            checked={exerciseData.weight !== ''}
-                            onChange={handleCheckboxChange}
-                        />
-                        <label>Вес утяжеления:</label>
-                        <input
-                            type="number"
-                            name="weight"
-                            value={exerciseData.weight}
-                            onChange={handleInputChange}
-                            disabled={exerciseData.weight === ''}
-                        />
-                    </div>
-                    <div>
-                        <label>Место:</label>
-                        <input
-                            type="text"
-                            name="location"
-                            value={exerciseData.location}
-                            onChange={handleInputChange}
-                        />
-                    </div>
-                    <div>
-                        <label>Самочувствие:</label>
-                        <select
-                            name="mood"
-                            value={exerciseData.mood}
-                            onChange={handleInputChange}
-                        >
-                            <option value="">Выберите вариант</option>
-                            <option value="хорошее">Хорошее</option>
-                            <option value="плохое">Плохое</option>
-                            <option value="не изменилось">Не изменилось</option>
-                            {/* Добавьте здесь новые варианты */}
-                        </select>
-                    </div>
-                    <div>
-                        <label>Комментарий:</label>
-                        <input
-                            type="text"
-                            name="comment"
-                            value={exerciseData.comment}
-                            onChange={handleInputChange}
-                        />
-                    </div>
-                    <div>
-                        <button onClick={tryToSaveExercise}>Сохранить</button>
-                        <button onClick={resetExercise}>Очистить</button>
-                    </div>
-                </div>
+                <AddExerciseForm
+                    exerciseData={exerciseData}
+                    changeFunc={handleInputChange}
+                    changeCheckboxFunc={handleCheckboxChange}
+                    saveFunc={tryToSaveExercise}
+                    resetFunc={resetExercise}
+                />
             }
             <div className={classes.button__container} onClick={() => setActiveTab('selectSaved')}>
                 <div className={classes.button_flexcontainer}>
@@ -278,143 +234,21 @@ function ExerciseForm() {
             </div>
 
             {activeTab === 'selectSaved' && 
-                <div className={classes.selectsaved__conatiner}>
-                    <select
-                        name="selectSaved"
-                        value={selectedWorkout.name}
-                        onChange={(e) => handleSelectSaved(e.target.value)}
-                    >
-                        <option value="">
-                            Выберите сохраненную тренировку
-                        </option>
-                        {Object.keys(savedWorkouts).map((workoutName) => (
-                            <option
-                                key={workoutName}
-                                value={workoutName}
-                            >
-                                {`${workoutName} ${savedWorkouts[workoutName]['category']}`}
-                            </option>
-                        ))}
-                    </select>
-                    {selectChange === 1 &&
-                        <div>
-                            <div>
-                                <label>Название упражнения:</label>
-                                <input
-                                    type="text"
-                                    name="name"
-                                    value={exerciseData.name}
-                                    onChange={handleInputChange}
-                                />
-                            </div>
-                            <div>
-                                <label>Категория:</label>
-                                <input
-                                    type="text"
-                                    name="category"
-                                    value={exerciseData.category}
-                                    onChange={handleInputChange}
-                                >
-                                    {/* <option value="">Выберите категорию</option>
-            <option value="вело">Вело</option>
-            <option value="бег">Бег</option>
-            <option value="силовая">Силовая</option> */}
-                                    {/* Добавьте здесь новые варианты */}
-                                </input>
-                            </div>
-                            <div>
-                                <input
-                                    type="checkbox"
-                                    name="repetitions"
-                                    checked={exerciseData.repetitions !== ''}
-                                    onChange={handleCheckboxChange}
-                                />
-                                <label>Количество повторений упражнения:</label>
-                                <input
-                                    type="number"
-                                    name="repetitions"
-                                    value={exerciseData.repetitions}
-                                    onChange={handleInputChange}
-                                    disabled={exerciseData.repetitions === ''}
-                                />
-                            </div>
-                            <div>
-                                <input
-                                    type="checkbox"
-                                    name="sets"
-                                    checked={exerciseData.sets !== ''}
-                                    onChange={handleCheckboxChange}
-                                />
-                                <label>Количество подходов:</label>
-                                <input
-                                    type="number"
-                                    name="sets"
-                                    value={exerciseData.sets}
-                                    onChange={handleInputChange}
-                                    disabled={exerciseData.sets === ''}
-                                />
-                            </div>
-                            <div>
-                                <input
-                                    type="checkbox"
-                                    name="weight"
-                                    checked={exerciseData.weight !== ''}
-                                    onChange={handleCheckboxChange}
-                                />
-                                <label>Вес утяжеления:</label>
-                                <input
-                                    type="number"
-                                    name="weight"
-                                    value={exerciseData.weight}
-                                    onChange={handleInputChange}
-                                    disabled={exerciseData.weight === ''}
-                                />
-                            </div>
-                            <div>
-                                <label>Место:</label>
-                                <input
-                                    type="text"
-                                    name="location"
-                                    value={exerciseData.location}
-                                    onChange={handleInputChange}
-                                />
-                            </div>
-                            <div>
-                                <label>Самочувствие:</label>
-                                <select
-                                    name="mood"
-                                    value={exerciseData.mood}
-                                    onChange={handleInputChange}
-                                >
-                                    <option value="">Выберите вариант</option>
-                                    <option value="хорошее">Хорошее</option>
-                                    <option value="плохое">Плохое</option>
-                                    <option value="не изменилось">Не изменилось</option>
-                                    {/* Добавьте здесь новые варианты */}
-                                </select>
-                            </div>
-                            <div>
-                                <label>Комментарий:</label>
-                                <input
-                                    type="text"
-                                    name="comment"
-                                    value={exerciseData.comment}
-                                    onChange={handleInputChange}
-                                />
-                            </div>
-                        </div>
-                    }
-
-                    <button onClick={tryToSaveExercise}>Сохранить</button>
-                    <button onClick={deleteExercise}>Удалить</button>
-                    <div>Время: {getFormattedTime()}</div>
-                    <button type="button" onClick={startStopTimer}>
-                        {intervalId ? 'Стоп' : 'Старт'}
-                    </button>
-                    <button type="button" onClick={resetTimer}>
-                        Сброс
-                    </button>
-                </div>
+                <SelectExerciseFrom
+                    selectedWorkout={selectedWorkout}
+                    selectSaveFunc={handleSelectSaved}
+                    savedWorkouts={savedWorkouts}
+                    selectChange={selectChange}
+                    inputChangeFunc={handleEditChange}
+                    checkboxChangeFunc={handleEditCheckboxChange}
+                    saveFunc={tryToSaveEdits}
+                    deleteFunc={deleteWorkout}
+                    test={exerciseData}
+                    getFormattedTime={getFormattedTime}
+                    startStopTimer={startStopTimer}
+                    intervalId={intervalId}
+                    resetTimer={resetTimer}
+                />
             }
         </div>
     );
