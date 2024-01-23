@@ -1,7 +1,7 @@
 .selectsaved__conatiner {
     border-radius: 10px;
     background: #3A3A3A;
-    padding: 6px 15px;
+    padding: 8px 15px 15px 15px;
 }
 .selectsaved__conatiner > h1 {
     color: #FFF;
@@ -44,4 +44,9 @@
     border-radius: 5px;
     border: none;
     height: 25px;
+}
+.changeform_timer {
+    display: flex;
+    justify-content: center;
+    margin-top: 25px;
 }

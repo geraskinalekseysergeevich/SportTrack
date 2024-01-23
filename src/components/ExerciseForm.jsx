@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import classes from '../UI/ExerciseForm.module.css';
 import AddExerciseForm from '../components/AddExerciseForm';
-import SelectExerciseFrom from './SelectExerciseFrom';
+import SelectExerciseForm from './SelectExerciseForm';
 import ActivityExerciseButton from './ActivityExerciseButton';
 
 function ExerciseForm() {
@@ -228,7 +228,7 @@ function ExerciseForm() {
                     />
                 }
                 {activeTab === 'selectSaved' 
-                    ? <SelectExerciseFrom
+                    ? <SelectExerciseForm
                         selectedWorkout={selectedWorkout}
                         selectSaveFunc={handleSelectSaved}
                         savedWorkouts={savedWorkouts}

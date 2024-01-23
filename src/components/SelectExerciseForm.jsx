@@ -1,10 +1,10 @@
 import React from 'react';
-import classes from '../UI/SelectExerciseFrom.module.css';
+import classes from '../UI/SelectExerciseForm.module.css';
 import VisualExerciseForm from './VisualExerciseForm';
 import ExerciseFormButtons from './ExerciseFormButtons';
 import Timer from './Timer';
 
-const SelectExerciseFrom = ({selectedWorkout, selectSaveFunc, savedWorkouts, 
+const SelectExerciseForm = ({selectedWorkout, selectSaveFunc, savedWorkouts, 
     selectChange, inputChangeFunc, checkboxChangeFunc, saveFunc, deleteFunc,
     getFormattedTime, startStopTimer, intervalId, resetTimer }) => {
 
@@ -41,16 +41,18 @@ const SelectExerciseFrom = ({selectedWorkout, selectSaveFunc, savedWorkouts,
                         removeFunc={deleteFunc}
                         innerText={'Удалить'}
                     />
-                    <Timer
-                        formatTimeFunc={getFormattedTime}
-                        startStopFunc={startStopTimer}
-                        intervalId={intervalId}
-                        resetFunc={resetTimer}
-                    />
+                    <div className={classes.changeform_timer}>
+                        <Timer
+                            formatTimeFunc={getFormattedTime}
+                            startStopFunc={startStopTimer}
+                            intervalId={intervalId}
+                            resetFunc={resetTimer}
+                        />
+                    </div>
                 </div>
             }
         </div>
     );
 };
 
-export default SelectExerciseFrom;
+export default SelectExerciseForm;
