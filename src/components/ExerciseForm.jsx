@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react';
 import classes from '../UI/ExerciseForm.module.css';
 import AddExerciseForm from '../components/AddExerciseForm';
 import SelectExerciseFrom from './SelectExerciseFrom';
+import ActivityExerciseButton from './ActivityExerciseButton';
 
 function ExerciseForm() {
-    const [activeTab, setActiveTab] = useState('');
+    const [activeTab, setActiveTab] = useState('default');
     const [exerciseData, setExerciseData] = useState({});
     const [timer, setTimer] = useState(0);
     const [intervalId, setIntervalId] = useState(null);
@@ -64,7 +65,7 @@ function ExerciseForm() {
         })
 
         setSelectChange(0)
-        setActiveTab('')
+        setActiveTab('default')
         stopTimer()
         resetTimer()
         setPreEditName(undefined)
@@ -126,7 +127,7 @@ function ExerciseForm() {
 
         exerciseData.timecreated = datetime;
 
-        setActiveTab('');
+        setActiveTab('default');
 
         if (Object.keys(savedWorkouts).length === 0) {
             setSavedWorkouts(() => {
@@ -172,7 +173,7 @@ function ExerciseForm() {
         resetExercise()
         resetTimer()
         stopTimer()
-        setActiveTab('')
+        setActiveTab('default')
         setSelectChange(0)
         setSelectedWorkout({})
     };
@@ -211,45 +212,44 @@ function ExerciseForm() {
                 <h1>Добавить упражнение</h1>
                 <img src={require('../sources/avatar.png')} alt="" />
             </div>
-            <div className={classes.button__container} onClick={() => {setActiveTab('addExercise')}}>
-                <div className={classes.button_flexcontainer}>
-                    <div>Добавить свободную тренировку</div>
-                    <div>+</div>
-                </div>
+            <div className={classes.forms__container}>
+                {activeTab === 'addExercise'
+                    ? <AddExerciseForm
+                        exerciseData={exerciseData}
+                        changeFunc={handleInputChange}
+                        changeCheckboxFunc={handleCheckboxChange}
+                        saveFunc={tryToSaveExercise}
+                        resetFunc={resetExercise}
+                    />
+                    : <ActivityExerciseButton 
+                        setActiveTabFunc={setActiveTab}
+                        activeTab={'addExercise'}
+                        innerText={'Добавить свободную тренировку'}
+                    />
+                }
+                {activeTab === 'selectSaved' 
+                    ? <SelectExerciseFrom
+                        selectedWorkout={selectedWorkout}
+                        selectSaveFunc={handleSelectSaved}
+                        savedWorkouts={savedWorkouts}
+                        selectChange={selectChange}
+                        inputChangeFunc={handleEditChange}
+                        checkboxChangeFunc={handleEditCheckboxChange}
+                        saveFunc={tryToSaveEdits}
+                        deleteFunc={deleteWorkout}
+                        test={exerciseData}
+                        getFormattedTime={getFormattedTime}
+                        startStopTimer={startStopTimer}
+                        intervalId={intervalId}
+                        resetTimer={resetTimer}
+                    />
+                    : <ActivityExerciseButton
+                        setActiveTabFunc={setActiveTab}
+                        activeTab={'selectSaved'}
+                        innerText={'Выбрать сохраненную тренировку'}    
+                    />
+                }
             </div>
-            {activeTab === 'addExercise' &&
-                <AddExerciseForm
-                    exerciseData={exerciseData}
-                    changeFunc={handleInputChange}
-                    changeCheckboxFunc={handleCheckboxChange}
-                    saveFunc={tryToSaveExercise}
-                    resetFunc={resetExercise}
-                />
-            }
-            <div className={classes.button__container} onClick={() => setActiveTab('selectSaved')}>
-                <div className={classes.button_flexcontainer}>
-                    <div>Выбрать сохраненую тренировку</div>
-                    <div>+</div>
-                </div>
-            </div>
-
-            {activeTab === 'selectSaved' && 
-                <SelectExerciseFrom
-                    selectedWorkout={selectedWorkout}
-                    selectSaveFunc={handleSelectSaved}
-                    savedWorkouts={savedWorkouts}
-                    selectChange={selectChange}
-                    inputChangeFunc={handleEditChange}
-                    checkboxChangeFunc={handleEditCheckboxChange}
-                    saveFunc={tryToSaveEdits}
-                    deleteFunc={deleteWorkout}
-                    test={exerciseData}
-                    getFormattedTime={getFormattedTime}
-                    startStopTimer={startStopTimer}
-                    intervalId={intervalId}
-                    resetTimer={resetTimer}
-                />
-            }
         </div>
     );
 }

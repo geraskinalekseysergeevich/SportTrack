@@ -1,0 +1,90 @@
+.visual__container > div {
+    margin: 7px 0px;
+}
+.visual__container input[type='checkbox'] {
+    margin-right: 3px;
+    width: 21px;
+    height: 21px;
+    border: black 3px solid;
+}
+.mood_options {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.mood_options select {
+    color: #3A3A3A;
+    font-variant-numeric: lining-nums proportional-nums;
+    font-feature-settings: 'dlig' on;
+    font-family: "Montserrat";
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    letter-spacing: 0.14px;
+    width: 50%;
+    text-align: left;
+    margin-left: 10px;
+    border-radius: 5px;
+    height: 25px;
+}
+.location {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.location input {
+    width: 100%;
+    margin-left: 10px;
+}
+.name input {
+    width: 100%;
+    margin-top: 2px;
+}
+.category {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.category input {
+    width: 100%;
+    margin-left: 10px;
+}
+.comment {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.comment input {
+    width: 100%;
+    margin-left: 10px;
+}
+.repetitions {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+   
+}
+.repetitions {
+    width: 100%;
+}
+.sets {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+.weight {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+.small_input {
+    width: 100px;
+}
+.checkbox__container {
+    display: flex;
+    align-items: center;
+    height: 26px;
+}
