@@ -1,7 +1,8 @@
 import React from 'react';
 import classes from '../UI/VisualExerciseForm.module.css';
+import VisualCheckboxes from './VisualCheckboxes';
 
-const VisualExerciseForm = ({changeFunc, data, changeCheckboxFunc}) => {
+const VisualExerciseForm = ({changeFunc = undefined, data, changeCheckboxFunc = undefined, disabledState = false}) => {
     return (
         <div className={classes.visual__container}>
             <div className={classes.name}>
@@ -12,6 +13,7 @@ const VisualExerciseForm = ({changeFunc, data, changeCheckboxFunc}) => {
                     placeholder=' Введите название тренировки'
                     value={data.name || ''}
                     onChange={changeFunc}
+                    disabled={disabledState}
                 />
             </div>
             <div className={classes.category}>
@@ -22,68 +24,15 @@ const VisualExerciseForm = ({changeFunc, data, changeCheckboxFunc}) => {
                     placeholder=' Введите название категории'
                     value={data.category || ''}
                     onChange={changeFunc}
+                    disabled={disabledState}
                 />
             </div>
-            <div className={classes.repetitions}>
-                <div className={classes.checkbox__container}>
-                    <input
-                        type="checkbox"
-                        name="repetitions"
-                        checked={!!data.repetitions}
-                        onChange={changeCheckboxFunc}
-                    />
-                    <label>Количество повторений:</label>
-                </div>
-                <input
-                    type="number"
-                    name="repetitions"
-                    value={data.repetitions || ''}
-                    onChange={changeFunc}
-                    disabled={!data.repetitions}
-                    min={1}
-                    className={classes.small_input}
-                />
-            </div>
-            <div className={classes.sets}>
-                <div className={classes.checkbox__container}>
-                    <input
-                        type="checkbox"
-                        name="sets"
-                        checked={!!data.sets}
-                        onChange={changeCheckboxFunc}
-                    />
-                    <label>Количество подходов:</label>
-                </div>
-                <input
-                    type="number"
-                    name="sets"
-                    value={data.sets || ''}
-                    onChange={changeFunc}
-                    disabled={!data.sets}
-                    min={1}
-                    className={classes.small_input}
-                />
-            </div>
-            <div className={classes.weight}>
-                <div className={classes.checkbox__container}>
-                    <input
-                        type="checkbox"
-                        name="weight"
-                        checked={!!data.weight}
-                        onChange={changeCheckboxFunc}
-                    />
-                    <label>Вес утяжеления:</label>
-                </div>
-                <input
-                    type="number"
-                    name="weight"
-                    value={data.weight || ''}
-                    onChange={changeFunc}
-                    disabled={!data.weight}
-                    min={1}
-                    className={classes.small_input}
-                />
-            </div>
+            <VisualCheckboxes
+                data={data}
+                changeFunc={changeFunc}
+                changeCheckboxFunc={changeCheckboxFunc}
+                disabledState={disabledState}
+            />
             <div className={classes.location}>
                 <label>Место:</label>
                 <input

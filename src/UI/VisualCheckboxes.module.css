@@ -1,0 +1,32 @@
+.visualcheckboxes__container > div {
+    margin: 7px 0px;
+}
+.repetitions {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+.repetitions {
+    width: 100%;
+}
+.sets {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+.weight {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+.small_input {
+    width: 100px;
+}
+.checkbox__container {
+    display: flex;
+    align-items: center;
+    height: 26px;
+}

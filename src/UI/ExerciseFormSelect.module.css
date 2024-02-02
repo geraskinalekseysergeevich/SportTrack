@@ -1,9 +1,4 @@
-.selectsaved__conatiner {
-    border-radius: 10px;
-    background: #3A3A3A;
-    padding: 8px 15px 15px 15px;
-}
-.selectsaved__conatiner > h1 {
+.select__container > h1 {
     color: #FFF;
     font-variant-numeric: lining-nums proportional-nums;
     font-feature-settings: 'dlig' on;
@@ -14,7 +9,7 @@
     line-height: 142%; /* 142.857% */
     letter-spacing: 0.14px;
 }
-.selectsaved__conatiner select {
+.select__container select {
     color: #3A3A3A;
     font-variant-numeric: lining-nums proportional-nums;
     font-feature-settings: 'dlig' on;
@@ -29,7 +24,7 @@
     height: 25px;
     margin-top: 7px;
 }
-.selectsaved__conatiner label {
+.select__container label {
     color: #FFF;
     font-variant-numeric: lining-nums proportional-nums;
     font-feature-settings: 'dlig' on;
@@ -40,13 +35,8 @@
     line-height: 142%; /* 142.857% */
     letter-spacing: 0.14px;
 }
-.selectsaved__conatiner input {
+.select__container input {
     border-radius: 5px;
     border: none;
     height: 25px;
-}
-.changeform_timer {
-    display: flex;
-    justify-content: center;
-    margin-top: 25px;
 }

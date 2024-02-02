@@ -1,7 +1,7 @@
 .button__container {
     border-radius: 10px;
     background: #3A3A3A;
-    padding: 8px 14px;
+    padding: 8px 15px;
     cursor: pointer;
 }
 .button__container:hover {
@@ -11,8 +11,9 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    align-items: center;
 }
-.button_flexcontainer > div {
+.button_flexcontainer h1 {
     color: #FFF;
     font-variant-numeric: lining-nums proportional-nums;
     font-feature-settings: 'dlig' on;
@@ -20,6 +21,6 @@
     font-size: 14px;
     font-style: normal;
     font-weight: 500;
-    line-height: 20px; /* 142.857% */
+    line-height: 142%;
     letter-spacing: 0.14px;
 }
