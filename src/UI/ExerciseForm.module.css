@@ -3,15 +3,16 @@
     width: 390px;
     height: 844px;
     border-radius: 30px;
-    padding: 60px 23px;
+    padding: 50px 23px;
     color: #FFF;
     position: relative;
+    overflow: hidden;
 }
 .forms__container {
-    margin-top: 30px;
+    margin-top: 20px;
 }
 .forms__container > *:not(:last-child) {
-    margin-bottom: 22px;
+    margin-bottom: 15px;
 }
 .page_header {
     display: grid;
