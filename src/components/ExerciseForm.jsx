@@ -5,6 +5,7 @@ import EditExerciseForm from './EditExerciseForm';
 import ActivityExerciseButton from './ActivityExerciseButton';
 import GetExerciseForm from './GetExerciseForm';
 import ExerciseError from './ExerciseError';
+import TabBar from './TabBar';
 
 function ExerciseForm(userId) {
     const [activeTab, setActiveTab] = useState('default');
@@ -310,6 +311,7 @@ function ExerciseForm(userId) {
                 }
                 {error !== 0 && <ExerciseError error={error}/>}
             </div>
+            <TabBar/>
         </div>
     );
 }
