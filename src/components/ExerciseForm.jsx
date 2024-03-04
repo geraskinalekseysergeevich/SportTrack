@@ -6,7 +6,7 @@ import ActivityExerciseButton from './ActivityExerciseButton';
 import GetExerciseForm from './GetExerciseForm';
 import ExerciseError from './ExerciseError';
 
-function ExerciseForm() {
+function ExerciseForm(userId) {
     const [activeTab, setActiveTab] = useState('default');
 
     const [exerciseData, setExerciseData] = useState({});
@@ -166,6 +166,7 @@ function ExerciseForm() {
     };
 
     const tryToSave = (saveExercise) => {
+         
         return () => {
             // проверка на пустое имя
             if (exerciseData.name === undefined || exerciseData.name === '') {
