@@ -21,7 +21,7 @@ const RegistrationForm = () => {
         });
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         
         // проверка на совпадение пароля и подтвержденного пароля
@@ -30,6 +30,27 @@ const RegistrationForm = () => {
             console.error('Пароли не совпадают')
             return
         }
+        try {
+            var username = userData.username;
+            var email = userData.email;
+            var password = userData.password;
+            const response = await fetch('http://localhost:3001/api/users/register', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({username, email, password}),
+            });
+      
+            if (response.ok) {
+              console.log('Registration successful');
+            } else {
+              console.error('Registration failed');
+            }
+          } catch (error) {
+            console.error('Registration error:', error);
+          }
+        
 
         // здесь должна быть отправка данных на сервер
 

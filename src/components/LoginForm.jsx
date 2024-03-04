@@ -10,16 +10,46 @@ const LoginForm = () => {
     const [error, setError] = useState('')
     const navigate = useNavigate()
 
-    const handleLogin = () => {
+    const handeLogin = () => {
         setUserData({
             email: '',
             password: ''
         })
         
         startTransition(() => {
-            navigate('/trainings')
+            navigate('/home')
         })
     }
+
+    const handleLogin = async (e) => {
+        e.preventDefault();
+        var email = userData.email;
+        var password = userData.password;
+        try {
+          const response = await fetch('http://localhost:3001/api/users/login', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email, password }),
+          });
+    
+          if (response.ok) {
+            const { token, userId } = await response.json();
+            console.log(userId);
+            // Сохранение токена и ID пользователя, например, в локальном хранилище
+            console.log('Login successful');
+            navigate('/statistics', { state: { userId } });  
+
+            navigate('/meals', { state: { userId } });
+
+          } else {
+            console.error('Login failed');
+          }
+        } catch (error) {
+          console.error('Login error:', error);
+        }
+      };
 
     const handleChange = (e) => {
 
