@@ -51,7 +51,7 @@ video {
 
 .section {
     padding: 2rem;
-    background-color: rgb(180, 180, 180);
+    background-color: #3a3a3a;
     height: calc(100vh);
 }
 
