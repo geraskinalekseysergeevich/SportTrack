@@ -80,7 +80,6 @@
 .flex__container {
     display: flex;
     justify-content: space-between;
-    max-width: 290px;
     margin: auto;
 }
 .noaccount_link {
