@@ -1,52 +1,35 @@
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-body,
-h1,
-h2,
-h3,
-p,
-figure,
-blockquote,
-dl,
-dd,
-ul,
-ol,
-li,
-fieldset,
-legend,
-button,
-input,
-textarea,
-th,
-td {
-  margin: 0;
-  padding: 0;
+html,
+body {
+    height: 100%;
 }
 
-body,
-button,
-input,
-select,
-textarea {
-  font-family: sans-serif;
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    font-family: Montserrat, sans-serif;
+    font-size: 16px;
+    color: rgb(255, 255, 255);
 }
 
 ul,
 ol {
-  list-style: none;
+    list-style: none;
 }
 
-body {
-  font-size: 16px;
-  line-height: 1.5;
-}
-
-a {
-  text-decoration: none;
+a,
+Link {
+    text-decoration: none;
+    color: inherit;
 }
 
 img,
@@ -55,13 +38,42 @@ iframe,
 object,
 audio,
 video {
-  max-width: 100%;
-  height: auto;
+    max-width: 100%;
+    height: auto;
 }
 
 #root {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+    /* display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; */
+}
+
+.section {
+    padding: 2rem;
+    background-color: rgb(180, 180, 180);
+    height: calc(100vh);
+}
+
+.container {
+    max-width: 968px;
+    height: 100%;
+    margin: 0 auto;
+}
+
+/* =============== BREAKPOINTS =============== */
+
+/* For large devices */
+@media screen and (width <= 992px) {
+}
+
+/* For medium devices */
+@media screen and (width <= 768px) {
+}
+
+@media screen and (width <= 576px) {
+}
+
+/* For small devices */
+@media screen and (width <= 350px) {
 }
