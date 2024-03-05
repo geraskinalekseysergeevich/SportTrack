@@ -32,6 +32,10 @@ Link {
     color: inherit;
 }
 
+input {
+    outline: none;
+}
+
 img,
 embed,
 iframe,
@@ -52,7 +56,18 @@ video {
 .section {
     padding: 2rem;
     background-color: #3a3a3a;
+    background-color: rgba(0, 0, 0, 0.9);
     height: calc(100vh);
+    background: linear-gradient(
+        45deg,
+        rgba(0, 0, 0, 0.7),
+        rgba(0, 0, 0, 0.8),
+        rgba(0, 0, 0, 0.9),
+        rgba(0, 0, 0, 1),
+        rgba(0, 0, 0, 0.9),
+        rgba(0, 0, 0, 0.8),
+        rgba(0, 0, 0, 0.7)
+    );
 }
 
 .container {
