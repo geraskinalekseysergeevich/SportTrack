@@ -10,17 +10,6 @@ const LoginForm = () => {
     const [error, setError] = useState('')
     const navigate = useNavigate()
 
-    const handeLogin = () => {
-        setUserData({
-            email: '',
-            password: ''
-        })
-        
-        startTransition(() => {
-            navigate('/home')
-        })
-    }
-
     const handleLogin = async (e) => {
         e.preventDefault();
         var email = userData.email;
@@ -39,9 +28,11 @@ const LoginForm = () => {
             console.log(userId);
             // Сохранение токена и ID пользователя, например, в локальном хранилище
             console.log('Login successful');
-            navigate('/statistics', { state: { userId } });  
 
             navigate('/meals', { state: { userId } });
+            navigate('/statistics', { state: { userId } }); 
+           // navigate('/trainings', { state: { userId } });
+
 
           } else {
             console.error('Login failed');

@@ -7,7 +7,7 @@ import GetExerciseForm from './GetExerciseForm';
 import ExerciseError from './ExerciseError';
 import TabBar from './TabBar';
 
-function ExerciseForm(userId) {
+function ExerciseForm({userId}) {
     const [activeTab, setActiveTab] = useState('default');
 
     const [exerciseData, setExerciseData] = useState({});
@@ -121,6 +121,24 @@ function ExerciseForm(userId) {
         setTimer(0)
     };
 
+    const dayToday = () => {
+        var currentdate = new Date();
+        if(currentdate.getMonth()+ 1 < 10){
+        var datetime =
+            currentdate.getFullYear() +
+            '-0' +
+            (currentdate.getMonth() + 1) +
+            '-' +
+            currentdate.getDate();
+        } else datetime =
+        currentdate.getFullYear() +
+        '-' +
+        (currentdate.getMonth() + 1) +
+        '-' +
+        currentdate.getDate();
+        return datetime;
+    }
+
     const getCurrentDatetime = () => {
         // получаем текущую дату
         const currentdate = new Date();
@@ -222,9 +240,55 @@ function ExerciseForm(userId) {
         }
     };
 
+    async function postWorkoutStats (statsToPost){
+        try {   
+                var name = statsToPost.name;
+                var time = statsToPost.time;
+                var location = statsToPost.location;
+                var mood = statsToPost.mood;
+                var comment = statsToPost.comment;
+                var date = statsToPost.date;
+                var exercises = ["date:'"+date+"'", "time:'"+time+"'", "name:'"+name+"'",
+                 "location:'"+location+"'", "mood:'"+mood+"'", "comment:'"+comment+"'"];
+
+                console.log("!"+exercises);
+
+                const response = await fetch('http://localhost:3001/api/users/saveUserExercises', {
+                    method: 'POST',
+                    headers: {
+                      'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({userId, exercises}),
+                  });
+            
+                  if (response.ok) {
+                    const { token, userId } = await response.json();
+                    console.log(userId);
+                    // Сохранение токена и ID пользователя, например, в локальном хранилище
+                    console.log('Log successful');
+                    //navigate('/trainings', { state: { userId } });
+                  } else {
+                    console.error('Log failed');
+                  }
+                }
+            catch (error) {
+                  console.error('Log error:', error);
+                }
+            }
+
+
     const saveStatsFunc = () => {
         const dateTime = getCurrentDatetime()
         const newSavedStats = savedStats
+        const statsToPost = {
+            name: selectedWorkout.name,
+            time: getFormattedTime(timer),
+            date: dayToday(),
+            location: selectedWorkout.location,
+            mood: selectedWorkout.mood,
+            comment: selectedWorkout.comment
+        }
+        postWorkoutStats(statsToPost)
         newSavedStats.push({
             name: selectedWorkout.name,
             time: getFormattedTime(timer),
@@ -233,7 +297,7 @@ function ExerciseForm(userId) {
             mood: selectedWorkout.mood,
             comment: selectedWorkout.comment
         })
-        console.log(newSavedStats)
+        
         setSavedStats(newSavedStats)
         setSelectChange(0)
         setActiveTab('default')
@@ -311,7 +375,6 @@ function ExerciseForm(userId) {
                 }
                 {error !== 0 && <ExerciseError error={error}/>}
             </div>
-            <TabBar/>
         </div>
     );
 }
