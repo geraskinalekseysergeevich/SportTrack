@@ -1,0 +1,51 @@
+version: '3.8'
+services:
+  frontend:
+      build:
+        context: .
+        dockerfile: FrontendDockerfile # Путь к Dockerfile фронта, если он отличается
+      ports:
+        - "80:80"
+      depends_on:
+        - backend
+      networks:
+        sport-track-network:
+          ipv4_address: 172.16.238.2
+
+  backend:
+    build:
+      context: .
+      dockerfile: ./server/Dockerfile
+    ports:
+      - "3001:3001"
+    volumes:
+      - /usr/src/app
+      - /usr/src/app/node_modules
+    environment:
+      - PORT=3001
+      - MONGODB_URI=mongodb+srv://skakunartem:itmo311697@sport-track.bpzwdzz.mongodb.net/sports-track-database?retryWrites=true&w=majority
+      - JWT_SECRET=29744879cdc5b972720b158b4fe6a1aed2c23b8756af9b387587ccea81709d47
+    depends_on:
+      - db
+    networks:
+      sport-track-network:
+        ipv4_address: 172.16.238.10  # Задаем статический IPv4 адрес
+  db:
+    image: mongo:latest
+    environment:
+      - MONGO_INITDB_DATABASE=sports-track-database
+    networks:
+      sport-track-network:
+        ipv4_address: 172.16.238.20  # Задаем статический IPv4 адрес
+
+networks:
+  sport-track-network:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.16.238.0/24
+
+volumes:
+  mongo-data:
+    driver: local

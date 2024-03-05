@@ -1,0 +1,29 @@
+# Используем базовый образ для Node
+FROM node:latest as build
+
+# Создаем рабочую директорию
+WORKDIR /usr/src/app
+
+# Копируем файлы проекта
+COPY ./package*.json ./
+
+# Устанавливаем зависимости
+RUN npm install
+
+# Копируем исходные файлы фронтенда
+COPY . .
+
+# Собираем проект
+RUN npm run build
+
+# Используем образ для Nginx для хостинга собранного проекта
+FROM nginx:alpine
+
+# Копируем собранное приложение в папку Nginx
+COPY --from=build /usr/src/app/build /usr/share/nginx/html
+
+# Экспортируем порт
+EXPOSE 80
+
+# Запускаем Nginx
+CMD ["nginx", "-g", "daemon off;"]

@@ -58,21 +58,20 @@ const loginUser = async (req, res) => {
   }
 };
 
-const saveUserData = async (req, res) => {
+const saveUserCallorie = async (req, res) => {
   try {
-    const { userId, entries } = req.body;
+    const {userId, insert} = req.body;
+// Поиск пользователя по ID
+const user = await User.findById(userId);
+if (!user) {
+return res.status(404).json({ error: 'Пользователь не найден' });
+}
+console.log(req.body.items)
+// Обновление данных пользователя
+user.items.push(req.body.items);
 
-    // Поиск пользователя по ID
-    const user = await User.findById(userId);
-    if (!user) {
-      return res.status(404).json({ error: 'Пользователь не найден' });
-    }
-
-    // Обновление данных пользователя
-    user.entries = entries;
-
-    // Сохранение обновленных данных
-    await user.save();
+// Сохранение обновленных данных
+await user.save();
 
     res.status(200).json({ message: 'Данные пользователя успешно сохранены' });
   } catch (error) {
@@ -80,9 +79,55 @@ const saveUserData = async (req, res) => {
     res.status(500).json({ error: 'Внутренняя ошибка сервера' });
   }
 };
+const getUsrData = async(req, res) => {
+  console.log(req.params.userId);
+  try {
+    const userId = req.params.userId;
+    const userData = await User.findById(userId, 'items exercises'); // Выбираем только поля 'items' и 'exercises'
+
+    if (!userData) {
+      return res.status(404).json({ message: 'Пользователь не найден' });
+    }
+
+    res.json({ items: userData.items, exercises: userData.exercises });
+  } catch (error) {
+    res.status(500).json({ message: 'Ошибка сервера', error: error.message });
+  }
+}
+
+  const getUserData = async(req, res) => {
+    try {
+      const userId = req.query.userId;
+      console.log(userId);
+      const userData = await User.findById(userId).populate('items').populate('exercises');
+      
+      res.json(userData);
+    } catch (error) {
+      res.status(500).send(error.message);
+    }
+  }
+
+const getUseData = async (req, res) => {
+  try {
+    const userId = req.params.userId;
+
+    // Поиск пользователя по ID
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ error: 'Пользователь не найден' });
+    }
+
+    // Возвращение данных пользователя
+    res.status(200).json({ userData: user.entries });
+  } catch (error) {
+    console.error('Ошибка при получении данных пользователя:', error);
+    res.status(500).json({ error: 'Внутренняя ошибка сервера' });
+  }
+};
 
 module.exports = {
   registerUser,
   loginUser,
-  saveUserData,
+  saveUserCallorie,
+  getUserData
 };
