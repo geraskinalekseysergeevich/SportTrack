@@ -26,6 +26,10 @@
     align-items: center;
 }
 
+.home__header__welcome > img {
+    cursor: pointer;
+}
+
 .home__header__text {
     margin-right: 10px;
     text-align: right;

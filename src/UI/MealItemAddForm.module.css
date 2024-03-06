@@ -17,7 +17,7 @@
     height: 25px;
 }
 
-.mealaddform__container label {
+.mealaddform__container label, .radio_title {
     font-variant-numeric: lining-nums proportional-nums;
     font-feature-settings: 'dlig' on;
     font-family: 'Montserrat';
@@ -43,12 +43,11 @@
 .mealaddform__container input[value] {
     padding-left: 5px;
     color: #000000;
-    max-width: 200px;
     width: 100%;
 }
 
 .weight > input {
-    max-width: 140px;
+    max-width: 817px;
 }
 
 .mealaddform__container .footer_button {
@@ -91,7 +90,7 @@
 }
 
 .mealaddform__container .error__container > p{
-    color: #000000;
+    color: #fff;
     font-variant-numeric: lining-nums proportional-nums;
     font-feature-settings: 'dlig' on;
     font-family: "Montserrat";
@@ -100,4 +99,16 @@
     font-weight: 500;
     line-height: 142%; /* 142.857% */
     letter-spacing: 0.14px;
+}
+
+.bju__container > div {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.bju__container {
+    gap: 10px;
 }

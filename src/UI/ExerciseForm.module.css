@@ -35,6 +35,7 @@
 }
 .page_header > img {
     margin-left: auto;
+    cursor: pointer;
 }
 
 h2 {
