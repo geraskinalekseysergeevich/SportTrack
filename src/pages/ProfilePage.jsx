@@ -1,10 +1,13 @@
 import React from 'react';
+import TabBar from '../components/TabBar';
+import ProfileData from '../components/ProfileData';
 
 const ProfilePage = () => {
     return (
-        <div>
-            
-        </div>
+        <>
+            <ProfileData />
+            <TabBar />
+        </>
     );
 };
 

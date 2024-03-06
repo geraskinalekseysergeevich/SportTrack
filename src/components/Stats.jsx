@@ -203,56 +203,58 @@ const StatisticsComponent = ({ userId }) => {
     }, [inputData.items]);
 
     return (
-        <div>
-            <div style={{ display: 'inline-block' }}>
-                <div>
-                    <h1>Нагрузки</h1>
-                    <p>{parseInt(getExercisePercenatge())}%/100%</p>
+        <>
+            <div>
+                <div style={{ display: 'inline-block' }}>
+                    <div>
+                        <h1>Нагрузки</h1>
+                        <p>{parseInt(getExercisePercenatge())}%/100%</p>
+                    </div>
+                    <div
+                        style={{
+                            width: 200,
+                            height: 200,
+                            margin: 'auto',
+                            display: 'inline-block',
+                        }}
+                    >
+                        <ProgressBar
+                            progress={getExercisePercenatge()}
+                            strokeColor="red"
+                        ></ProgressBar>
+                    </div>
+                    <div>
+                        <h1>Еда</h1>
+                        <p>{parseInt(getNutritionPercenatge())}%/100%</p>
+                    </div>
+                    <div
+                        style={{
+                            width: 200,
+                            height: 200,
+                            margin: 'auto',
+                            display: 'inline-block',
+                        }}
+                    >
+                        <ProgressBar
+                            progress={getNutritionPercenatge()}
+                            strokeColor="lime"
+                        ></ProgressBar>
+                    </div>
                 </div>
-                <div
-                    style={{
-                        width: 200,
-                        height: 200,
-                        margin: 'auto',
-                        display: 'inline-block',
-                    }}
-                >
-                    <ProgressBar
-                        progress={getExercisePercenatge()}
-                        strokeColor="red"
-                    ></ProgressBar>
-                </div>
-                <div>
-                    <h1>Еда</h1>
-                    <p>{parseInt(getNutritionPercenatge())}%/100%</p>
-                </div>
-                <div
-                    style={{
-                        width: 200,
-                        height: 200,
-                        margin: 'auto',
-                        display: 'inline-block',
-                    }}
-                >
-                    <ProgressBar
-                        progress={getNutritionPercenatge()}
-                        strokeColor="lime"
-                    ></ProgressBar>
-                </div>
+                <Chart
+                    chartType="ColumnChart"
+                    width="100%"
+                    height="400px"
+                    data={getExerciseChartData()}
+                />
+                <Chart
+                    chartType="ColumnChart"
+                    width="100%"
+                    height="400px"
+                    data={getNutritionChartData()}
+                />
             </div>
-            <Chart
-                chartType="ColumnChart"
-                width="100%"
-                height="400px"
-                data={getExerciseChartData()}
-            />
-            <Chart
-                chartType="ColumnChart"
-                width="100%"
-                height="400px"
-                data={getNutritionChartData()}
-            />
-        </div>
+        </>
     );
 };
 
