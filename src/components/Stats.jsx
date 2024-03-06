@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ProgressBar from 'react-customizable-progressbar';
 import { Chart } from 'react-google-charts';
+import TabBar from './TabBar';
 
 const StatisticsComponent = ({ userId }) => {
     const [exerciseData, setExerciseData] = useState([]);
@@ -204,56 +205,57 @@ const StatisticsComponent = ({ userId }) => {
 
     return (
         <>
-            <div>
-                <div style={{ display: 'inline-block' }}>
-                    <div>
-                        <h1>Нагрузки</h1>
-                        <p>{parseInt(getExercisePercenatge())}%/100%</p>
-                    </div>
-                    <div
-                        style={{
-                            width: 200,
-                            height: 200,
-                            margin: 'auto',
-                            display: 'inline-block',
-                        }}
-                    >
-                        <ProgressBar
-                            progress={getExercisePercenatge()}
-                            strokeColor="red"
-                        ></ProgressBar>
-                    </div>
-                    <div>
-                        <h1>Еда</h1>
-                        <p>{parseInt(getNutritionPercenatge())}%/100%</p>
-                    </div>
-                    <div
-                        style={{
-                            width: 200,
-                            height: 200,
-                            margin: 'auto',
-                            display: 'inline-block',
-                        }}
-                    >
-                        <ProgressBar
-                            progress={getNutritionPercenatge()}
-                            strokeColor="lime"
-                        ></ProgressBar>
-                    </div>
+        <div>
+            <div style={{ display: 'inline-block' }}>
+                <div>
+                    <h1>Нагрузки</h1>
+                    <p>{parseInt(getExercisePercenatge())}%/100%</p>
                 </div>
-                <Chart
-                    chartType="ColumnChart"
-                    width="100%"
-                    height="400px"
-                    data={getExerciseChartData()}
-                />
-                <Chart
-                    chartType="ColumnChart"
-                    width="100%"
-                    height="400px"
-                    data={getNutritionChartData()}
-                />
+                <div
+                    style={{
+                        width: 200,
+                        height: 200,
+                        margin: 'auto',
+                        display: 'inline-block',
+                    }}
+                >
+                    <ProgressBar
+                        progress={getExercisePercenatge()}
+                        strokeColor="red"
+                    ></ProgressBar>
+                </div>
+                <div>
+                    <h1>Еда</h1>
+                    <p>{parseInt(getNutritionPercenatge())}%/100%</p>
+                </div>
+                <div
+                    style={{
+                        width: 200,
+                        height: 200,
+                        margin: 'auto',
+                        display: 'inline-block',
+                    }}
+                >
+                    <ProgressBar
+                        progress={getNutritionPercenatge()}
+                        strokeColor="lime"
+                    ></ProgressBar>
+                </div>
             </div>
+            <Chart
+                chartType="ColumnChart"
+                width="100%"
+                height="400px"
+                data={getExerciseChartData()}
+            />
+            <Chart
+                chartType="ColumnChart"
+                width="100%"
+                height="400px"
+                data={getNutritionChartData()}
+            />
+        </div>
+        <TabBar userId={userId}/>
         </>
     );
 };
