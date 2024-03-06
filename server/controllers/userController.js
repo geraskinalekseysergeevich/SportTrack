@@ -79,21 +79,28 @@ await user.save();
     res.status(500).json({ error: 'Внутренняя ошибка сервера' });
   }
 };
-const getUsrData = async(req, res) => {
-  console.log(req.params.userId);
+
+const saveUserExercises = async (req, res) => {
   try {
-    const userId = req.params.userId;
-    const userData = await User.findById(userId, 'items exercises'); // Выбираем только поля 'items' и 'exercises'
-
-    if (!userData) {
-      return res.status(404).json({ message: 'Пользователь не найден' });
-    }
-
-    res.json({ items: userData.items, exercises: userData.exercises });
-  } catch (error) {
-    res.status(500).json({ message: 'Ошибка сервера', error: error.message });
-  }
+    const {userId, insert} = req.body;
+// Поиск пользователя по ID
+const user = await User.findById(userId);
+if (!user) {
+return res.status(404).json({ error: 'Пользователь не найден' });
 }
+console.log(req.body.exercises)
+// Обновление данных пользователя
+user.exercises.push(req.body.exercises);
+
+// Сохранение обновленных данных
+await user.save();
+
+    res.status(200).json({ message: 'Данные пользователя успешно сохранены' });
+  } catch (error) {
+    console.error('Ошибка при сохранении данных пользователя:', error);
+    res.status(500).json({ error: 'Внутренняя ошибка сервера' });
+  }
+};
 
   const getUserData = async(req, res) => {
     try {
@@ -129,5 +136,6 @@ module.exports = {
   registerUser,
   loginUser,
   saveUserCallorie,
+  saveUserExercises,
   getUserData
 };

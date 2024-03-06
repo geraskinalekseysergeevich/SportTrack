@@ -7,16 +7,18 @@ import GetExerciseForm from './GetExerciseForm';
 import ExerciseError from './ExerciseError';
 import TabBar from './TabBar';
 
-function ExerciseForm() {
+
+function ExerciseForm({ userId }) {
+
     const [activeTab, setActiveTab] = useState('default');
 
     const [exerciseData, setExerciseData] = useState({});
     const [savedWorkouts, setSavedWorkouts] = useState([]);
     const [selectedWorkout, setSelectedWorkout] = useState({});
-    const [savedStats, setSavedStats] = useState([])
+    const [savedStats, setSavedStats] = useState([]);
 
-    const [selectChange, setSelectChange] = useState(0)
-    const [preEditName, setPreEditName] = useState(undefined)
+    const [selectChange, setSelectChange] = useState(0);
+    const [preEditName, setPreEditName] = useState(undefined);
     const [error, setError] = useState(0);
     const [timer, setTimer] = useState(0);
     const [intervalId, setIntervalId] = useState(null);
@@ -32,16 +34,16 @@ function ExerciseForm() {
             mood: '',
             comment: '',
             time: '',
-            timecreated: ''
-        })
-    }
+            timecreated: '',
+        });
+    };
 
     const changeTab = (tab) => {
-        setActiveTab(`${tab}`)
-        setSelectChange(0)
-        setSelectedWorkout({})
-        setError(0)
-    }
+        setActiveTab(`${tab}`);
+        setSelectChange(0);
+        setSelectedWorkout({});
+        setError(0);
+    };
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -49,9 +51,9 @@ function ExerciseForm() {
     };
 
     const handleEditChange = (e) => {
-        const { name, value } = e.target
-        setSelectedWorkout({ ...selectedWorkout, [name]: value })
-    }
+        const { name, value } = e.target;
+        setSelectedWorkout({ ...selectedWorkout, [name]: value });
+    };
 
     const handleCheckboxChange = (e) => {
         const { name, checked } = e.target;
@@ -60,12 +62,12 @@ function ExerciseForm() {
 
     const handleEditCheckboxChange = (e) => {
         const { name, checked } = e.target;
-        setSelectedWorkout({ ...selectedWorkout, [name]: checked ? 1 : '' })
-    }
+        setSelectedWorkout({ ...selectedWorkout, [name]: checked ? 1 : '' });
+    };
 
     const saveEdits = () => {
         setSavedWorkouts((prevState) => {
-            const updatedState = {}
+            const updatedState = {};
             for (const [key, value] of Object.entries(prevState)) {
                 updatedState[key === preEditName ? selectedWorkout.name : key] =
                     key === preEditName
@@ -73,29 +75,32 @@ function ExerciseForm() {
                         : value;
             }
 
-            console.log('resaved workouts', updatedState)
-            return updatedState
-        })
+            console.log('resaved workouts', updatedState);
+            return updatedState;
+        });
 
-        setSelectChange(0)
-        setActiveTab('default')
-        setPreEditName(undefined)
-        setSelectedWorkout({})
-    }
+        setSelectChange(0);
+        setActiveTab('default');
+        setPreEditName(undefined);
+        setSelectedWorkout({});
+    };
 
     const tryToEdit = (saveEdits) => {
         return () => {
-            if (selectedWorkout.name === undefined || exerciseData.name === '') {
-                setError(1)
-                console.log('пустое имя')
+            if (
+                selectedWorkout.name === undefined ||
+                exerciseData.name === ''
+            ) {
+                setError(1);
+                console.log('пустое имя');
             } else {
-                saveEdits()
-                setError(0)
+                saveEdits();
+                setError(0);
             }
-        }
-    }
+        };
+    };
 
-    const tryToSaveEdits = tryToEdit(saveEdits)
+    const tryToSaveEdits = tryToEdit(saveEdits);
 
     const startStopTimer = () => {
         if (intervalId) {
@@ -104,8 +109,8 @@ function ExerciseForm() {
         } else {
             const startTime = Date.now() - timer;
             const id = setInterval(() => {
-                const newTimer = Date.now() - startTime
-                setTimer(newTimer)
+                const newTimer = Date.now() - startTime;
+                setTimer(newTimer);
             }, 10);
             setIntervalId(id);
         }
@@ -118,7 +123,26 @@ function ExerciseForm() {
 
     const resetTimer = () => {
         stopTimer();
-        setTimer(0)
+        setTimer(0);
+    };
+
+    const dayToday = () => {
+        var currentdate = new Date();
+        if (currentdate.getMonth() + 1 < 10) {
+            var datetime =
+                currentdate.getFullYear() +
+                '-0' +
+                (currentdate.getMonth() + 1) +
+                '-' +
+                currentdate.getDate();
+        } else
+            datetime =
+                currentdate.getFullYear() +
+                '-' +
+                (currentdate.getMonth() + 1) +
+                '-' +
+                currentdate.getDate();
+        return datetime;
     };
 
     const getCurrentDatetime = () => {
@@ -136,11 +160,11 @@ function ExerciseForm() {
             currentdate.getMinutes() +
             ':' +
             currentdate.getSeconds();
-        return datetime
-    }
+        return datetime;
+    };
 
     const saveExercise = () => {
-        const dateTime = getCurrentDatetime()
+        const dateTime = getCurrentDatetime();
         // сохраняем
         exerciseData.timecreated = dateTime;
         //сбрасываем активный таб, чтобы окно закрылось
@@ -148,19 +172,24 @@ function ExerciseForm() {
         // сохранение уникальной тренировки в savedWorkouts
         if (Object.keys(savedWorkouts).length === 0) {
             setSavedWorkouts(() => {
-                const updatedState = { [exerciseData.name]: exerciseData }
-                console.log('saved 1 workouts', updatedState)
-                return updatedState
-            })
+
+                const updatedState = { [exerciseData.name]: exerciseData };
+                console.log('saved 1 workouts', updatedState);
+                return updatedState;
+            });
         } else {
-            setSavedWorkouts(prevState => {
-                const updatedState = { ...prevState, [exerciseData.name]: exerciseData }
-                console.log('saved 2 workouts', updatedState)
-                return updatedState
-            })
+            setSavedWorkouts((prevState) => {
+                const updatedState = {
+                    ...prevState,
+                    [exerciseData.name]: exerciseData,
+                };
+                console.log('saved 2 workouts', updatedState);
+                return updatedState;
+            });
+
         }
         // сбрасываем все инпуты
-        resetExercise()
+        resetExercise();
 
         console.log('Упражнение успешно сохранено!');
         // Замените URL и настройки на соответствующие вашему API и его требованиям
@@ -171,33 +200,34 @@ function ExerciseForm() {
         return () => {
             // проверка на пустое имя
             if (exerciseData.name === undefined || exerciseData.name === '') {
-                setError(1)
-                console.log('пустое имя')
+                setError(1);
+                console.log('пустое имя');
+
             }
             // проверка на существующее имя
             else if (exerciseData.name in savedWorkouts) {
-                setError(2)
-                console.log('такое имя уже существует')
+                setError(2);
+                console.log('такое имя уже существует');
             } else {
-                setError(0)
-                saveExercise()
+                setError(0);
+                saveExercise();
             }
-        }
-    }
-    const tryToSaveExercise = tryToSave(saveExercise)
+        };
+    };
+    const tryToSaveExercise = tryToSave(saveExercise);
 
     const deleteWorkout = () => {
-        const updatedWorkouts = { ...savedWorkouts }
-        delete updatedWorkouts[exerciseData.name]
+        const updatedWorkouts = { ...savedWorkouts };
+        delete updatedWorkouts[exerciseData.name];
         setSavedWorkouts(updatedWorkouts);
         console.log('Упражнение успешно удалено!');
-        console.log('update', updatedWorkouts)
-        resetExercise()
-        resetTimer()
-        stopTimer()
-        setActiveTab('default')
-        setSelectChange(0)
-        setSelectedWorkout({})
+        console.log('update', updatedWorkouts);
+        resetExercise();
+        resetTimer();
+        stopTimer();
+        setActiveTab('default');
+        setSelectChange(0);
+        setSelectedWorkout({});
     };
 
     const getFormattedTime = () => {
@@ -214,36 +244,90 @@ function ExerciseForm() {
 
     const handleSelectSaved = (workoutName) => {
         if (workoutName !== '') {
-            setSelectedWorkout(savedWorkouts[workoutName])
-            setPreEditName(workoutName)
-            setSelectChange(1)
+            setSelectedWorkout(savedWorkouts[workoutName]);
+            setPreEditName(workoutName);
+            setSelectChange(1);
         }
     };
 
+    async function postWorkoutStats(statsToPost) {
+        try {
+            var name = statsToPost.name;
+            var time = statsToPost.time;
+            var location = statsToPost.location;
+            var mood = statsToPost.mood;
+            var comment = statsToPost.comment;
+            var date = statsToPost.date;
+            var exercises = [
+                "date:'" + date + "'",
+                "time:'" + time + "'",
+                "name:'" + name + "'",
+                "location:'" + location + "'",
+                "mood:'" + mood + "'",
+                "comment:'" + comment + "'",
+            ];
+
+            console.log('!' + exercises);
+
+            const response = await fetch(
+                'http://localhost:3001/api/users/saveUserExercises',
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ userId, exercises }),
+                }
+            );
+
+            if (response.ok) {
+                const { token, userId } = await response.json();
+                console.log(userId);
+                // Сохранение токена и ID пользователя, например, в локальном хранилище
+                console.log('Log successful');
+                //navigate('/trainings', { state: { userId } });
+            } else {
+                console.error('Log failed');
+            }
+        } catch (error) {
+            console.error('Log error:', error);
+        }
+    }
+
     const saveStatsFunc = () => {
-        const dateTime = getCurrentDatetime()
-        const newSavedStats = savedStats
+        const dateTime = getCurrentDatetime();
+        const newSavedStats = savedStats;
+        const statsToPost = {
+            name: selectedWorkout.name,
+            time: getFormattedTime(timer),
+            date: dayToday(),
+            location: selectedWorkout.location,
+            mood: selectedWorkout.mood,
+            comment: selectedWorkout.comment,
+        };
+        postWorkoutStats(statsToPost);
         newSavedStats.push({
             name: selectedWorkout.name,
             time: getFormattedTime(timer),
             timecreated: dateTime,
             location: selectedWorkout.location,
             mood: selectedWorkout.mood,
-            comment: selectedWorkout.comment
-        })
-        console.log(newSavedStats)
-        setSavedStats(newSavedStats)
-        setSelectChange(0)
-        setActiveTab('default')
-        stopTimer()
-        resetTimer() 
-    }
+            comment: selectedWorkout.comment,
+        });
+
+        setSavedStats(newSavedStats);
+        setSelectChange(0);
+        setActiveTab('default');
+        stopTimer();
+        resetTimer();
+    };
+
 
     useEffect(() => {
         if (selectedWorkout) {
             setExerciseData(selectedWorkout);
         }
-    }, [selectedWorkout])
+    }, [selectedWorkout]);
 
     return (
         <>
