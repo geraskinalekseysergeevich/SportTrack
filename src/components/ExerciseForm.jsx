@@ -238,7 +238,7 @@ function ExerciseForm() {
         setSelectChange(0)
         setActiveTab('default')
         stopTimer()
-        resetTimer()
+        resetTimer() 
     }
 
     useEffect(() => {

@@ -2,7 +2,7 @@
     border-radius: 10px;
     width: 290px;
     background: #FBFBFB;
-    padding: 9.5px 15px 15px 15px;
+    padding: 9.5px 15px 9.5px 15px;
 }
 
 .mealaddform__container > div {
@@ -62,7 +62,6 @@
     background: none;
     border: none;
     cursor: pointer;
-    padding: 10px;
 }
 
 .mealaddform__container .footer_button button:hover {
@@ -80,4 +79,20 @@
 
 .mealaddform__container .radio input {
     margin-left: 3px;
+}
+
+.mealaddform__container .error__container {
+    justify-content: center;
+}
+
+.mealaddform__container .error__container > p{
+    color: #000000;
+    font-variant-numeric: lining-nums proportional-nums;
+    font-feature-settings: 'dlig' on;
+    font-family: "Montserrat";
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 142%; /* 142.857% */
+    letter-spacing: 0.14px;
 }

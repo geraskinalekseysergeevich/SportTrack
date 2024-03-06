@@ -16,21 +16,21 @@ const MealItem = ({model, onEditItem, onRemoveItem}) => {
 
                 <div>
                     <label>Калорийность: </label>
-                    <span>{model.isTotal ? model.calories : model.calories * model.weight}ккал</span>
+                    <span>{model.isTotal ? model.calories : model.calories * model.weight / 100}ккал</span>
                 </div>
 
                 <div className={classes.bju__container}>
                     <div>
                         <label>Б: </label>
-                        <span>{model.isTotal ? model.protein : model.protein * model.weight}г.,</span>
+                        <span>{model.isTotal ? model.protein : model.protein * model.weight / 100}г.,</span>
                     </div>
                     <div>
                         <label>Ж: </label>
-                        <span>{model.isTotal ? model.fat : model.fat * model.weight}г.,</span>
+                        <span>{model.isTotal ? model.fat : model.fat * model.weight / 100}г.,</span>
                     </div>
                     <div>
                         <label>У: </label>
-                        <span>{model.isTotal ? model.carbs : model.carbs * model.weight}г.</span>
+                        <span>{model.isTotal ? model.carbs : model.carbs * model.weight / 100}г.</span>
                     </div>
                 </div>
             </div>
