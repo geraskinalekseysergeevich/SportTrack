@@ -68,6 +68,7 @@ const MealsForm = ({userId}) => {
                  "calories:"+Number(calories), "protein:"+Number(protein), "carbs:"+Number(carbs), "fat:"+Number(fat)];
 
                 const response = await fetch('http://localhost:3001/api/users/saveUserCallorie', {
+
                     method: 'POST',
                     headers: {
                       'Content-Type': 'application/json',
@@ -79,7 +80,7 @@ const MealsForm = ({userId}) => {
                     const { token, userId } = await response.json();
                     // Сохранение токена и ID пользователя, например, в локальном хранилище
                     console.log('Log successful');
-                    //navigate('/trainings', { state: { userId } });
+                    
                   } else {
                     console.error('Log failed');
                   }

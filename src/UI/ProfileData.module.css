@@ -1,0 +1,93 @@
+.profile__section {
+    composes: section from '../App.css';
+    background: #1d2021;
+}
+
+.profile__container {
+    composes: container from '../App.css';
+    padding-bottom: 50px;
+}
+
+.profile__header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.profile_icon {
+    font-size: 30px;
+    color: rgba(255, 255, 255, 0.7);
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+.profile_icon:hover {
+    color: rgba(255, 255, 255, 1);
+    transform: scale(1.2);
+}
+
+.profile_icon:first-child:hover {
+    transform: translateX(-5px);
+}
+
+.profile-img {
+    width: 200px;
+}
+
+.person-data {
+    width: 100%;
+    background: #3a3a3a;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    margin-bottom: 20px;
+}
+
+.person-data-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    width: 100%;
+    padding: 15px 0;
+}
+
+.card-icon {
+    font-size: 25px;
+}
+
+.card-name {
+}
+
+.card-value {
+    color: #29e33c;
+}
+
+.person__information {
+    width: 100%;
+    background: #3a3a3a;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 20px;
+    margin: 0 auto;
+}
+
+.person__information__title {
+    margin: 0 auto;
+    font-size: 25px;
+    font-weight: 600;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #fff;
+}
+
+.person__information__text {
+    padding: 10px;
+    border-radius: 10px;
+    background: #5d5d5d;
+}

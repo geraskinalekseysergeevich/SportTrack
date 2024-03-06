@@ -15,7 +15,6 @@ const LoginForm = () => {
         var email = userData.email;
         var password = userData.password;
         try {
-
           const response = await fetch('http://localhost:3001/api/users/login', {
             method: 'POST',
             headers: {
