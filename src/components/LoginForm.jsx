@@ -30,8 +30,9 @@ const LoginForm = () => {
             console.log('Login successful');
 
             navigate('/meals', { state: { userId } });
-            navigate('/statistics', { state: { userId } }); 
-           // navigate('/trainings', { state: { userId } });
+            //navigate('/statistics', { state: { userId } }); 
+
+            navigate('/trainings', { state: { userId } });
 
 
           } else {
@@ -54,44 +55,46 @@ const LoginForm = () => {
     }
 
     return (
-        <div className={classes.form__container}>
-            <div className={classes.image_container}>
-                <img src={require('../sources/startpage/ion_fitness.svg')['default']} alt="" />
-            </div>
-            <form onSubmit={handleLogin} className={classes.login_form}>
-                <div className={classes.formField}>
-                    <label htmlFor="email"></label>
-                    <input
-                        placeholder='Введите адрес электронной почты'
-                        type="email"
-                        name="email"
-                        value={userData.email}
-                        onChange={handleChange}
-                        required
-                    />
+        <div className={classes.form__section}>
+            <div className={classes.form__container}>
+                <div className={classes.image_container}>
+                    <img src={require('../sources/startpage/ion_fitness.svg')['default']} alt="" />
                 </div>
-                <div className={classes.formField}>
-                    <label htmlFor="password"></label>
-                    <input
-                        placeholder='Введите пароль'
-                        type="password"
-                        name="password"
-                        value={userData.password}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
-                <button type="submit">
-                    <p className={classes.button_text}>Войти</p>
-                </button>
-                <div className={classes.footer_text}>
-                    <div className={classes.flex__container}>
-                        <p className={classes.noaccount_link}>Нет аккаунта?</p>
-                        <Link className={classes.register_link} to={'/register'}>Регистрация</Link>
+                <form onSubmit={handleLogin} className={classes.login_form}>
+                    <div className={classes.formField}>
+                        <label htmlFor="email"></label>
+                        <input
+                            placeholder='Введите адрес электронной почты'
+                            type="email"
+                            name="email"
+                            value={userData.email}
+                            onChange={handleChange}
+                            required
+                        />
                     </div>
-                </div>
-                { error !== '' && <p className={classes.error_message}>{error}</p> }
-            </form>
+                    <div className={classes.formField}>
+                        <label htmlFor="password"></label>
+                        <input
+                            placeholder='Введите пароль'
+                            type="password"
+                            name="password"
+                            value={userData.password}
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
+                    <button type="submit">
+                        <p className={classes.button_text}>Войти</p>
+                    </button>
+                    <div className={classes.footer_text}>
+                        <div className={classes.flex__container}>
+                            <p className={classes.noaccount_link}>Нет аккаунта?</p>
+                            <Link className={classes.register_link} to={'/register'}>Регистрация</Link>
+                        </div>
+                    </div>
+                    {error !== '' && <p className={classes.error_message}>{error}</p>}
+                </form>
+            </div>
         </div>
     );
 };

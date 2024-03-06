@@ -7,6 +7,7 @@ import GetExerciseForm from './GetExerciseForm';
 import ExerciseError from './ExerciseError';
 import TabBar from './TabBar';
 
+
 function ExerciseForm({ userId }) {
     const [activeTab, setActiveTab] = useState('default');
 
@@ -325,73 +326,75 @@ function ExerciseForm({ userId }) {
     }, [selectedWorkout]);
 
     return (
-        <div className={classes.exerciseform__container}>
-            <div className={classes.page_header}>
-                <h1>Добавить упражнение</h1>
-                <img src={require('../sources/avatar.png')} alt="" />
+        <>
+            <div className={classes.exerciseform__section}>
+                <div className={classes.exerciseform__container}>
+                    <div className={classes.page_header}>
+                        <h1>Добавить упражнение</h1>
+                        <img src={require('../sources/avatar.png')} alt="" />
+                    </div>
+                    <div className={classes.forms__container}>
+                        {activeTab === 'addExercise'
+                            ? <AddExerciseForm
+                                exerciseData={exerciseData}
+                                changeFunc={handleInputChange}
+                                changeCheckboxFunc={handleCheckboxChange}
+                                saveFunc={tryToSaveExercise}
+                                resetFunc={resetExercise}
+                            />
+                            : <ActivityExerciseButton
+                                setActiveTabFunc={changeTab}
+                                activeTab={'addExercise'}
+                                innerText={'Добавить свободную тренировку'}
+                            />
+                        }
+                        {activeTab === 'editSaved'
+                            ? <EditExerciseForm
+                                selectedWorkout={selectedWorkout}
+                                selectSaveFunc={handleSelectSaved}
+                                savedWorkouts={savedWorkouts}
+                                selectChange={selectChange}
+                                inputChangeFunc={handleEditChange}
+                                checkboxChangeFunc={handleEditCheckboxChange}
+                                saveFunc={tryToSaveEdits}
+                                deleteFunc={deleteWorkout}
+                                test={exerciseData}
+                                getFormattedTime={getFormattedTime}
+                                startStopTimer={startStopTimer}
+                                intervalId={intervalId}
+                                resetTimer={resetTimer}
+                            />
+                            : <ActivityExerciseButton
+                                setActiveTabFunc={changeTab}
+                                activeTab={'editSaved'}
+                                innerText={'Редактировать тренировку'}
+                            />
+                        }
+                        {activeTab === 'getSaved'
+                            ? <GetExerciseForm
+                                selectedWorkout={selectedWorkout}
+                                selectSaveFunc={handleSelectSaved}
+                                savedWorkouts={savedWorkouts}
+                                selectChange={selectChange}
+                                changeFunc={handleEditChange}
+                                getFormattedTime={getFormattedTime}
+                                startStopTimer={startStopTimer}
+                                intervalId={intervalId}
+                                resetTimer={resetTimer}
+                                saveStatsFunc={saveStatsFunc}
+                            />
+                            : <ActivityExerciseButton
+                                setActiveTabFunc={changeTab}
+                                activeTab={'getSaved'}
+                                innerText={'Провести тренировку'}
+                            />
+                        }
+                        {error !== 0 && <ExerciseError error={error} />}
+                    </div>
+                </div>
             </div>
-            <div className={classes.forms__container}>
-                {activeTab === 'addExercise' ? (
-                    <AddExerciseForm
-                        exerciseData={exerciseData}
-                        changeFunc={handleInputChange}
-                        changeCheckboxFunc={handleCheckboxChange}
-                        saveFunc={tryToSaveExercise}
-                        resetFunc={resetExercise}
-                    />
-                ) : (
-                    <ActivityExerciseButton
-                        setActiveTabFunc={changeTab}
-                        activeTab={'addExercise'}
-                        innerText={'Добавить свободную тренировку'}
-                    />
-                )}
-                {activeTab === 'editSaved' ? (
-                    <EditExerciseForm
-                        selectedWorkout={selectedWorkout}
-                        selectSaveFunc={handleSelectSaved}
-                        savedWorkouts={savedWorkouts}
-                        selectChange={selectChange}
-                        inputChangeFunc={handleEditChange}
-                        checkboxChangeFunc={handleEditCheckboxChange}
-                        saveFunc={tryToSaveEdits}
-                        deleteFunc={deleteWorkout}
-                        test={exerciseData}
-                        getFormattedTime={getFormattedTime}
-                        startStopTimer={startStopTimer}
-                        intervalId={intervalId}
-                        resetTimer={resetTimer}
-                    />
-                ) : (
-                    <ActivityExerciseButton
-                        setActiveTabFunc={changeTab}
-                        activeTab={'editSaved'}
-                        innerText={'Редактировать тренировку'}
-                    />
-                )}
-                {activeTab === 'getSaved' ? (
-                    <GetExerciseForm
-                        selectedWorkout={selectedWorkout}
-                        selectSaveFunc={handleSelectSaved}
-                        savedWorkouts={savedWorkouts}
-                        selectChange={selectChange}
-                        changeFunc={handleEditChange}
-                        getFormattedTime={getFormattedTime}
-                        startStopTimer={startStopTimer}
-                        intervalId={intervalId}
-                        resetTimer={resetTimer}
-                        saveStatsFunc={saveStatsFunc}
-                    />
-                ) : (
-                    <ActivityExerciseButton
-                        setActiveTabFunc={changeTab}
-                        activeTab={'getSaved'}
-                        innerText={'Провести тренировку'}
-                    />
-                )}
-                {error !== 0 && <ExerciseError error={error} />}
-            </div>
-        </div>
+            <TabBar />
+        </>
     );
 }
 
