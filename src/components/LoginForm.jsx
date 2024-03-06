@@ -31,9 +31,10 @@ const LoginForm = () => {
             console.log('Login successful');
 
             navigate('/meals', { state: { userId } });
-            //navigate('/statistics', { state: { userId } }); 
+            
 
             navigate('/trainings', { state: { userId } });
+            navigate('/statistics', { state: { userId } }); 
 
 
 

@@ -4,11 +4,11 @@ import MealsForm from '../components/MealsForm';
 
 const MealsPage = () => {
     const location = useLocation();
-    // const { userId } = location.state;
+    const { userId } = location.state;
     // console.log(userId);
     return (
         <div>
-            <MealsForm />
+            <MealsForm userId={userId}/>
         </div>
     );
 };

@@ -4,11 +4,11 @@ import { useLocation } from 'react-router-dom';
 
 const TrainingsPage = () => {
     const location = useLocation();
-    // const { userId } = location.state;
+    const { userId } = location.state;
     // console.log(userId);
     return (
         <div>
-            <ExerciseForm/>
+            <ExerciseForm userId={userId}/>
         </div>
     );
 };
