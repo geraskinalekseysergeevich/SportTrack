@@ -1,10 +1,47 @@
-.router_menu_container {
+.nav {
+    background-color: rgb(0 0 0 / 50%);
+    color: #fff;
+    /* position: fixed; */
+    width: 100%;
+    z-index: 1000;
+    height: auto;
+    border-bottom: 1px solid rgba(255, 255, 255, 1);
+    overflow: hidden;
+}
+.nav__container {
     display: flex;
     flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
 }
-li {
-    padding: 5px 10px;
+
+.brand {
+    margin-left: 20px;
+    font-weight: 800;
+    text-transform: uppercase;
 }
-li:hover {
-    background-color: rgb(246, 111, 111);
+.brand img {
+    width: 10px;
+}
+
+.nav__list {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+    margin: 0;
+    padding: 0;
+}
+
+.nav__item {
+    display: inline-flex;
+}
+
+.nav__item a {
+    padding: 15px 15px;
+}
+
+.nav__item:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    cursor: pointer;
 }
