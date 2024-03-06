@@ -6,7 +6,7 @@ import TabBar from './TabBar';
 import plus_icon from '../sources/meals/plus.png';
 import save_icon from '../sources/meals/save.png';
 
-const MealsForm = () => {
+const MealsForm = ({userId}) => {
     const [openAddItem, setOpenAddItem] = useState(false);
     const [mealName, setMealName] = useState("");
     const [foodItems, setFoodItems] = useState([]);
@@ -51,45 +51,45 @@ const MealsForm = () => {
         return datetime;
     }
 
-    // const handleSaveAll = async(e) => {
-    //     e.preventDefault();
-    //     try {
-    //         foodItems.forEach(async item => {
-    //             var course = mealName;
-    //             var name = item.name;
-    //             var weight = item.weight;
-    //             var calories = item.isTotal ? item.calories : item.calories * item.weight;
-    //             var protein = item.isTotal ? item.protein : item.protein * item.weight;
-    //             var carbs = item.isTotal ? item.carbs : item.carbs * item.weight;
-    //             var fat = item.isTotal ? item.fat : item.fat * item.weight;
-    //             var date = dayToday();
-    //             var items = ["date:'"+date+"'", "course:'"+course+"'", "name:'"+name+"'", "weight:"+Number(weight),
-    //              "calories:"+Number(calories), "protein:"+Number(protein), "carbs:"+Number(carbs), "fat:"+Number(fat)];
+    const handleSaveAll = async(e) => {
+        e.preventDefault();
+        try {
+            foodItems.forEach(async item => {
+                var course = mealName;
+                var name = item.name;
+                var weight = item.weight;
+                var calories = item.isTotal ? item.calories : item.calories * item.weight;
+                var protein = item.isTotal ? item.protein : item.protein * item.weight;
+                var carbs = item.isTotal ? item.carbs : item.carbs * item.weight;
+                var fat = item.isTotal ? item.fat : item.fat * item.weight;
+                var date = dayToday();
+                var items = ["date:'"+date+"'", "course:'"+course+"'", "name:'"+name+"'", "weight:"+Number(weight),
+                 "calories:"+Number(calories), "protein:"+Number(protein), "carbs:"+Number(carbs), "fat:"+Number(fat)];
 
-    //             console.log(items);
+                console.log(items);
 
-    //             const response = await fetch('http://localhost:3000/api/users/saveUserCallorie', {
-    //                 method: 'POST',
-    //                 headers: {
-    //                   'Content-Type': 'application/json',
-    //                 },
-    //                 body: JSON.stringify({userId, items}),
-    //               });
+                const response = await fetch('http://localhost:3000/api/users/saveUserCallorie', {
+                    method: 'POST',
+                    headers: {
+                      'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({userId, items}),
+                  });
 
-    //               if (response.ok) {
-    //                 const { token, userId } = await response.json();
-    //                 console.log(userId);
-    //                 // Сохранение токена и ID пользователя, например, в локальном хранилище
-    //                 console.log('Log successful');
-    //                 //navigate('/trainings', { state: { userId } });
-    //               } else {
-    //                 console.error('Log failed');
-    //               }
-    //             })}
-    //         catch (error) {
-    //               console.error('Log error:', error);
-    //             }
-    //         }
+                  if (response.ok) {
+                    const { token, userId } = await response.json();
+                    console.log(userId);
+                    // Сохранение токена и ID пользователя, например, в локальном хранилище
+                    console.log('Log successful');
+                    //navigate('/trainings', { state: { userId } });
+                  } else {
+                    console.error('Log failed');
+                  }
+                })}
+            catch (error) {
+                  console.error('Log error:', error);
+                }
+            }
 
     return (
         <>

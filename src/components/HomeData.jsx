@@ -9,10 +9,10 @@ const HomeData = () => {
                     <h1 className={styles.home__title}>Домашняя страница</h1>
 
                     <div className={styles.home__header__welcome}>
-                        <p className={styles.home__header__text}>
+                        <div className={styles.home__header__text}>
                             С возвращением в SportTrack!
-                            <div className={styles.name__user}>Макаров Семён</div>
-                        </p>
+                            <p className={styles.name__user}>Макаров Семён</p>
+                        </div>
                         <img src={require("../sources/avatar.png")} alt="" />
                     </div>
                 </div>

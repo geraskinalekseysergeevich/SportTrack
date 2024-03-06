@@ -95,9 +95,7 @@ const StatisticsComponent = ({ userId }) => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch(
-                    `http://localhost:3001/api/users/user/data?userId=${userId}`
-                );
+                const response = await fetch(`http://localhost:3001/api/users/user/data?userId=${userId}`);
                 const data = await response.json();
                 setInputData(data);
             } catch (error) {

@@ -10,6 +10,16 @@ const LoginForm = () => {
     const [error, setError] = useState('')
     const navigate = useNavigate()
 
+    const handeLogin = () => {
+        setUserData({
+            email: '',
+            password: ''
+        })
+
+        startTransition(() => {
+            navigate('/home')
+        })
+    }
 
     const handleLogin = async (e) => {
         e.preventDefault();
