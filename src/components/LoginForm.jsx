@@ -16,26 +16,22 @@ const LoginForm = () => {
         var email = userData.email;
         var password = userData.password;
         try {
-          const response = await fetch('http://localhost:3001/api/users/login', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ email, password }),
-          });
-    
-          if (response.ok) {
-            const { token, userId } = await response.json();
-            console.log(userId);
-            // Сохранение токена и ID пользователя, например, в локальном хранилище
-            console.log('Login successful');
+            const response = await fetch('http://localhost:3001/api/users/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email, password }),
+            });
 
-            navigate('/meals', { state: { userId } });
-            //navigate('/statistics', { state: { userId } }); 
+            if (response.ok) {
+                const { token, userId } = await response.json();
+                console.log(userId);
+                // Сохранение токена и ID пользователя, например, в локальном хранилище
+                console.log('Login successful');
 
-            navigate('/trainings', { state: { userId } });
-
-
+                navigate('/meals', { state: { userId } });
+                navigate('/statistics', { state: { userId } });
 
             } else {
                 console.error('Login failed');

@@ -5,6 +5,7 @@
 
 .exerciseform__container {
     composes: container from '../App.css';
+    padding-bottom: 50px;
 }
 .forms__container {
     margin-top: 20px;
