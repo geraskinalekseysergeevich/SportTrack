@@ -1,6 +1,6 @@
 .button__container {
     border-radius: 10px;
-    background: #3A3A3A;
+    background: #3a3a3a;
     padding: 8px 15px;
     cursor: pointer;
 }
@@ -14,10 +14,10 @@
     align-items: center;
 }
 .button_flexcontainer h1 {
-    color: #FFF;
+    color: #fff;
     font-variant-numeric: lining-nums proportional-nums;
     font-feature-settings: 'dlig' on;
-    font-family: "Montserrat";
+    font-family: 'Montserrat';
     font-size: 14px;
     font-style: normal;
     font-weight: 500;

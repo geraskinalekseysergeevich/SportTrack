@@ -4,8 +4,8 @@ import classes from '../UI/Start.module.css'
 
 const StartPage = () => {
     return (
-        <div className={classes.start__container}>
-            <div className={classes.body__container}>
+        <div className={classes.start__section}>
+            <div className={classes.start__container}>
                 <div className={classes.heart_image}>
                     <img src={require('../sources/startpage/ion_fitness.svg')['default']} alt="" />
                 </div>
@@ -20,7 +20,7 @@ const StartPage = () => {
                 </Link>
             </div>
         </div>
-    );
+    )
 };
 
 export default StartPage;

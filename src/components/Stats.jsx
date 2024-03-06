@@ -1,59 +1,59 @@
 import React, { useState, useEffect } from 'react';
-import moment from 'moment';
-import ProgressBar from 'react-customizable-progressbar';
-import { Chart } from 'react-google-charts';
+// import moment from 'moment';
+// import ProgressBar from 'react-customizable-progressbar';
+// import { Chart } from 'react-google-charts';
 
 const StatisticsComponent = () => {
     const [exerciseData, setExerciseData] = useState([]);
-    const [nutritionData, setNutritionData] = useState({date: [], percentage: []});
-    const recommendedTime = 60; 
+    const [nutritionData, setNutritionData] = useState({ date: [], percentage: [] });
+    const recommendedTime = 60;
     const recommendedCalories = 2000;
     //console.log(userId);
 
-    const log = () =>{
+    const log = () => {
         //console.log(exerciseData);
         //console.log(nutritionData);
-        
+
     }
 
     const dayToday = () => {
         var currentdate = new Date();
-        if(currentdate.getMonth()+ 1 < 10){
-        var datetime =
+        if (currentdate.getMonth() + 1 < 10) {
+            var datetime =
+                currentdate.getFullYear() +
+                '-0' +
+                (currentdate.getMonth() + 1) +
+                '-' +
+                currentdate.getDate();
+        } else datetime =
             currentdate.getFullYear() +
-            '-0' +
+            '-' +
             (currentdate.getMonth() + 1) +
             '-' +
             currentdate.getDate();
-        } else datetime =
-        currentdate.getFullYear() +
-        '-' +
-        (currentdate.getMonth() + 1) +
-        '-' +
-        currentdate.getDate();
         return datetime;
     }
 
-    const getNutritionPercenatge = () =>{
+    const getNutritionPercenatge = () => {
         var percentage = 0
         console.log(nutritionData)
 
         //nutritionData.forEach(data => {
-            //console.log(data.date.split('T')[0] + '  ' + dayToday());
-            //console.log("!"+data)
-            // if(data.date.split('T')[0] === dayToday()){
-            // percentage = data.percentage;
-            // }
+        //console.log(data.date.split('T')[0] + '  ' + dayToday());
+        //console.log("!"+data)
+        // if(data.date.split('T')[0] === dayToday()){
+        // percentage = data.percentage;
+        // }
         //});
         return percentage;
     }
 
-    const getExercisePercenatge = () =>{
+    const getExercisePercenatge = () => {
         var percentage = 0
         exerciseData.forEach(data => {
             //console.log(data.date.split('T')[0] + '  ' + dayToday());
-            if(data.date.split('T')[0] === dayToday()){
-            percentage = data.percentage;
+            if (data.date.split('T')[0] === dayToday()) {
+                percentage = data.percentage;
             }
         });
         return percentage;
@@ -65,8 +65,8 @@ const StatisticsComponent = () => {
         for (let index = -6; index <= 0; index++) {
             exerciseData.forEach(data => {
                 //console.log(data.date.split('-')[2].split('T')[0]);
-                if(parseInt(data.date.split('-')[2].split('T')[0]) === parseInt(dayToday().split('-')[2])+index){
-                ddata.push([data.date.split('T')[0], data.percentage]);
+                if (parseInt(data.date.split('-')[2].split('T')[0]) === parseInt(dayToday().split('-')[2]) + index) {
+                    ddata.push([data.date.split('T')[0], data.percentage]);
                 }
             });
             //console.log(ddata)
@@ -88,32 +88,33 @@ const StatisticsComponent = () => {
         // }
         // return ddata;
     }
-      
-    
+
+
     const [inputData, setInputData] = useState({ items: [], exercises: [] });
 
     useEffect(() => {
         const exerciseArray = [];
         const nutritionArray = [];
         const groupedData = [];
-        
+
         // fetch(`http://localhost:3001/api/users/user/data?userId=${userId}`) // id пользователя как параметр
         // .then(response => response.json())
         // .then(data => setInputData(data))
         // .catch(error => console.error(error));
-          
+
         inputData.items.forEach((item) => {
-        //if(typeof(item) == Array)
-                let resultObject = {};
-                if(item!=null && item!==undefined){
+            //if(typeof(item) == Array)
+            let resultObject = {};
+            if (item != null && item !== undefined) {
                 item.forEach(el => {
-                    if(el!=null && el!==undefined){
+                    if (el != null && el !== undefined) {
                         let [key, value] = el.split(':');
                         key = key.replace(/'/g, '').trim();
                         value = value.replace(/'/g, '').trim();
                         value = !isNaN(value) ? parseInt(value, 10) : value; // Проверяем, является ли значение числом
                         resultObject[key] = value;
-                }});
+                    }
+                });
                 groupedData.push(resultObject)
             }
         }
@@ -151,20 +152,20 @@ const StatisticsComponent = () => {
         console.log(nutritionArray)
         var groupedNutrition = []
         nutritionArray.forEach(element => {
-            if(!(element['date'] in groupedNutrition))
+            if (!(element['date'] in groupedNutrition))
                 groupedNutrition[element['date']] = { percentage: 0 };
         });
-        
+
         console.log(groupedNutrition)
         nutritionArray.forEach(element => {
-            groupedNutrition.forEach(el2 => { 
-                    console.log(element['date']+el2['date'])
+            groupedNutrition.forEach(el2 => {
+                console.log(element['date'] + el2['date'])
             });
         });
         console.log(groupedNutrition)
         setNutritionData();
     }, []);
-    
+
 
 
 
@@ -189,7 +190,7 @@ const StatisticsComponent = () => {
         </div>
 
 
-          
+
     );
 };
 

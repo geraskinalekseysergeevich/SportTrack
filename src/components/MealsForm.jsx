@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import MealItem from './MealItem';
 import MealItemAddForm from './MealItemAddForm';
 import classes from '../UI/MealsForm.module.css';
@@ -16,7 +16,7 @@ const MealsForm = () => {
         setOpenAddItem(!openAddItem);
     };
 
-    const onAddItem = async(item) => {
+    const onAddItem = async (item) => {
         const items = foodItems.filter(el => el.id !== item.id)
         items.push(item);
         setFoodItems(items);
@@ -35,19 +35,19 @@ const MealsForm = () => {
 
     const dayToday = () => {
         var currentdate = new Date();
-        if(currentdate.getMonth()+ 1 < 10){
-        var datetime =
+        if (currentdate.getMonth() + 1 < 10) {
+            var datetime =
+                currentdate.getFullYear() +
+                '-0' +
+                (currentdate.getMonth() + 1) +
+                '-' +
+                currentdate.getDate();
+        } else datetime =
             currentdate.getFullYear() +
-            '-0' +
+            '-' +
             (currentdate.getMonth() + 1) +
             '-' +
             currentdate.getDate();
-        } else datetime =
-        currentdate.getFullYear() +
-        '-' +
-        (currentdate.getMonth() + 1) +
-        '-' +
-        currentdate.getDate();
         return datetime;
     }
 
@@ -75,7 +75,7 @@ const MealsForm = () => {
     //                 },
     //                 body: JSON.stringify({userId, items}),
     //               });
-            
+
     //               if (response.ok) {
     //                 const { token, userId } = await response.json();
     //                 console.log(userId);
@@ -92,40 +92,44 @@ const MealsForm = () => {
     //         }
 
     return (
-        <div className={classes.mealsform__container}>
-            <div className={classes.mealsform_header}>
-                <h1>Добавить приём пищи</h1>
-                <img src={require('../sources/avatar.png')} alt="" />
-            </div>
-            <div className={classes.title__container}>
-                <label>Название:</label>
-                <input
-                    type="text"
-                    id="meal-name-input"
-                    placeholder="Завтрак | Обед | Ужин"
-                    value={mealName}
-                    onChange={(e) => setMealName(e.target.value)}
-                />
-            </div>
-            <div className={classes.mealdata__container}>
-                {foodItems.map((item) =>
-                    <MealItem key={item.id} model={item} onEditItem={onEditItem} onRemoveItem={onRemoveItem}/>
-                )}
-                
-                {openAddItem && (<MealItemAddForm model={editedItem} onSave={onAddItem}/>)}
-
-                <div className={classes.bottom_buttons}>
-                    <div className={classes.icons__container} onClick={toggleAddItemMenu}>
-                        <img src={plus_icon} alt="plus icon"/>
+        <>
+            <div className={classes.mealsform__section}>
+                <div className={classes.mealsform__container}>
+                    <div className={classes.mealsform_header}>
+                        <h1>Добавить приём пищи</h1>
+                        <img src={require('../sources/avatar.png')} alt="" />
                     </div>
-                    {/* handleSaveAll */}
-                    <div className={classes.icons__container}>
-                        <img src={save_icon} alt="save icon"/>
+                    <div className={classes.title__container}>
+                        <label for="meal-name-input">Название:</label>
+                        <input
+                            type="text"
+                            id="meal-name-input"
+                            placeholder="Завтрак | Обед | Ужин"
+                            value={mealName}
+                            onChange={(e) => setMealName(e.target.value)}
+                        />
+                    </div>
+                    <div className={classes.mealdata__container}>
+                        {foodItems.map((item) =>
+                            <MealItem key={item.id} model={item} onEditItem={onEditItem} onRemoveItem={onRemoveItem} />
+                        )}
+
+                        {openAddItem && (<MealItemAddForm model={editedItem} onSave={onAddItem} />)}
+
+                        <div className={classes.bottom_buttons}>
+                            <div className={classes.icons__container} onClick={toggleAddItemMenu}>
+                                <img src={plus_icon} alt="plus icon" />
+                            </div>
+                            {/* handleSaveAll */}
+                            <div className={classes.icons__container}>
+                                <img src={save_icon} alt="save icon" />
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <TabBar/>
-        </div>
+            <TabBar />
+        </>
     );
 };
 

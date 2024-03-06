@@ -1,10 +1,10 @@
 import React from 'react';
 import classes from '../UI/ExerciseFormSelect.module.css';
 
-const ExerciseFormSelect = ({titleText, selectedWorkout, selectSaveFunc, savedWorkouts}) => {
+const ExerciseFormSelect = ({ titleText, selectedWorkout, selectSaveFunc, savedWorkouts }) => {
     return (
         <div className={classes.select__container}>
-            <h1>{titleText}</h1>
+            <h2>{titleText}</h2>
             <select
                 name="selectSaved"
                 defaultValue={selectedWorkout.name}
