@@ -22,6 +22,7 @@ const StatisticsComponent = ({ userId }) => {
                 (currentdate.getMonth() + 1) +
                 '-' +
                 currentdate.getDate();
+
         } else
             datetime =
                 currentdate.getFullYear() +
@@ -170,6 +171,7 @@ const StatisticsComponent = ({ userId }) => {
                 if (!(element['date'] in groupedExercises))
                     groupedExercises[element['date']] = { percentage: 0 };
             });
+
             for (let item of exerciseArray) {
                 if (groupedExercises[item.date]) {
                     groupedExercises[item.date].percentage += item.percentage;

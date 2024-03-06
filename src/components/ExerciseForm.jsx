@@ -9,6 +9,7 @@ import TabBar from './TabBar';
 
 
 function ExerciseForm({ userId }) {
+
     const [activeTab, setActiveTab] = useState('default');
 
     const [exerciseData, setExerciseData] = useState({});
@@ -171,6 +172,7 @@ function ExerciseForm({ userId }) {
         // сохранение уникальной тренировки в savedWorkouts
         if (Object.keys(savedWorkouts).length === 0) {
             setSavedWorkouts(() => {
+
                 const updatedState = { [exerciseData.name]: exerciseData };
                 console.log('saved 1 workouts', updatedState);
                 return updatedState;
@@ -184,6 +186,7 @@ function ExerciseForm({ userId }) {
                 console.log('saved 2 workouts', updatedState);
                 return updatedState;
             });
+
         }
         // сбрасываем все инпуты
         resetExercise();
@@ -193,11 +196,13 @@ function ExerciseForm({ userId }) {
     };
 
     const tryToSave = (saveExercise) => {
+
         return () => {
             // проверка на пустое имя
             if (exerciseData.name === undefined || exerciseData.name === '') {
                 setError(1);
                 console.log('пустое имя');
+
             }
             // проверка на существующее имя
             else if (exerciseData.name in savedWorkouts) {
@@ -230,13 +235,11 @@ function ExerciseForm({ userId }) {
         const seconds = Math.floor((timer / 1000) % 60);
         const minutes = Math.floor((timer / (1000 * 60)) % 60);
 
-        return `${minutes < 10 ? `0${minutes}` : minutes}:${
-            seconds < 10 ? `0${seconds}` : seconds
-        }:${
-            milliseconds < 100
+        return `${minutes < 10 ? `0${minutes}` : minutes}:${seconds < 10 ? `0${seconds}` : seconds
+            }:${milliseconds < 100
                 ? `0${Math.floor(milliseconds / 10)}`
                 : Math.floor(milliseconds / 10)
-        }`;
+            }`;
     };
 
     const handleSelectSaved = (workoutName) => {
@@ -318,6 +321,7 @@ function ExerciseForm({ userId }) {
         stopTimer();
         resetTimer();
     };
+
 
     useEffect(() => {
         if (selectedWorkout) {

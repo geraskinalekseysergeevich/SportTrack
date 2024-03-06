@@ -10,6 +10,7 @@ const LoginForm = () => {
     const [error, setError] = useState('')
     const navigate = useNavigate()
 
+
     const handleLogin = async (e) => {
         e.preventDefault();
         var email = userData.email;
@@ -35,13 +36,14 @@ const LoginForm = () => {
             navigate('/trainings', { state: { userId } });
 
 
-          } else {
-            console.error('Login failed');
-          }
+
+            } else {
+                console.error('Login failed');
+            }
         } catch (error) {
-          console.error('Login error:', error);
+            console.error('Login error:', error);
         }
-      };
+    };
 
     const handleChange = (e) => {
 

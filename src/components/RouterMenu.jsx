@@ -7,7 +7,7 @@ const RouterMenu = () => {
     const navigate = useNavigate
     const location = useLocation();
     const userId = location.state?.userId;
-    function nav(pathname){
+    function nav(pathname) {
         navigate(pathname, { state: { userId } });
     }
     const home = {
@@ -41,35 +41,41 @@ const RouterMenu = () => {
         }
     };
 
-    console.log(userId);
+    // console.log(userId);
     return (
-        <nav>
-            <ul className={classes.router_menu_container}>
-                <li>
-                    <Link to={'/'}>Start</Link>
-                </li>
-                <li>
-                    <Link to={'/register'}>Register</Link>
-                </li>
-                <li>
-                    <Link to={'/login'}>Login</Link>
-                </li>
-                <li>
-                    <Link to={home}>Home</Link>
-                </li>
-                <li>
-                    <Link to={trainings}>Trainings</Link>
-                </li>
-                <li>
-                    <Link to={meals}>Meals</Link>
-                </li>
-                <li>
-                    <Link to={statistics}>Stats</Link>
-                </li>
-                <li>
-                    <Link to={profile}>Profile</Link>
-                </li>
-            </ul>
+        <nav className={classes.nav}>
+            <div className={classes.nav__container}>
+                <div className={classes.brand}>
+                    Sport Track
+                    {/* <img src="../sources/startpage/ion_fitness.svg" alt="" /> */}
+                </div>
+                <ul className={classes.nav__list}>
+                    <li className={classes.nav__item}>
+                        <Link to={'/'}>Start</Link>
+                    </li>
+                    <li className={classes.nav__item}>
+                        <Link to={'/register'}>Register</Link>
+                    </li>
+                    <li className={classes.nav__item}>
+                        <Link to={'/login'}>Login</Link>
+                    </li>
+                    <li className={classes.nav__item}>
+                        <Link to={home}>Home</Link>
+                    </li>
+                    <li className={classes.nav__item}>
+                        <Link to={trainings}>Trainings</Link>
+                    </li>
+                    <li className={classes.nav__item}>
+                        <Link to={meals}>Meals</Link>
+                    </li>
+                    <li className={classes.nav__item}>
+                        <Link to={statistics}>Stats</Link>
+                    </li>
+                    <li className={classes.nav__item}>
+                        <Link to={profile}>Profile</Link>
+                    </li>
+                </ul>
+            </div>
         </nav>
     );
 };

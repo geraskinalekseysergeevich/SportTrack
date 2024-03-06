@@ -1,12 +1,10 @@
+.exerciseform__section {
+    composes: section from '../App.css';
+    background: #1d2021;
+}
+
 .exerciseform__container {
-    background-color: #1d2021;
-    width: 390px;
-    height: 844px;
-    border-radius: 30px;
-    padding: 50px 23px;
-    color: #FFF;
-    position: relative;
-    overflow: hidden;
+    composes: container from '../App.css';
 }
 .forms__container {
     margin-top: 20px;
@@ -21,18 +19,36 @@
     padding: 0 10px;
 }
 .page_header > h1 {
-    color: #FFF;
+    color: #fff;
     text-align: center;
     font-variant-numeric: lining-nums proportional-nums;
     font-feature-settings: 'dlig' on;
-    font-family: "Montserrat";
+    font-family: 'Montserrat';
     font-size: 24px;
     font-style: normal;
-    font-weight: 400;
+    font-weight: 700;
     line-height: 120%;
     letter-spacing: 0.24px;
     text-align: left;
+    font-size: 30px;
 }
 .page_header > img {
     margin-left: auto;
+}
+
+h2 {
+    font-size: 20px;
+    font-weight: 500;
+}
+
+@media screen and (width <= 768px) {
+}
+
+@media screen and (width <= 576px) {
+    .page_header > h1 {
+        font-size: 24px;
+    }
+    h2 {
+        font-size: 18px;
+    }
 }

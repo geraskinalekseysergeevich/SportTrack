@@ -1,75 +1,65 @@
-.start__container {
-    width: 390px;
-    height: 844px;
-    border-radius: 30px;
-    background: url('../sources/startpage/background.png'), lightgray 50% / cover no-repeat;
-    background-position: 50% 100%;
+.start__section {
+    composes: section from '../App.css';
+    /* background: url('../sources/startpage/background.png'),
+        lightgray 50% / cover no-repeat; */
+    background: linear-gradient(
+        45deg,
+        rgb(201, 18, 18),
+        #781818,
+        #2b0707,
+        black,
+        #2b0707,
+        #781818,
+        rgb(201, 18, 18)
+    );
 }
-.body__container {
+.start__container {
+    composes: container from '../App.css';
     display: flex;
     flex-direction: column;
-    padding: 334px 0 0 0;
-}
-.heart_image {
-    display: block;
-    margin: auto;
-}
-.hello_textblock {
-    text-align: center;
-    margin-top: 16px;
-}
-.hello_textblock h1 {
-    color: #FFF;
-    font-variant-numeric: lining-nums proportional-nums;
-    font-feature-settings: 'dlig' on;
-    font-family: "Azeret Mono";
-    font-size: 36px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: 20px; /* 55.556% */
-    letter-spacing: 0.36px;
-    max-width: 240px;
-    margin: auto;
-}
-.hello_textblock p {
-    color: #FFF;
-    text-align: center;
-    font-variant-numeric: lining-nums proportional-nums;
-    font-feature-settings: 'dlig' on;
-    font-family: 'Montserrat';
-    font-size: 20px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: 24px; /* 120% */
-    letter-spacing: 0.2px;
-    max-width: 312px;
-    margin: auto;
-    padding-top: 40px;
-}
-.start_button {
-    text-decoration: none;
-    display: block;
-    margin: auto;
-    margin-top: 40px;
-}
-.register_button {
-    width: 265px;
-    height: 51px;
-    border-radius: 30px;
-    background: #FE0A0A;
-    display: flex;
     align-items: center;
     justify-content: center;
 }
-.register_button > p {
-    color: #FFF;
+
+.heart_image {
+    margin-bottom: 10px;
+}
+
+.hello_textblock {
     text-align: center;
-    font-variant-numeric: lining-nums proportional-nums;
-    font-feature-settings: 'dlig' on;
-    font-family: 'Montserrat';
+}
+
+.hello_textblock h1 {
+    font-size: 36px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    margin-bottom: 10px;
+}
+.hello_textblock p {
+    font-size: 20px;
+    padding: 0 5px;
+    max-width: 600px;
+}
+.register_button {
+    border-radius: 20px;
+    background: #fe0a0a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.5s;
+    margin-top: 25px;
+}
+.register_button > p {
+    color: #fff;
+    padding: 15px 40px;
+    text-align: center;
     font-size: 28px;
-    font-style: normal;
     font-weight: 500;
-    line-height: 20px; /* 71.429% */
     letter-spacing: 0.28px;
+}
+
+.register_button:hover {
+    background-color: #d10a0a;
+    transform: scale(1.1);
+    font-weight: 600;
 }
