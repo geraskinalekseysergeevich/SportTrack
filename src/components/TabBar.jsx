@@ -14,7 +14,7 @@ const TabBar = () => {
                 {/* {activePage === 1 && <div></div>} */}
             </Link>
             <Link to='/trainings' className={classes.tabbar__page}>
-                <i className={`fi fi-ss-gym ${classes.tabbar__icon}`} nClick={() => setActivePage(2)}></i>
+                <i className={`fi fi-ss-gym ${classes.tabbar__icon}`} onClick={() => setActivePage(2)}></i>
                 <p className={classes.page__name}>Тренировки</p>
                 {activePage === 2 && <div></div>}
             </Link>

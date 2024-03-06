@@ -4,10 +4,10 @@ import TabBar from '../components/TabBar';
 
 const HomePage = () => {
     return (
-        <>
+        <div>
             <HomeData />
             <TabBar />
-        </>
+        </div>
     );
 };
 
