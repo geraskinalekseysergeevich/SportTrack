@@ -10,12 +10,23 @@ const LoginForm = () => {
     const [error, setError] = useState('')
     const navigate = useNavigate()
 
+    const handeLogin = () => {
+        setUserData({
+            email: '',
+            password: ''
+        })
+
+        startTransition(() => {
+            navigate('/home')
+        })
+    }
 
     const handleLogin = async (e) => {
         e.preventDefault();
         var email = userData.email;
         var password = userData.password;
         try {
+
           const response = await fetch('http://localhost:3001/api/users/login', {
             method: 'POST',
             headers: {
@@ -35,8 +46,6 @@ const LoginForm = () => {
 
             navigate('/trainings', { state: { userId } });
             navigate('/statistics', { state: { userId } }); 
-
-
 
             } else {
                 console.error('Login failed');
