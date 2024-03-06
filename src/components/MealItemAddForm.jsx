@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import classes from '../UI/MealItemAddForm.module.css';
 
-const MealItemAddForm = ({_model, onSave}) => {
+const MealItemAddForm = ({ _model, onSave }) => {
 
     const [model, setModel] = useState(_model ?? {});
     const [inputError, setInputError] = useState(0);
@@ -55,16 +55,16 @@ const MealItemAddForm = ({_model, onSave}) => {
                         type="radio"
                         value="TOTAL"
                         checked={model.isTotal}
-                        onChange={(e) => setModel({...model, isTotal: true})}
+                        onChange={(e) => setModel({ ...model, isTotal: true })}
                     />
                 </div>
                 <div>
-                    <label>На 100г.</label>
+                    <label>На 100г</label>
                     <input
                         type="radio"
                         value="PER100GRAMM"
                         checked={!model.isTotal}
-                        onChange={(e) => setModel({...model, isTotal: false})}
+                        onChange={(e) => setModel({ ...model, isTotal: false })}
                     />
                 </div>
             </div>
@@ -113,7 +113,7 @@ const MealItemAddForm = ({_model, onSave}) => {
                     <div className={classes.error__container}>
                          <p>Неправильно введены данные</p>
                     </div>
-                ): null
+                ) : null
             }
             <div className={classes.footer_button}>
                 <button onClick={calculateTotal}>Сохранить</button>

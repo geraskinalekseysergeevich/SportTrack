@@ -1,17 +1,18 @@
-.mealitem_container{
-    background: #ffffff;
+.mealitem_container {
+    background: #3a3a3a;
     width: 100%;
     border-radius: 10px;
     flex-direction: row;
-    padding: 1px 0 1px 10px;
-    color: #000;
+    padding: 10px;
+    color: #fff;
+    margin-bottom: 10px;
 }
 
-.mealitem_container label, span {
-    color: #000000;
+.mealitem_container label,
+span {
     font-variant-numeric: lining-nums proportional-nums;
     font-feature-settings: 'dlig' on;
-    font-family: "Montserrat";
+    font-family: 'Montserrat';
     font-size: 14px;
     font-style: normal;
     font-weight: 500;
@@ -36,12 +37,18 @@
 }
 
 .meal_buttons button {
+    color: rgba(255, 255, 255, 0.7);
+    transition: 0.3s;
     font-family: 'Montserrat';
-    color: #000;
     font-weight: 400;
     font-size: 14px;
     background: none;
     border: none;
     cursor: pointer;
-    padding: 5px 5px;
+    padding: 0px 5px;
+    margin-top: 5px;
+}
+
+.meal_buttons button:hover {
+    color: rgba(255, 255, 255, 1);
 }

@@ -1,13 +1,15 @@
 .mealaddform__container {
     border-radius: 10px;
-    width: 290px;
-    background: #FBFBFB;
-    padding: 9.5px 15px 9.5px 15px;
+    width: 100%;
+    background: #3a3a3a;
+    padding: 15px;
 }
 
 .mealaddform__container > div {
     display: flex;
     align-items: center;
+    margin-bottom: 10px;
+    /* background: #4f4f4f; */
 }
 .mealaddform__container input {
     border-radius: 5px;
@@ -16,31 +18,33 @@
 }
 
 .mealaddform__container label {
-    color: #000000;
     font-variant-numeric: lining-nums proportional-nums;
     font-feature-settings: 'dlig' on;
-    font-family: "Montserrat";
+    font-family: 'Montserrat';
     font-size: 14px;
     font-style: normal;
     font-weight: 500;
     line-height: 142%; /* 142.857% */
     letter-spacing: 0.14px;
+    margin-right: 5px;
 }
 .mealaddform__container input[placeholder] {
     font-variant-numeric: lining-nums proportional-nums;
     font-feature-settings: 'dlig' on;
-    font-family: "Montserrat";
+    font-family: 'Montserrat';
     font-size: 12px;
     font-style: normal;
     font-weight: 500;
     line-height: 20px;
     letter-spacing: 0.14px;
-    color: #BBBBBB;
+    color: #bbbbbb;
 }
 
 .mealaddform__container input[value] {
     padding-left: 5px;
     color: #000000;
+    max-width: 200px;
+    width: 100%;
 }
 
 .weight > input {
@@ -56,7 +60,7 @@
 .mealaddform__container .footer_button button {
     height: 25px;
     font-family: 'Montserrat';
-    color: #000;
+    color: rgba(255, 255, 255, 0.7);
     font-weight: 400;
     font-size: 14px;
     background: none;
@@ -65,10 +69,10 @@
 }
 
 .mealaddform__container .footer_button button:hover {
-    color: #606060;
+    color: rgba(255, 255, 255, 1);
 }
 
-.mealaddform__container .radio > div{
+.mealaddform__container .radio > div {
     display: flex;
     align-items: center;
 }
@@ -79,6 +83,7 @@
 
 .mealaddform__container .radio input {
     margin-left: 3px;
+    width: 15px;
 }
 
 .mealaddform__container .error__container {
