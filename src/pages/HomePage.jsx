@@ -1,13 +1,13 @@
 import React from 'react';
-import HumanData from '../components/HumanData';
-import PersonActivities from '../components/PersonActivities';
+import HomeData from '../components/HomeData';
+import TabBar from '../components/TabBar';
 
 const HomePage = () => {
     return (
-        <div>
-            <HumanData />
-            <PersonActivities />
-        </div>
+        <>
+            <HomeData />
+            <TabBar />
+        </>
     );
 };
 

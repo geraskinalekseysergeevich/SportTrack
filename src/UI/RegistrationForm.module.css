@@ -19,6 +19,7 @@
 
 .formField {
     width: 400px;
+    margin-bottom: 15px;
 }
 
 .formField > label {
@@ -34,7 +35,6 @@
     border: 5px solid #565656;
     border-radius: 15px;
     font-size: 16px;
-    margin-bottom: 15px;
     outline: none;
 }
 .form > button {
@@ -70,6 +70,38 @@
     color: #fff;
     font-family: 'Montserrat';
     font-size: 18px;
+}
+
+.footer_text {
+    text-align: center;
+    margin-top: 20px;
+}
+.flex__container {
+    display: flex;
+    justify-content: space-between;
+    margin: auto;
+}
+.noaccount_link {
+    color: #ccc7c7;
+    font-variant-numeric: lining-nums proportional-nums;
+    font-feature-settings: 'dlig' on;
+    font-family: 'Montserrat';
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 20px; /* 125% */
+    letter-spacing: 0.16px;
+}
+.register_link {
+    color: #29e33c;
+    font-variant-numeric: lining-nums proportional-nums;
+    font-feature-settings: 'dlig' on;
+    font-family: 'Montserrat';
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 20px; /* 111.111% */
+    letter-spacing: 0.18px;
 }
 
 @media screen and (width <= 576px) {

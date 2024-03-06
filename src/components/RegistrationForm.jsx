@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styles from '../UI/RegistrationForm.module.css';
+import { Link } from 'react-router-dom';
 
 const RegistrationForm = () => {
 
@@ -112,6 +113,12 @@ const RegistrationForm = () => {
                     <button type="submit">
                         <p className={styles.button_text}>Создать аккаунт</p>
                     </button>
+                    <div className={styles.footer_text}>
+                        <div className={styles.flex__container}>
+                            <p className={styles.noaccount_link}>Уже есть аккаунт?</p>
+                            <Link className={styles.register_link} to={'/login'}>Войти</Link>
+                        </div>
+                    </div>
                     {error !== '' && <p className={styles.error_message}>{error}</p>}
                 </form>
             </div>
