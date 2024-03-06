@@ -1,8 +1,9 @@
 import React from "react";
 import styles from "../UI/HomeData.module.css"
-import TabBar from "./TabBar";
+import { useNavigate } from "react-router-dom";
 
 const HomeData = ({userId}) => {
+    const navigate = useNavigate();
     return (
         <>
         <div className={styles.home__section}>
@@ -15,7 +16,7 @@ const HomeData = ({userId}) => {
                             С возвращением в SportTrack!
                             <p className={styles.name__user}>Макаров Семён</p>
                         </div>
-                        <img src={require("../sources/avatar.png")} alt="" />
+                        <img src={require('../sources/avatar.png')} alt="" onClick={() => navigate('/profile', { state: { userId } })}/>
                     </div>
                 </div>
 

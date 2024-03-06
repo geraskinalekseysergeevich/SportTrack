@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import MealItem from './MealItem';
 import MealItemAddForm from './MealItemAddForm';
 import classes from '../UI/MealsForm.module.css';
@@ -67,8 +67,9 @@ const MealsForm = ({userId}) => {
                 var items = ["date:'"+date+"'", "course:'"+course+"'", "name:'"+name+"'", "weight:"+Number(weight),
                  "calories:"+Number(calories), "protein:"+Number(protein), "carbs:"+Number(carbs), "fat:"+Number(fat)];
 
-                const response = await fetch('http://localhost:3001/api/users/saveUserCallorie', {
+                console.log(items);
 
+                const response = await fetch('http://localhost:3001/api/users/saveUserCallorie', {
                     method: 'POST',
                     headers: {
                       'Content-Type': 'application/json',
@@ -78,9 +79,10 @@ const MealsForm = ({userId}) => {
 
                   if (response.ok) {
                     const { token, userId } = await response.json();
+                    console.log(userId);
                     // Сохранение токена и ID пользователя, например, в локальном хранилище
                     console.log('Log successful');
-                    
+                    //navigate('/trainings', { state: { userId } });
                   } else {
                     console.error('Log failed');
                   }
@@ -89,13 +91,16 @@ const MealsForm = ({userId}) => {
                   console.error('Log error:', error);
                 }
             }
+
+            const navigate = useNavigate();
+
     return (
         <>
             <div className={classes.mealsform__section}>
                 <div className={classes.mealsform__container}>
                     <div className={classes.mealsform_header}>
                         <h1>Добавить приём пищи</h1>
-                        
+                        <img src={require('../sources/avatar.png')} alt="" onClick={() => navigate('/profile', { state: { userId } })}/>
                     </div>
                     <div className={classes.title__container}>
                         <label for="meal-name-input">Название:</label>
@@ -118,8 +123,9 @@ const MealsForm = ({userId}) => {
                             <div className={classes.icons__container} onClick={toggleAddItemMenu}>
                                 <img src={plus_icon} alt="plus icon" />
                             </div>
-                            <div className={classes.icons__container} onClick={handleSaveAll}>
-                                <img src={save_icon} alt="save icon" />
+                            
+                            <div className={classes.icons__container}>
+                                <img src={save_icon} alt="save icon" onClick={handleSaveAll}/>
                             </div>
                         </div>
                     </div>
