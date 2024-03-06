@@ -1,6 +1,7 @@
 import React from 'react';
 import TabBar from '../components/TabBar';
 import ProfileData from '../components/ProfileData';
+import { useLocation } from 'react-router-dom';
 
 
 const ProfilePage = () => {
@@ -10,7 +11,7 @@ const ProfilePage = () => {
     return (
         <>
             <ProfileData />
-            <TabBar />
+            <TabBar userId={userId}/>
         </>
     );
 };
