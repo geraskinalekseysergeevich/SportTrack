@@ -1,20 +1,17 @@
 import React, { useState, useEffect } from 'react';
-// import moment from 'moment';
-// import ProgressBar from 'react-customizable-progressbar';
-// import { Chart } from 'react-google-charts';
+import ProgressBar from 'react-customizable-progressbar';
+import { Chart } from 'react-google-charts';
 
-const StatisticsComponent = () => {
+const StatisticsComponent = ({ userId }) => {
     const [exerciseData, setExerciseData] = useState([]);
-    const [nutritionData, setNutritionData] = useState({ date: [], percentage: [] });
+    const [nutritionData, setNutritionData] = useState([]);
+    const exerciseArray = [];
+    const nutritionArray = [];
+    const groupedData = [];
+    const [inputData, setInputData] = useState({ items: [], exercises: [] });
+
     const recommendedTime = 60;
     const recommendedCalories = 2000;
-    //console.log(userId);
-
-    const log = () => {
-        //console.log(exerciseData);
-        //console.log(nutritionData);
-
-    }
 
     const dayToday = () => {
         var currentdate = new Date();
@@ -25,172 +22,237 @@ const StatisticsComponent = () => {
                 (currentdate.getMonth() + 1) +
                 '-' +
                 currentdate.getDate();
-        } else datetime =
-            currentdate.getFullYear() +
-            '-' +
-            (currentdate.getMonth() + 1) +
-            '-' +
-            currentdate.getDate();
+
+        } else
+            datetime =
+                currentdate.getFullYear() +
+                '-' +
+                (currentdate.getMonth() + 1) +
+                '-' +
+                currentdate.getDate();
         return datetime;
-    }
+    };
 
-    const getNutritionPercenatge = () => {
-        var percentage = 0
-        console.log(nutritionData)
+    const getPreviousWeek = () => {
+        const currentDate = new Date();
+        const currentDay = currentDate.getDate();
+        const currentMonth = currentDate.getMonth() + 1;
+        const currentYear = currentDate.getFullYear();
+        const weekArray = [];
 
-        //nutritionData.forEach(data => {
-        //console.log(data.date.split('T')[0] + '  ' + dayToday());
-        //console.log("!"+data)
-        // if(data.date.split('T')[0] === dayToday()){
-        // percentage = data.percentage;
-        // }
-        //});
-        return percentage;
-    }
+        for (let i = 0; i < 7; i++) {
+            let date = new Date(currentYear, currentMonth - 1, currentDay - i);
+            let day = date.getDate();
+            let month = date.getMonth() + 1;
+            let year = date.getFullYear();
 
-    const getExercisePercenatge = () => {
-        var percentage = 0
-        exerciseData.forEach(data => {
-            //console.log(data.date.split('T')[0] + '  ' + dayToday());
-            if (data.date.split('T')[0] === dayToday()) {
-                percentage = data.percentage;
-            }
-        });
-        return percentage;
-    }
+            if (month < 10) month = '0' + month;
 
-    const getExerciseChartData = () => {
-        var ddata = [["Date", "Выполнение тренировок"]];
-        // ddata.push(["Date", "Percentage", {role:"style"}])
-        for (let index = -6; index <= 0; index++) {
-            exerciseData.forEach(data => {
-                //console.log(data.date.split('-')[2].split('T')[0]);
-                if (parseInt(data.date.split('-')[2].split('T')[0]) === parseInt(dayToday().split('-')[2]) + index) {
-                    ddata.push([data.date.split('T')[0], data.percentage]);
-                }
-            });
-            //console.log(ddata)
+            weekArray.push(`${year}-${month}-${day}`);
         }
-        return ddata;
-    }
+        return weekArray;
+    };
+
+    //пофиксить здесь вместо NaN выводить 0
+    const getNutritionPercenatge = () => {
+        if (nutritionData[dayToday()] === undefined) return 0;
+        else return nutritionData[dayToday()];
+    };
 
     const getNutritionChartData = () => {
-        // var ddata = [["Date", "Норма калорий"]];
-        // // ddata.push(["Date", "Percentage", {role:"style"}])
-        // for (let index = -6; index <= 0; index++) {
-        //     nutritionData.forEach(data => {
-        //         console.log(data.date.split('-')[2].split('T')[0]);
-        //         if(parseInt(data.date.split('-')[2].split('T')[0]) === parseInt(dayToday().split('-')[2])+index){
-        //         ddata.push([data.date.split('T')[0], data.percentage]);
-        //         }
-        //     });
-        //     //console.log(ddata)
-        // }
-        // return ddata;
-    }
+        var ddata = [['Date', 'Норма калорий, %']];
+        var arr = nutritionData;
+        const weekArray = getPreviousWeek();
+        for (var i = 0; i < weekArray.length; i++) {
+            var date = weekArray[i];
+            if (arr[weekArray[i]] !== undefined) {
+                var calories = arr[weekArray[i]];
+            } else calories = 0;
+            ddata.push([date, calories]);
+        }
+        return ddata;
+    };
 
+    const getExercisePercenatge = () => {
+        if (nutritionData[dayToday()] === undefined) return 0;
+        else return exerciseData[dayToday()];
+    };
 
-    const [inputData, setInputData] = useState({ items: [], exercises: [] });
+    const getExerciseChartData = () => {
+        var ddata = [['Date', 'Норма времени, %']];
+        var arr = exerciseData;
+        const weekArray = getPreviousWeek();
+        for (var i = 0; i < weekArray.length; i++) {
+            var date = weekArray[i];
+            if (arr[weekArray[i]] !== undefined) {
+                var time = arr[weekArray[i]];
+            } else time = 0;
+            ddata.push([date, time]);
+        }
+        return ddata;
+    };
 
     useEffect(() => {
-        const exerciseArray = [];
-        const nutritionArray = [];
-        const groupedData = [];
-
-        // fetch(`http://localhost:3001/api/users/user/data?userId=${userId}`) // id пользователя как параметр
-        // .then(response => response.json())
-        // .then(data => setInputData(data))
-        // .catch(error => console.error(error));
-
-        inputData.items.forEach((item) => {
-            //if(typeof(item) == Array)
-            let resultObject = {};
-            if (item != null && item !== undefined) {
-                item.forEach(el => {
-                    if (el != null && el !== undefined) {
-                        let [key, value] = el.split(':');
-                        key = key.replace(/'/g, '').trim();
-                        value = value.replace(/'/g, '').trim();
-                        value = !isNaN(value) ? parseInt(value, 10) : value; // Проверяем, является ли значение числом
-                        resultObject[key] = value;
-                    }
-                });
-                groupedData.push(resultObject)
+        const fetchData = async () => {
+            try {
+                const response = await fetch(`http://localhost:3001/api/users/user/data?userId=${userId}`);
+                const data = await response.json();
+                setInputData(data);
+            } catch (error) {
+                console.log(error);
             }
-        }
-        );
+        };
+        fetchData();
+    }, [userId]);
 
+    useEffect(() => {
+        const load = async () => {
+            inputData.items.forEach((item) => {
+                let resultObject = {};
+                if (item != null && item !== undefined) {
+                    item.forEach((el) => {
+                        if (el != null && el !== undefined) {
+                            let [key, value] = el.split(':');
 
-        // inputData.forEach((item) => {
-        //    const date = moment(item.timecreated, 'DD/M/YYYY @ HH:mm:ss')
-        //        .startOf('day')
-        //        .format();
-
-        //     if (!(date in groupedData)) {
-        //         groupedData[date] = { trainTime: 0, calories: 0 };
-        //     }
-
-        //     if (item.type === 'train') {
-        //         const timeMinutes =
-        //             parseFloat(item.time.split(':')[0]);
-        //         groupedData[date].trainTime += timeMinutes;
-        //     } else if (item.type === 'calorie') {
-        //         groupedData[date].calories += item.calorie;
-        //     }
-        // });
-        Object.keys(groupedData).forEach((date) => {
-            nutritionArray.push({
-                date: groupedData[date].date,
-                percentage:
-                    (groupedData[date].calories / recommendedCalories) * 100,
+                            key = key.replace(/'/g, '').trim();
+                            value = value.replace(/'/g, '').trim();
+                            value = !isNaN(value) ? parseInt(value, 10) : value; // Проверяем, является ли значение числом
+                            resultObject[key] = value;
+                        }
+                    });
+                    groupedData.push(resultObject);
+                }
             });
-        });
-
-        //setExerciseData(exerciseArray);
-        //console.log(nutritionArray);
-        //console.log(nutritionData)
-        console.log(nutritionArray)
-        var groupedNutrition = []
-        nutritionArray.forEach(element => {
-            if (!(element['date'] in groupedNutrition))
-                groupedNutrition[element['date']] = { percentage: 0 };
-        });
-
-        console.log(groupedNutrition)
-        nutritionArray.forEach(element => {
-            groupedNutrition.forEach(el2 => {
-                console.log(element['date'] + el2['date'])
+            inputData.exercises.forEach((item) => {
+                let resultObject = {};
+                if (item != null && item !== undefined) {
+                    item.forEach((el) => {
+                        if (el != null && el !== undefined) {
+                            let [key, value] = el.split(':');
+                            key = key.replace(/'/g, '').trim();
+                            value = value.replace(/'/g, '').trim();
+                            value = !isNaN(value) ? parseInt(value, 10) : value; // Проверяем, является ли значение числом
+                            resultObject[key] = value;
+                        }
+                    });
+                    groupedData.push(resultObject);
+                }
             });
-        });
-        console.log(groupedNutrition)
-        setNutritionData();
-    }, []);
 
+            groupedData.forEach((data) => {
+                if (data['time'] !== undefined) {
+                    exerciseArray.push({
+                        date: data['date'],
+                        percentage: (data['time'] / recommendedTime) * 100,
+                    });
+                } else
+                    nutritionArray.push({
+                        date: data['date'],
+                        percentage:
+                            (data['calories'] / recommendedCalories) * 100,
+                    });
+            });
 
+            var groupedNutrition = [];
+            nutritionArray.forEach((element) => {
+                if (!(element['date'] in groupedNutrition))
+                    groupedNutrition[element['date']] = { percentage: 0 };
+            });
+            for (let item of nutritionArray) {
+                if (groupedNutrition[item.date]) {
+                    groupedNutrition[item.date].percentage += item.percentage;
+                }
+            }
 
+            var groupedExercises = [];
+            exerciseArray.forEach((element) => {
+                if (!(element['date'] in groupedExercises))
+                    groupedExercises[element['date']] = { percentage: 0 };
+            });
+
+            for (let item of exerciseArray) {
+                if (groupedExercises[item.date]) {
+                    groupedExercises[item.date].percentage += item.percentage;
+                }
+            }
+
+            const arr = [];
+            const arr2 = [];
+
+            nutritionArray.forEach((obj) => {
+                const date = obj.date;
+                if (!arr[date]) {
+                    arr[date] = 0;
+                }
+                arr[date] += obj.percentage;
+            });
+
+            exerciseArray.forEach((obj) => {
+                const date = obj.date;
+                if (!arr2[date]) {
+                    arr2[date] = 0;
+                }
+                arr2[date] += obj.percentage;
+            });
+
+            setExerciseData(arr2);
+            setNutritionData(arr);
+        };
+        load();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [inputData.items]);
 
     return (
         <div>
-
-            {/* 
-            <div style={{display:'inline-block'}}>
-            <div><h1>Нагрузки</h1><p>{parseInt(getExercisePercenatge())}%/100%</p></div>
-            <div style={{width:200, height:200, margin:'auto', display:'inline-block'}}>
-                <ProgressBar progress={getExercisePercenatge()} strokeColor='red'></ProgressBar>
+            <div style={{ display: 'inline-block' }}>
+                <div>
+                    <h1>Нагрузки</h1>
+                    <p>{parseInt(getExercisePercenatge())}%/100%</p>
+                </div>
+                <div
+                    style={{
+                        width: 200,
+                        height: 200,
+                        margin: 'auto',
+                        display: 'inline-block',
+                    }}
+                >
+                    <ProgressBar
+                        progress={getExercisePercenatge()}
+                        strokeColor="red"
+                    ></ProgressBar>
+                </div>
+                <div>
+                    <h1>Еда</h1>
+                    <p>{parseInt(getNutritionPercenatge())}%/100%</p>
+                </div>
+                <div
+                    style={{
+                        width: 200,
+                        height: 200,
+                        margin: 'auto',
+                        display: 'inline-block',
+                    }}
+                >
+                    <ProgressBar
+                        progress={getNutritionPercenatge()}
+                        strokeColor="lime"
+                    ></ProgressBar>
+                </div>
             </div>
-            <div><h1>Еда</h1><p>{parseInt(getNutritionPercenatge())}%/100%</p></div>
-            <div style={{width:200, height:200, margin:'auto', display:'inline-block'}}>
-                <ProgressBar progress={getNutritionPercenatge()} strokeColor='lime'></ProgressBar>
-            </div>
-            </div>
-            <Chart chartType="ColumnChart" width="100%" height="400px" data={getExerciseChartData()} />
-            <Chart chartType="ColumnChart" width="100%" height="400px" data={getNutritionChartData()} />
-            {}
-            {log()} */}
+            <Chart
+                chartType="ColumnChart"
+                width="100%"
+                height="400px"
+                data={getExerciseChartData()}
+            />
+            <Chart
+                chartType="ColumnChart"
+                width="100%"
+                height="400px"
+                data={getNutritionChartData()}
+            />
         </div>
-
-
-
     );
 };
 
