@@ -73,7 +73,7 @@
 }
 
 @media screen and (width <= 576px) {
-    .login_form {
+    .formField {
         width: 300px;
     }
 }

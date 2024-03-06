@@ -11,22 +11,26 @@ const TabBar = () => {
 
     return (
         <div className={classes.tabbar__container}>
-            <div>
-                <img src={home_icon} alt="home" onClick={() => setActivePage(1)}/>
-                {activePage === 1 && <div></div>}
-            </div>
-            <div>
-                <img src={train_icon} alt="train" onClick={() => setActivePage(2)}/>
+            <a className={classes.tabbar__page}>
+                <i className={`fi fi-sr-home ${classes.tabbar__icon}`} onClick={() => setActivePage(1)}>   </i>
+                <p className={classes.page__name}>Домашняя</p>
+                {/* {activePage === 1 && <div></div>} */}
+            </a>
+            <a className={classes.tabbar__page}>
+                <i className={`fi fi-ss-gym ${classes.tabbar__icon}`} nClick={() => setActivePage(2)}></i>
+                <p className={classes.page__name}>Тренировки</p>
                 {activePage === 2 && <div></div>}
-            </div>
-            <div>
-                <img src={kcal_icon} alt="kcal" onClick={() => setActivePage(3)}/>
+            </a>
+            <a className={classes.tabbar__page}>
+                <i className={`fi fi-sr-utensils ${classes.tabbar__icon}`} onClick={() => setActivePage(3)}></i>
+                <p className={classes.page__name}>Калории</p>
                 {activePage === 3 && <div></div>}
-            </div>
-            <div>
-                <img src={stats_icon} alt="stats" onClick={() => setActivePage(4)}/>
+            </a>
+            <a className={classes.tabbar__page}>
+                <i className={`fi fi-br-stats ${classes.tabbar__icon}`} onClick={() => setActivePage(4)}></i>
+                <p className={classes.page__name}>Прогресс</p>
                 {activePage === 4 && <div></div>}
-            </div>
+            </a>
         </div>
     );
 };
