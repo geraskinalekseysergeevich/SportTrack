@@ -1,12 +1,18 @@
 import React from "react";
 import styles from "../UI/ProfileData.module.css";
+import { useNavigate } from 'react-router-dom';
+import TabBar from "./TabBar";
 
-const ProfileData = () => {
+const ProfileData = ({userId}) => {
+
+    const navigate = useNavigate();
+
     return (
+        <>
         <div className={styles.profile__section}>
             <div className={styles.profile__container}>
                 <div className={styles.profile__header}>
-                    <i className={`fi fi-br-arrow-left ${styles.profile_icon}`}></i>
+                    <i className={`fi fi-br-arrow-left ${styles.profile_icon}`} onClick={() => navigate('/home', { state: { userId } })}></i>
                     <img src={require("../sources/avatar.png")} alt="" className={styles["profile-img"]} />
 
 
@@ -41,8 +47,14 @@ const ProfileData = () => {
                         <br /><br />Я уверен, что через труд и постоянное совершенствование можно достигнуть любой цели. Вне тренировок я обычный человек, который верит в силу воли и стремится вдохновлять других к здоровому образу жизни
                     </p>
                 </div>
+                {/* у этой кнопки не задан стиль но я его назвал для тебя */}
+                <div>
+                    <button className={styles["person-exit"]} onClick={() => navigate('/', { state: {} })}>Выйти</button>
+                </div>
             </div>
         </div>
+        <TabBar userId={userId}/>
+        </>
     );
 };
 

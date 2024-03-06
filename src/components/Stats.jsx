@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import ProgressBar from 'react-customizable-progressbar';
 import { Chart } from 'react-google-charts';
 import TabBar from './TabBar';
+import { useNavigate } from 'react-router-dom';
 
 const StatisticsComponent = ({ userId }) => {
     const [exerciseData, setExerciseData] = useState([]);
@@ -203,8 +204,11 @@ const StatisticsComponent = ({ userId }) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [inputData.items]);
 
+    const navigate = useNavigate();
+
     return (
         <>
+        <img src={require('../sources/avatar.png')} alt="" onClick={() => navigate('/profile', { state: { userId } })}/>
         <div>
             <div style={{ display: 'inline-block' }}>
                 <div>

@@ -6,6 +6,7 @@ import ActivityExerciseButton from './ActivityExerciseButton';
 import GetExerciseForm from './GetExerciseForm';
 import ExerciseError from './ExerciseError';
 import TabBar from './TabBar';
+import { useNavigate } from 'react-router-dom';
 
 function ExerciseForm({userId}) {
     const [activeTab, setActiveTab] = useState('default');
@@ -311,13 +312,16 @@ function ExerciseForm({userId}) {
         }
     }, [selectedWorkout])
 
+    const navigate = useNavigate();
+
     return (
         <>
         <div className={classes.exerciseform__section}>
         <div className={classes.exerciseform__container}>
             <div className={classes.page_header}>
                 <h1>Добавить упражнение</h1>
-                <img src={require('../sources/avatar.png')} alt="" />
+                <img src={require('../sources/avatar.png')} alt="" onClick={() => navigate('/profile', { state: { userId } })}/>
+
             </div>
             <div className={classes.forms__container}>
                 {activeTab === 'addExercise'

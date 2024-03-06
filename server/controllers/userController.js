@@ -101,21 +101,6 @@ await user.save();
     res.status(500).json({ error: 'Внутренняя ошибка сервера' });
   }
 };
-const getUsrData = async(req, res) => {
-  console.log(req.params.userId);
-  try {
-    const userId = req.params.userId;
-    const userData = await User.findById(userId, 'items exercises'); // Выбираем только поля 'items' и 'exercises'
-
-    if (!userData) {
-      return res.status(404).json({ message: 'Пользователь не найден' });
-    }
-
-    res.json({ items: userData.items, exercises: userData.exercises });
-  } catch (error) {
-    res.status(500).json({ message: 'Ошибка сервера', error: error.message });
-  }
-}
 
   const getUserData = async(req, res) => {
     try {
@@ -129,23 +114,6 @@ const getUsrData = async(req, res) => {
     }
   }
 
-const getUseData = async (req, res) => {
-  try {
-    const userId = req.params.userId;
-
-    // Поиск пользователя по ID
-    const user = await User.findById(userId);
-    if (!user) {
-      return res.status(404).json({ error: 'Пользователь не найден' });
-    }
-
-    // Возвращение данных пользователя
-    res.status(200).json({ userData: user.entries });
-  } catch (error) {
-    console.error('Ошибка при получении данных пользователя:', error);
-    res.status(500).json({ error: 'Внутренняя ошибка сервера' });
-  }
-};
 
 module.exports = {
   registerUser,
