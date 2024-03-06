@@ -1,0 +1,71 @@
+.person-data {
+    width: 100%;
+    background: #3a3a3a;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    margin-bottom: 20px;
+}
+
+.person-data-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    width: 100%;
+    padding: 15px 0;
+}
+
+.card-icon {
+    font-size: 25px;
+}
+
+.card-value {
+    color: #29e33c;
+}
+
+.person__information {
+    width: 100%;
+    background: #3a3a3a;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 20px;
+    margin: 0 auto;
+}
+
+.person__information__title {
+    margin: 0 auto;
+    font-size: 25px;
+    font-weight: 600;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #fff;
+}
+
+.person__information__text {
+    padding: 15px;
+    border-radius: 10px;
+    background: #5d5d5d;
+    line-height: 170%;
+    width: 100%
+}
+
+.person-exit {
+    text-align: center;
+}
+
+.person-exit > button {
+    padding: 7px;
+    font-size: 16px;
+    font-family: 'Montserrat';
+    border: none;
+    border-radius: 5px;
+    background: #5d5d5d;
+    cursor: pointer;
+    margin-top: 20px;
+    color: #fff;
+}
