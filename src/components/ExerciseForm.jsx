@@ -7,7 +7,7 @@ import GetExerciseForm from './GetExerciseForm';
 import ExerciseError from './ExerciseError';
 import TabBar from './TabBar';
 
-function ExerciseForm() {
+function ExerciseForm({userId}) {
     const [activeTab, setActiveTab] = useState('default');
 
     const [exerciseData, setExerciseData] = useState({});
@@ -67,9 +67,9 @@ function ExerciseForm() {
         setSavedWorkouts((prevState) => {
             const updatedState = {}
             for (const [key, value] of Object.entries(prevState)) {
-                updatedState[key === preEditName ? selectedWorkout.name : key] =
-                    key === preEditName
-                        ? { ...value, ...selectedWorkout }
+                updatedState[key === preEditName ? selectedWorkout.name : key] = 
+                    key === preEditName 
+                        ? { ...value, ...selectedWorkout } 
                         : value;
             }
 
@@ -121,6 +121,24 @@ function ExerciseForm() {
         setTimer(0)
     };
 
+    const dayToday = () => {
+        var currentdate = new Date();
+        if(currentdate.getMonth()+ 1 < 10){
+        var datetime =
+            currentdate.getFullYear() +
+            '-0' +
+            (currentdate.getMonth() + 1) +
+            '-' +
+            currentdate.getDate();
+        } else datetime =
+        currentdate.getFullYear() +
+        '-' +
+        (currentdate.getMonth() + 1) +
+        '-' +
+        currentdate.getDate();
+        return datetime;
+    }
+
     const getCurrentDatetime = () => {
         // получаем текущую дату
         const currentdate = new Date();
@@ -148,13 +166,13 @@ function ExerciseForm() {
         // сохранение уникальной тренировки в savedWorkouts
         if (Object.keys(savedWorkouts).length === 0) {
             setSavedWorkouts(() => {
-                const updatedState = { [exerciseData.name]: exerciseData }
+                const updatedState = {[exerciseData.name]: exerciseData}
                 console.log('saved 1 workouts', updatedState)
                 return updatedState
             })
         } else {
             setSavedWorkouts(prevState => {
-                const updatedState = { ...prevState, [exerciseData.name]: exerciseData }
+                const updatedState = {...prevState, [exerciseData.name]: exerciseData}
                 console.log('saved 2 workouts', updatedState)
                 return updatedState
             })
@@ -167,13 +185,13 @@ function ExerciseForm() {
     };
 
     const tryToSave = (saveExercise) => {
-
+         
         return () => {
             // проверка на пустое имя
             if (exerciseData.name === undefined || exerciseData.name === '') {
                 setError(1)
                 console.log('пустое имя')
-            }
+            } 
             // проверка на существующее имя
             else if (exerciseData.name in savedWorkouts) {
                 setError(2)
@@ -205,11 +223,13 @@ function ExerciseForm() {
         const seconds = Math.floor((timer / 1000) % 60);
         const minutes = Math.floor((timer / (1000 * 60)) % 60);
 
-        return `${minutes < 10 ? `0${minutes}` : minutes}:${seconds < 10 ? `0${seconds}` : seconds
-            }:${milliseconds < 100
+        return `${minutes < 10 ? `0${minutes}` : minutes}:${
+            seconds < 10 ? `0${seconds}` : seconds
+        }:${
+            milliseconds < 100
                 ? `0${Math.floor(milliseconds / 10)}`
                 : Math.floor(milliseconds / 10)
-            }`;
+        }`;
     };
 
     const handleSelectSaved = (workoutName) => {
@@ -220,9 +240,55 @@ function ExerciseForm() {
         }
     };
 
+    async function postWorkoutStats (statsToPost){
+        try {   
+                var name = statsToPost.name;
+                var time = statsToPost.time;
+                var location = statsToPost.location;
+                var mood = statsToPost.mood;
+                var comment = statsToPost.comment;
+                var date = statsToPost.date;
+                var exercises = ["date:'"+date+"'", "time:'"+time+"'", "name:'"+name+"'",
+                 "location:'"+location+"'", "mood:'"+mood+"'", "comment:'"+comment+"'"];
+
+                console.log("!"+exercises);
+
+                const response = await fetch('http://localhost:3001/api/users/saveUserExercises', {
+                    method: 'POST',
+                    headers: {
+                      'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({userId, exercises}),
+                  });
+            
+                  if (response.ok) {
+                    const { token, userId } = await response.json();
+                    console.log(userId);
+                    // Сохранение токена и ID пользователя, например, в локальном хранилище
+                    console.log('Log successful');
+                    //navigate('/trainings', { state: { userId } });
+                  } else {
+                    console.error('Log failed');
+                  }
+                }
+            catch (error) {
+                  console.error('Log error:', error);
+                }
+            }
+
+
     const saveStatsFunc = () => {
         const dateTime = getCurrentDatetime()
         const newSavedStats = savedStats
+        const statsToPost = {
+            name: selectedWorkout.name,
+            time: getFormattedTime(timer),
+            date: dayToday(),
+            location: selectedWorkout.location,
+            mood: selectedWorkout.mood,
+            comment: selectedWorkout.comment
+        }
+        postWorkoutStats(statsToPost)
         newSavedStats.push({
             name: selectedWorkout.name,
             time: getFormattedTime(timer),
@@ -231,12 +297,12 @@ function ExerciseForm() {
             mood: selectedWorkout.mood,
             comment: selectedWorkout.comment
         })
-        console.log(newSavedStats)
+        
         setSavedStats(newSavedStats)
         setSelectChange(0)
         setActiveTab('default')
         stopTimer()
-        resetTimer() 
+        resetTimer()
     }
 
     useEffect(() => {
@@ -247,73 +313,73 @@ function ExerciseForm() {
 
     return (
         <>
-            <div className={classes.exerciseform__section}>
-                <div className={classes.exerciseform__container}>
-                    <div className={classes.page_header}>
-                        <h1>Добавить упражнение</h1>
-                        <img src={require('../sources/avatar.png')} alt="" />
-                    </div>
-                    <div className={classes.forms__container}>
-                        {activeTab === 'addExercise'
-                            ? <AddExerciseForm
-                                exerciseData={exerciseData}
-                                changeFunc={handleInputChange}
-                                changeCheckboxFunc={handleCheckboxChange}
-                                saveFunc={tryToSaveExercise}
-                                resetFunc={resetExercise}
-                            />
-                            : <ActivityExerciseButton
-                                setActiveTabFunc={changeTab}
-                                activeTab={'addExercise'}
-                                innerText={'Добавить свободную тренировку'}
-                            />
-                        }
-                        {activeTab === 'editSaved'
-                            ? <EditExerciseForm
-                                selectedWorkout={selectedWorkout}
-                                selectSaveFunc={handleSelectSaved}
-                                savedWorkouts={savedWorkouts}
-                                selectChange={selectChange}
-                                inputChangeFunc={handleEditChange}
-                                checkboxChangeFunc={handleEditCheckboxChange}
-                                saveFunc={tryToSaveEdits}
-                                deleteFunc={deleteWorkout}
-                                test={exerciseData}
-                                getFormattedTime={getFormattedTime}
-                                startStopTimer={startStopTimer}
-                                intervalId={intervalId}
-                                resetTimer={resetTimer}
-                            />
-                            : <ActivityExerciseButton
-                                setActiveTabFunc={changeTab}
-                                activeTab={'editSaved'}
-                                innerText={'Редактировать тренировку'}
-                            />
-                        }
-                        {activeTab === 'getSaved'
-                            ? <GetExerciseForm
-                                selectedWorkout={selectedWorkout}
-                                selectSaveFunc={handleSelectSaved}
-                                savedWorkouts={savedWorkouts}
-                                selectChange={selectChange}
-                                changeFunc={handleEditChange}
-                                getFormattedTime={getFormattedTime}
-                                startStopTimer={startStopTimer}
-                                intervalId={intervalId}
-                                resetTimer={resetTimer}
-                                saveStatsFunc={saveStatsFunc}
-                            />
-                            : <ActivityExerciseButton
-                                setActiveTabFunc={changeTab}
-                                activeTab={'getSaved'}
-                                innerText={'Провести тренировку'}
-                            />
-                        }
-                        {error !== 0 && <ExerciseError error={error} />}
-                    </div>
-                </div>
+        <div className={classes.exerciseform__section}>
+        <div className={classes.exerciseform__container}>
+            <div className={classes.page_header}>
+                <h1>Добавить упражнение</h1>
+                <img src={require('../sources/avatar.png')} alt="" />
             </div>
-            <TabBar />
+            <div className={classes.forms__container}>
+                {activeTab === 'addExercise'
+                    ? <AddExerciseForm
+                        exerciseData={exerciseData}
+                        changeFunc={handleInputChange}
+                        changeCheckboxFunc={handleCheckboxChange}
+                        saveFunc={tryToSaveExercise}
+                        resetFunc={resetExercise}
+                    />
+                    : <ActivityExerciseButton 
+                        setActiveTabFunc={changeTab}
+                        activeTab={'addExercise'}
+                        innerText={'Добавить свободную тренировку'}
+                    />
+                }
+                {activeTab === 'editSaved' 
+                    ? <EditExerciseForm
+                        selectedWorkout={selectedWorkout}
+                        selectSaveFunc={handleSelectSaved}
+                        savedWorkouts={savedWorkouts}
+                        selectChange={selectChange}
+                        inputChangeFunc={handleEditChange}
+                        checkboxChangeFunc={handleEditCheckboxChange}
+                        saveFunc={tryToSaveEdits}
+                        deleteFunc={deleteWorkout}
+                        test={exerciseData}
+                        getFormattedTime={getFormattedTime}
+                        startStopTimer={startStopTimer}
+                        intervalId={intervalId}
+                        resetTimer={resetTimer}
+                    />
+                    : <ActivityExerciseButton
+                        setActiveTabFunc={changeTab}
+                        activeTab={'editSaved'}
+                        innerText={'Редактировать тренировку'}
+                    />
+                }
+                {activeTab === 'getSaved'
+                    ? <GetExerciseForm
+                        selectedWorkout = {selectedWorkout}
+                        selectSaveFunc ={handleSelectSaved}
+                        savedWorkouts = {savedWorkouts}
+                        selectChange ={selectChange}
+                        changeFunc={handleEditChange}
+                        getFormattedTime = {getFormattedTime}
+                        startStopTimer = {startStopTimer}
+                        intervalId = {intervalId}
+                        resetTimer = {resetTimer}
+                        saveStatsFunc={saveStatsFunc}
+                    />
+                    : <ActivityExerciseButton
+                        setActiveTabFunc={changeTab}
+                        activeTab={'getSaved'}
+                        innerText={'Провести тренировку'}
+                    />
+                }
+                {error !== 0 && <ExerciseError error={error}/>}
+            </div>
+        </div>
+        </div>
+        <TabBar />
         </>
     );
 }
