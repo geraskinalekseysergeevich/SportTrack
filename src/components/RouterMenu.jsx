@@ -41,7 +41,6 @@ const RouterMenu = () => {
         }
     };
 
-    // console.log(userId);
     return (
         <nav className={classes.nav}>
             <div className={classes.nav__container}>

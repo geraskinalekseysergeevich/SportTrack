@@ -379,7 +379,7 @@ function ExerciseForm({userId}) {
             </div>
         </div>
         </div>
-        <TabBar />
+        <TabBar userId={userId}/>
         </>
     );
 }

@@ -1,8 +1,10 @@
 import React from "react";
 import styles from "../UI/HomeData.module.css"
+import TabBar from "./TabBar";
 
-const HomeData = () => {
+const HomeData = ({userId}) => {
     return (
+        <>
         <div className={styles.home__section}>
             <div className={styles.home__container}>
                 <div className={styles.home__header}>
@@ -45,6 +47,7 @@ const HomeData = () => {
                 </div>
             </div>
         </div>
+        </>
     );
 };
 

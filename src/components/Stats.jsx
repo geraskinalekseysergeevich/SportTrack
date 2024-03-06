@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ProgressBar from 'react-customizable-progressbar';
 import { Chart } from 'react-google-charts';
+import TabBar from './TabBar';
 
 const StatisticsComponent = ({ userId }) => {
     const [exerciseData, setExerciseData] = useState([]);
@@ -203,6 +204,7 @@ const StatisticsComponent = ({ userId }) => {
     }, [inputData.items]);
 
     return (
+        <>
         <div>
             <div style={{ display: 'inline-block' }}>
                 <div>
@@ -253,6 +255,8 @@ const StatisticsComponent = ({ userId }) => {
                 data={getNutritionChartData()}
             />
         </div>
+        <TabBar userId={userId}/>
+        </>
     );
 };
 
