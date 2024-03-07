@@ -12,6 +12,7 @@ const MealsForm = ({userId}) => {
     const [mealName, setMealName] = useState("");
     const [foodItems, setFoodItems] = useState([]);
     const [editedItem, setEditedItem] = useState();
+    const [saved, setSaved] = useState(false);
 
     const toggleAddItemMenu = () => {
         setOpenAddItem(!openAddItem);
@@ -99,7 +100,12 @@ const MealsForm = ({userId}) => {
                   } else {
                     console.error('Log failed');
                   }
-                })}
+                })
+                setSaved(true);
+                setTimeout(() => {setSaved(false)}, 3000);
+                setFoodItems([]);
+            }
+
             catch (error) {
                   console.error('Log error:', error);
                 }
@@ -140,6 +146,7 @@ const MealsForm = ({userId}) => {
                             <div className={classes.icons__container}>
                                 <img src={save_icon} alt="save icon" onClick={handleSaveAll}/>
                             </div>
+                            {/* <p className={classes.saved_label, } */}
                         </div>
                     </div>
                 </div>

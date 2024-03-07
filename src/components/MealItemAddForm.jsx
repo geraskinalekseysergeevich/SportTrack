@@ -6,19 +6,60 @@ const MealItemAddForm = ({ _model, onSave }) => {
     const [model, setModel] = useState(_model ?? {});
     const [inputError, setInputError] = useState(0);
 
+    const [inputErrors, setInputErrors] = useState([]);
+
+    let errors = Object.assign([], inputErrors);
+
     const calculateTotal = () => {
 
-        if (!model.name || model.name === ""){
+        if (!model.name || model.name === "") {
+            errors.push(1);
+            setInputErrors(errors);
+
             setInputError(1)
-            console.log('Неправильно введены данные');
+            console.log('Не введено название');
         }
 
-        else {
+        if (!model.weight || model.weight === "") {
+            errors.push(2);
+            setInputErrors(errors);
+
+            setInputError(2);
+            console.log('Не указана масса');
+        }
+
+        if (!model.calories || model.calories === "") {
+            errors.push(3);
+            setInputErrors(errors);
+
+            setInputError(3);
+            console.log('Не указано количество калорий');
+        }
+
+        if(errors.length == 0) {
+            if (!model.protein || model.protein === "") {
+                model.protein = 0;
+            }
+
+            if (!model.fat || model.fat === "") {
+                model.fat = 0;
+            }
+
+            if (!model.carbs || model.carbs === "") {
+                model.carbs = 0;
+            }
+
             onSave({
-            id: model.id ?? crypto.randomUUID(),
-            ...model })
+                id: model.id ?? crypto.randomUUID(),
+                ...model
+            })
             console.log(model)
         }
+
+        setTimeout(() => {
+            errors = [];
+            setInputErrors(errors);
+        }, 1000);
     };
 
     return (
@@ -26,23 +67,29 @@ const MealItemAddForm = ({ _model, onSave }) => {
             <div>
                 <label>Название:</label>
                 <input
+                    className={`${errors.indexOf(1) != -1 ? classes.incorrect_input : ""}`}
                     type="text"
                     id="meal-item-label-name"
                     placeholder="Введите название"
                     value={model.name || ''}
-                    onChange={(e) => setModel({...model, name: e.target.value})}
+                    onChange={(e) => {
+                        setModel({ ...model, name: e.target.value });
+                        setInputError(0);
+                    }}
                 />
             </div>
             <div className={classes.weight}>
                 <label>Масса нетто (г):</label>
                 <input
+                    className={`${errors.indexOf(2) != -1 ? classes.incorrect_input : ""}`}
                     type="number"
                     min='0'
                     placeholder="Граммовка"
                     value={model.weight || ''}
-                    onChange={ (e) => {
-                        setModel({ ...model, weight: Number.parseInt(e.target.value) }) 
-                    } }
+                    onChange={(e) => {
+                        setModel({ ...model, weight: Number.parseInt(e.target.value) });
+                        setInputError(0);
+                    }}
                 />
             </div>
             <div className={classes.radio}>
@@ -71,11 +118,12 @@ const MealItemAddForm = ({ _model, onSave }) => {
             <div>
                 <label>Калорийность:</label>
                 <input
+                    className={`${errors.indexOf(3) != -1 ? classes.incorrect_input : ""}`}
                     type="number"
                     min='0'
                     placeholder="Введите калории"
                     value={model.calories || ''}
-                    onChange={(e) => setModel({...model, calories: Number.parseInt(e.target.value)})}
+                    onChange={(e) => { setModel({ ...model, calories: Number.parseInt(e.target.value) }); setInputError(0); }}
                 />
             </div>
             <div className={classes.bju__container}>
@@ -86,7 +134,7 @@ const MealItemAddForm = ({ _model, onSave }) => {
                         min='0'
                         placeholder="Введите белки"
                         value={model.protein || ''}
-                        onChange={(e) => setModel({...model, protein: Number.parseInt(e.target.value)})}
+                        onChange={(e) => setModel({ ...model, protein: Number.parseInt(e.target.value) })}
                     />
                 </div>
                 <div>
@@ -96,7 +144,7 @@ const MealItemAddForm = ({ _model, onSave }) => {
                         min='0'
                         placeholder="Введите жиры"
                         value={model.fat || ''}
-                        onChange={(e) => setModel({...model, fat: Number.parseInt(e.target.value)})}
+                        onChange={(e) => setModel({ ...model, fat: Number.parseInt(e.target.value) })}
                     />
                 </div>
                 <div>
@@ -106,14 +154,14 @@ const MealItemAddForm = ({ _model, onSave }) => {
                         min='0'
                         placeholder="Введите углеводы"
                         value={model.carbs || ''}
-                        onChange={(e) => setModel({...model, carbs: Number.parseInt(e.target.value)})}
+                        onChange={(e) => setModel({ ...model, carbs: Number.parseInt(e.target.value) })}
                     />
                 </div>
             </div>
             {
-                inputError === 1 ? (
+                inputError != 0 ? (
                     <div className={classes.error__container}>
-                         <p>Неправильно введены данные</p>
+                        <p>{errors.length == 1 ? (inputError == 1 ? "Введите название приёма" : inputError == 2 ? "Введите массу" : inputError == 3 ? "Введите калорийность" : "") : "Заполните необходимые поля"}</p>
                     </div>
                 ) : null
             }
