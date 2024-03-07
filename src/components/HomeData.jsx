@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styles from "../UI/HomeData.module.css"
 import { useNavigate } from "react-router-dom";
+import HomeActivity from "./HomeActivity";
 
 const HomeData = ({userId}) => {
     const navigate = useNavigate();
@@ -9,6 +10,8 @@ const HomeData = ({userId}) => {
     const [workout, setWorkout] = useState([]);
     const [diet, setDiet] = useState([]);
     const [combined, setCombined] = useState([]);
+
+
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -23,6 +26,7 @@ const HomeData = ({userId}) => {
         setWorkout(inputData.exercises)
         setDiet(inputData.items)
     }, [userId]);
+
 
     const dayToday = () => {
         var currentdate = new Date();
@@ -84,8 +88,7 @@ const HomeData = ({userId}) => {
         }
         prepareData();
     }
-    }, [workout, diet, inputData, combined]);
-
+    }, [combined, diet, setCombined, workout]);
 
     const returnInfo = (info) => {
         if(inputData.information != undefined) { return inputData.information[info] }
@@ -102,22 +105,6 @@ const HomeData = ({userId}) => {
         }
         return 0;
     }
-
-  const getDivs = () => {
-  // Вывод отсортированных дивов
-  let result = combined.map(item => {
-    if (item.type === "diet") {
-      return (
-        <div className={styles["person-activities-card"]}>{item.name.slice(1,-1)}, Калории: {item.calories}, Б: {item.protein}, Ж: {item.fat}, У: {item.carbs}</div>
-      );
-    } else if (item.type === "workout") {
-      return (
-        <div className={styles["person-activities-card"]}>{item.name.slice(1,-1)}, Время тренировки: {item.time}, Место: {item.location.slice(1,-1)}</div>
-      );
-    }
-  });
-  return(result);
-}
 
     return (
         <>
@@ -154,10 +141,9 @@ const HomeData = ({userId}) => {
                         <div className={styles["card-value"]}>{returnInfo('age')}</div>
                     </div>
                 </div>
-
                 <div className={styles["person-activities"]}>
                     <h2 className={styles["person-activities-header"]}>Ваша активность:</h2>
-                        {getDivs()} 
+                    <HomeActivity combined={combined} />
                 </div>
             </div>
             
