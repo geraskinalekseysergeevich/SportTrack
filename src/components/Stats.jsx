@@ -219,14 +219,8 @@ const StatisticsComponent = ({ userId }) => {
     const navigate = useNavigate();
 
     const options = {
-        hAxis: {
-            title: 'Дата',
-            format: 'MMM d',
-        },
-        vAxis: {
-            title: 'Норма времени, %',
-        },
         colors: ['#4285F4'],
+        is3D: true,
     };
     return (
         <>
@@ -246,7 +240,7 @@ const StatisticsComponent = ({ userId }) => {
                                 <ProgressBar
                                     radius={90}
                                     progress={indicatorExerciseProgress()}
-                                    strokeWidth={18}
+                                    strokeWidth={15}
                                     strokeColor="tomato"
                                     trackStrokeColor="#eee"
                                     pointerRadius={0}
@@ -262,7 +256,7 @@ const StatisticsComponent = ({ userId }) => {
                                 <ProgressBar
                                     radius={90}
                                     progress={indicatorNutritionProgress()}
-                                    strokeWidth={18}
+                                    strokeWidth={15}
                                     strokeColor="tomato"
                                     trackStrokeColor="#eee"
                                     pointerRadius={0}
@@ -272,21 +266,26 @@ const StatisticsComponent = ({ userId }) => {
                             </div>
                         </div>
                     </div>
+                    <h2 className={styles.chart__title}>Статистика по времени тренировок в процентах относительно нормы за неделю </h2>
                     <div className={styles.chart__coontainer}>
+
                         <Chart
                             chartType="ColumnChart"
                             width="100%"
-                            height="auto"
+                            height="400px"
                             data={getExerciseChartData()}
                             options={options}
                         />
                     </div>
+                    <h2 className={styles.chart__title}>Статистика по калориям в процентах относительно нормы за неделю </h2>
                     <div className={styles.chart__coontainer}>
+
                         <Chart
                             chartType="ColumnChart"
                             width="100%"
-                            height="auto"
+                            height="400px"
                             data={getNutritionChartData()}
+                            options={options}
                         />
                     </div>
                 </div>
