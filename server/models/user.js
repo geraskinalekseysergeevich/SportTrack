@@ -7,7 +7,8 @@ const userSchema = new mongoose.Schema({
   information: {type: Object},
   created_at: { type: Date, default: Date.now }, 
   items: [Array],
-  exercises: [Array]
+  exercises: [Array],
+  presets: [Array]
 });
 
 const User = mongoose.model('User', userSchema);

@@ -1,9 +1,26 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styles from "../UI/HomeData.module.css"
 import { useNavigate } from "react-router-dom";
 
 const HomeData = ({userId}) => {
     const navigate = useNavigate();
+
+    const [inputData, setInputData] = useState({items: [], exercises: []});
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await fetch(`http://localhost:3001/api/users/user/data?userId=${userId}`);
+                const data = await response.json();
+                setInputData(data);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+        fetchData();
+    }, [userId]);
+
+
     return (
         <>
         <div className={styles.home__section}>
@@ -35,7 +52,7 @@ const HomeData = ({userId}) => {
 
                     <div className={styles["person-data-card"]}>
                         <i className={`fi fi-sr-user ${styles["card-icon"]}`}></i>
-                        <div className={styles["card-name"]}>Возвраст</div>
+                        <div className={styles["card-name"]}>Возраст</div>
                         <div className={styles["card-value"]}>20 лет</div>
                     </div>
                 </div>

@@ -52,6 +52,18 @@ const MealsForm = ({userId}) => {
         return datetime;
     }
 
+    const getCurrentDatetime = () => {
+        // получаем текущую дату
+        const currentdate = new Date();
+        const datetime =
+            currentdate.getHours() +
+            ':' +
+            currentdate.getMinutes() +
+            ':' +
+            currentdate.getSeconds();
+        return datetime
+    }
+
     const handleSaveAll = async(e) => {
         e.preventDefault();
         try {
@@ -63,8 +75,9 @@ const MealsForm = ({userId}) => {
                 var protein = item.isTotal ? item.protein : item.protein * item.weight;
                 var carbs = item.isTotal ? item.carbs : item.carbs * item.weight;
                 var fat = item.isTotal ? item.fat : item.fat * item.weight;
+                var timecreated = getCurrentDatetime();
                 var date = dayToday();
-                var items = ["date:'"+date+"'", "course:'"+course+"'", "name:'"+name+"'", "weight:"+Number(weight),
+                var items = ["date:'"+date+"'", "course:'"+course+"'", "name:'"+name+"'", "timecreated:'"+timecreated+"'", "weight:"+Number(weight),
                  "calories:"+Number(calories), "protein:"+Number(protein), "carbs:"+Number(carbs), "fat:"+Number(fat)];
 
                 console.log(items);
