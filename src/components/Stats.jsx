@@ -219,10 +219,9 @@ const StatisticsComponent = ({ userId }) => {
     const navigate = useNavigate();
 
     const options = {
-        title: 'Статистика тренировок за последнюю неделю',
         hAxis: {
             title: 'Дата',
-            format: 'MMM d', // Формат отображения даты (Месяц и число)
+            format: 'MMM d',
         },
         vAxis: {
             title: 'Норма времени, %',
