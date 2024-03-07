@@ -3,7 +3,8 @@ import classes from '../UI/MealItemAddForm.module.css';
 
 const MealItemAddForm = ({ _model, onSave }) => {
 
-    const [model, setModel] = useState(_model ?? {});
+    const [model, setModel] = useState(_model ?? { isTotal: true });
+
     const [inputError, setInputError] = useState(0);
 
     const [inputErrors, setInputErrors] = useState([]);
@@ -53,6 +54,7 @@ const MealItemAddForm = ({ _model, onSave }) => {
                 id: model.id ?? crypto.randomUUID(),
                 ...model
             })
+            
             console.log(model)
         }
 
@@ -102,7 +104,7 @@ const MealItemAddForm = ({ _model, onSave }) => {
                         type="radio"
                         value="TOTAL"
                         checked={model.isTotal}
-                        onChange={(e) => setModel({ ...model, isTotal: true })}
+                        onChange={() => {setModel({ ...model, isTotal: true }); console.log(model.isTotal)}}
                     />
                 </div>
                 <div>
@@ -111,7 +113,7 @@ const MealItemAddForm = ({ _model, onSave }) => {
                         type="radio"
                         value="PER100GRAMM"
                         checked={!model.isTotal}
-                        onChange={(e) => setModel({ ...model, isTotal: false })}
+                        onChange={() => {setModel({ ...model, isTotal: false }); console.log(model.isTotal)}}
                     />
                 </div>
             </div>
