@@ -6,7 +6,8 @@ const userSchema = new mongoose.Schema({
   password: { type: String, required: true },
   created_at: { type: Date, default: Date.now }, 
   items: [Array],
-  exercises: [Array]
+  exercises: [Array],
+  presets: [Array]
 });
 
 const User = mongoose.model('User', userSchema);

@@ -55,9 +55,9 @@ const StatisticsComponent = ({ userId }) => {
         return weekArray;
     };
 
-    //пофиксить здесь вместо NaN выводить 0
     const getNutritionPercenatge = () => {
         if (nutritionData[dayToday()] === undefined) return 0;
+        else if (isNaN(nutritionData[dayToday()])) return 0;
         else return nutritionData[dayToday()];
     };
 
@@ -77,6 +77,7 @@ const StatisticsComponent = ({ userId }) => {
 
     const getExercisePercenatge = () => {
         if (nutritionData[dayToday()] === undefined) return 0;
+        else if (isNaN(exerciseData[dayToday()])) return 0;
         else return exerciseData[dayToday()];
     };
 
@@ -210,7 +211,7 @@ const StatisticsComponent = ({ userId }) => {
         <>
         <img src={require('../sources/avatar.png')} alt="" onClick={() => navigate('/profile', { state: { userId } })}/>
         <div>
-            <div style={{ display: 'inline-block' }}>
+            <div style={{ backgroundColor: 'black'}}>
                 <div>
                     <h1>Нагрузки</h1>
                     <p>{parseInt(getExercisePercenatge())}%/100%</p>
