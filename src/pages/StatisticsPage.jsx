@@ -1,6 +1,7 @@
 import React from 'react';
 import Stats from '../components/Stats'
 import { useLocation } from 'react-router-dom';
+import "../App.css"
 
 const StatisticsPage = () => {
     const location = useLocation();
@@ -8,7 +9,7 @@ const StatisticsPage = () => {
     // console.log(userId);
     return (
         <div>
-            <Stats userId={userId}/>
+            <Stats userId={userId} />
         </div>
     );
 };

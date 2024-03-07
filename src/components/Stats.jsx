@@ -3,6 +3,7 @@ import ProgressBar from 'react-customizable-progressbar';
 import { Chart } from 'react-google-charts';
 import TabBar from './TabBar';
 import { useNavigate } from 'react-router-dom';
+import styles from "../UI/Stats.module.css";
 
 const StatisticsComponent = ({ userId }) => {
     const [exerciseData, setExerciseData] = useState([]);
@@ -58,8 +59,13 @@ const StatisticsComponent = ({ userId }) => {
     //пофиксить здесь вместо NaN выводить 0
     const getNutritionPercenatge = () => {
         if (nutritionData[dayToday()] === undefined) return 0;
+        else if (isNaN(nutritionData[dayToday()])) return 0;
         else return nutritionData[dayToday()];
     };
+    const indicatorNutritionProgress = () => {
+        if (getNutritionPercenatge() > 100) return 100;
+        else return getNutritionPercenatge();
+    }
 
     const getNutritionChartData = () => {
         var ddata = [['Date', 'Норма калорий, %']];
@@ -77,8 +83,13 @@ const StatisticsComponent = ({ userId }) => {
 
     const getExercisePercenatge = () => {
         if (nutritionData[dayToday()] === undefined) return 0;
+        else if (isNaN(exerciseData[dayToday()])) return 0;
         else return exerciseData[dayToday()];
     };
+    const indicatorExerciseProgress = () => {
+        if (getExercisePercenatge() > 100) return 100;
+        else return getExercisePercenatge();
+    }
 
     const getExerciseChartData = () => {
         var ddata = [['Date', 'Норма времени, %']];
@@ -93,6 +104,7 @@ const StatisticsComponent = ({ userId }) => {
         }
         return ddata;
     };
+
 
     useEffect(() => {
         const fetchData = async () => {
@@ -206,60 +218,81 @@ const StatisticsComponent = ({ userId }) => {
 
     const navigate = useNavigate();
 
+    const options = {
+        title: 'Статистика тренировок за последнюю неделю',
+        hAxis: {
+            title: 'Дата',
+            format: 'MMM d', // Формат отображения даты (Месяц и число)
+        },
+        vAxis: {
+            title: 'Норма времени, %',
+        },
+        colors: ['#4285F4'],
+    };
     return (
         <>
-        <img src={require('../sources/avatar.png')} alt="" onClick={() => navigate('/profile', { state: { userId } })}/>
-        <div>
-            <div style={{ display: 'inline-block' }}>
-                <div>
-                    <h1>Нагрузки</h1>
-                    <p>{parseInt(getExercisePercenatge())}%/100%</p>
-                </div>
-                <div
-                    style={{
-                        width: 200,
-                        height: 200,
-                        margin: 'auto',
-                        display: 'inline-block',
-                    }}
-                >
-                    <ProgressBar
-                        progress={getExercisePercenatge()}
-                        strokeColor="red"
-                    ></ProgressBar>
-                </div>
-                <div>
-                    <h1>Еда</h1>
-                    <p>{parseInt(getNutritionPercenatge())}%/100%</p>
-                </div>
-                <div
-                    style={{
-                        width: 200,
-                        height: 200,
-                        margin: 'auto',
-                        display: 'inline-block',
-                    }}
-                >
-                    <ProgressBar
-                        progress={getNutritionPercenatge()}
-                        strokeColor="lime"
-                    ></ProgressBar>
+            <div className={styles.stats__section}>
+                <div className={styles.stats__container}>
+
+                    <div className={styles.stats__header}>
+                        <h1 className={styles.stats__title}>Статистика</h1>
+                        <img src={require('../sources/avatar.png')} alt="" onClick={() => navigate('/profile', { state: { userId } })} />
+                    </div>
+
+                    <div className={styles.stats__progress__container}>
+                        <div className={styles.stats__progress}>
+                            <h2 className={styles.stats__subtitle}>Нагрузки</h2>
+                            <div className={styles.stats__progress__circle}>
+                                <p className={styles.stats__progress__percentages}>{parseInt(getExercisePercenatge())}%</p>
+                                <ProgressBar
+                                    radius={90}
+                                    progress={indicatorExerciseProgress()}
+                                    strokeWidth={18}
+                                    strokeColor="tomato"
+                                    trackStrokeColor="#eee"
+                                    pointerRadius={0}
+                                    transition="1.5s ease 0.5s"
+                                    trackTransition="0s"
+                                ></ProgressBar>
+                            </div>
+                        </div>
+                        <div className={styles.stats__progress}>
+                            <h2 className={styles.stats__subtitle}>Еда</h2>
+                            <div className={styles.stats__progress__circle}>
+                                <p className={styles.stats__progress__percentages}>{parseInt(getNutritionPercenatge())}%</p>
+                                <ProgressBar
+                                    radius={90}
+                                    progress={indicatorNutritionProgress()}
+                                    strokeWidth={18}
+                                    strokeColor="tomato"
+                                    trackStrokeColor="#eee"
+                                    pointerRadius={0}
+                                    transition="1.5s ease 0.5s"
+                                    trackTransition="0s"
+                                ></ProgressBar>
+                            </div>
+                        </div>
+                    </div>
+                    <div className={styles.chart__coontainer}>
+                        <Chart
+                            chartType="ColumnChart"
+                            width="100%"
+                            height="auto"
+                            data={getExerciseChartData()}
+                            options={options}
+                        />
+                    </div>
+                    <div className={styles.chart__coontainer}>
+                        <Chart
+                            chartType="ColumnChart"
+                            width="100%"
+                            height="auto"
+                            data={getNutritionChartData()}
+                        />
+                    </div>
                 </div>
             </div>
-            <Chart
-                chartType="ColumnChart"
-                width="100%"
-                height="400px"
-                data={getExerciseChartData()}
-            />
-            <Chart
-                chartType="ColumnChart"
-                width="100%"
-                height="400px"
-                data={getNutritionChartData()}
-            />
-        </div>
-        <TabBar userId={userId}/>
+            <TabBar userId={userId} />
         </>
     );
 };
