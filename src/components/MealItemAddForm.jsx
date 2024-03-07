@@ -45,10 +45,10 @@ const MealItemAddForm = ({ _model, onSave }) => {
                     } }
                 />
             </div>
-            <div>
-                <label>Подсчет пищевой ценности</label>
-            </div>
             <div className={classes.radio}>
+                <div className={classes.radio_title}>
+                    Подсчет пищевой ценности
+                </div>
                 <div>
                     <label>Всего</label>
                     <input
@@ -78,35 +78,37 @@ const MealItemAddForm = ({ _model, onSave }) => {
                     onChange={(e) => setModel({...model, calories: Number.parseInt(e.target.value)})}
                 />
             </div>
-            <div>
-                <label>Б:</label>
-                <input
-                    type="number"
-                    min='0'
-                    placeholder="Введите белки"
-                    value={model.protein || ''}
-                    onChange={(e) => setModel({...model, protein: Number.parseInt(e.target.value)})}
-                />
-            </div>
-            <div>
-                <label>Ж:</label>
-                <input
-                    type="number"
-                    min='0'
-                    placeholder="Введите жиры"
-                    value={model.fat || ''}
-                    onChange={(e) => setModel({...model, fat: Number.parseInt(e.target.value)})}
-                />
-            </div>
-            <div>
-                <label>У:</label>
-                <input
-                    type="number"
-                    min='0'
-                    placeholder="Введите углеводы"
-                    value={model.carbs || ''}
-                    onChange={(e) => setModel({...model, carbs: Number.parseInt(e.target.value)})}
-                />
+            <div className={classes.bju__container}>
+                <div>
+                    <label>Б:</label>
+                    <input
+                        type="number"
+                        min='0'
+                        placeholder="Введите белки"
+                        value={model.protein || ''}
+                        onChange={(e) => setModel({...model, protein: Number.parseInt(e.target.value)})}
+                    />
+                </div>
+                <div>
+                    <label>Ж:</label>
+                    <input
+                        type="number"
+                        min='0'
+                        placeholder="Введите жиры"
+                        value={model.fat || ''}
+                        onChange={(e) => setModel({...model, fat: Number.parseInt(e.target.value)})}
+                    />
+                </div>
+                <div>
+                    <label>У:</label>
+                    <input
+                        type="number"
+                        min='0'
+                        placeholder="Введите углеводы"
+                        value={model.carbs || ''}
+                        onChange={(e) => setModel({...model, carbs: Number.parseInt(e.target.value)})}
+                    />
+                </div>
             </div>
             {
                 inputError === 1 ? (
