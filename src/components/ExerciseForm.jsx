@@ -144,12 +144,6 @@ function ExerciseForm({userId}) {
         // получаем текущую дату
         const currentdate = new Date();
         const datetime =
-            currentdate.getDate() +
-            '/' +
-            (currentdate.getMonth() + 1) +
-            '/' +
-            currentdate.getFullYear() +
-            ' @ ' +
             currentdate.getHours() +
             ':' +
             currentdate.getMinutes() +
@@ -249,7 +243,9 @@ function ExerciseForm({userId}) {
                 var mood = statsToPost.mood;
                 var comment = statsToPost.comment;
                 var date = statsToPost.date;
-                var exercises = ["date:'"+date+"'", "time:'"+time+"'", "name:'"+name+"'",
+                var timecreated = statsToPost.timecreated;
+                
+                var exercises = ["date:'"+date+"'", "time:'"+time+"'", "timecreated:'"+timecreated+"'", "name:'"+name+"'",
                  "location:'"+location+"'", "mood:'"+mood+"'", "comment:'"+comment+"'"];
 
                 console.log("!"+exercises);
@@ -285,6 +281,7 @@ function ExerciseForm({userId}) {
             name: selectedWorkout.name,
             time: getFormattedTime(timer),
             date: dayToday(),
+            timecreated: dateTime,
             location: selectedWorkout.location,
             mood: selectedWorkout.mood,
             comment: selectedWorkout.comment
