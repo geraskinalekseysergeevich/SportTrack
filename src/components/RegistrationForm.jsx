@@ -122,7 +122,7 @@ const RegistrationForm = () => {
                     {error !== '' && <p className={styles.error_message}>{error}</p>}
                 </form>
             </div>
-        </div>
+        </div >
     );
 };
 
