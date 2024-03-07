@@ -5,6 +5,7 @@ import TabBar from './TabBar';
 import { useNavigate } from 'react-router-dom';
 import styles from "../UI/Stats.module.css";
 
+
 const StatisticsComponent = ({ userId }) => {
     const [exerciseData, setExerciseData] = useState([]);
     const [nutritionData, setNutritionData] = useState([]);

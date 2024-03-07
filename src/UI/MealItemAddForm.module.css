@@ -5,29 +5,60 @@
     padding: 15px;
 }
 
-.mealaddform__container > div {
+.mealaddform__container>div {
     display: flex;
     align-items: center;
     margin-bottom: 10px;
     /* background: #4f4f4f; */
 }
+
 .mealaddform__container input {
     border-radius: 5px;
     border: none;
     height: 25px;
+    transition: .4s;
+    background-color: white;
 }
 
-.mealaddform__container label, .radio_title {
+.mealaddform__container input.incorrect_input {
+    transition: .1s;
+    color: white;
+    background-color: rgb(255, 165, 165);
+}
+
+.mealaddform__container input::-webkit-input-placeholder{
+    transition: .3s;
+}
+
+.mealaddform__container input::-moz-placeholder {
+    transition: .3s;
+}
+
+.mealaddform__container input.incorrect_input::-webkit-input-placeholder{
+    transition: .1s;
+    color: white;
+}
+
+.mealaddform__container input.incorrect_input::-moz-placeholder {
+    transition: .1s;
+    color: white;
+}
+
+
+.mealaddform__container label,
+.radio_title {
     font-variant-numeric: lining-nums proportional-nums;
     font-feature-settings: 'dlig' on;
     font-family: 'Montserrat';
     font-size: 14px;
     font-style: normal;
     font-weight: 500;
-    line-height: 142%; /* 142.857% */
+    line-height: 142%;
+    /* 142.857% */
     letter-spacing: 0.14px;
     margin-right: 5px;
 }
+
 .mealaddform__container input[placeholder] {
     font-variant-numeric: lining-nums proportional-nums;
     font-feature-settings: 'dlig' on;
@@ -46,7 +77,7 @@
     width: 100%;
 }
 
-.weight > input {
+.weight>input {
     max-width: 817px;
 }
 
@@ -71,12 +102,12 @@
     color: rgba(255, 255, 255, 1);
 }
 
-.mealaddform__container .radio > div {
+.mealaddform__container .radio>div {
     display: flex;
     align-items: center;
 }
 
-.mealaddform__container .radio > div:not(:last-child) {
+.mealaddform__container .radio>div:not(:last-child) {
     padding-right: 7px;
 }
 
@@ -89,7 +120,7 @@
     justify-content: center;
 }
 
-.mealaddform__container .error__container > p{
+.mealaddform__container .error__container>p {
     color: #fff;
     font-variant-numeric: lining-nums proportional-nums;
     font-feature-settings: 'dlig' on;
@@ -97,11 +128,12 @@
     font-size: 14px;
     font-style: normal;
     font-weight: 500;
-    line-height: 142%; /* 142.857% */
+    line-height: 142%;
+    /* 142.857% */
     letter-spacing: 0.14px;
 }
 
-.bju__container > div {
+.bju__container>div {
     display: flex;
     flex-direction: row;
     justify-content: space-between;

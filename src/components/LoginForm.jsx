@@ -15,19 +15,19 @@ const LoginForm = () => {
         var email = userData.email;
         var password = userData.password;
         try {
-          const response = await fetch('http://localhost:3001/api/users/login', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ email, password }),
-          });
-    
-          if (response.ok) {
-            const { token, userId } = await response.json();
-            console.log('Login successful');
+            const response = await fetch('http://localhost:3001/api/users/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email, password }),
+            });
 
-            navigate('/home', { state: { userId } });
+            if (response.ok) {
+                const { token, userId } = await response.json();
+                console.log('Login successful');
+
+                navigate('/home', { state: { userId } });
 
             } else {
                 console.error('Login failed');
