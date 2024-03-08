@@ -49,7 +49,13 @@ const MealItemAddForm = ({ _model, onSave }) => {
             if (!model.carbs || model.carbs === "") {
                 model.carbs = 0;
             }
-            model.id = Date.now();
+
+            if (!model.isTotal) {
+                const weightFactor = model.weight / 100;
+                model.protein = Math.round(model.protein * weightFactor);
+                model.fat = Math.round(model.fat * weightFactor);
+                model.carbs = Math.round(model.carbs * weightFactor);
+            }
 
             onSave({
                 id: model.id ?? crypto.randomUUID(),
