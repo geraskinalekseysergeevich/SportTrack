@@ -120,7 +120,7 @@ const MealsForm = ({userId}) => {
                         <img src={require('../sources/avatar.png')} alt="" onClick={() => navigate('/profile', { state: { userId } })}/>
                     </div>
                     <div className={classes.title__container}>
-                        <label for="meal-name-input">Название:</label>
+                        <label htmlFor="meal-name-input">Название:</label>
                         <input
                             type="text"
                             id="meal-name-input"

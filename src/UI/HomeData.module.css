@@ -66,6 +66,10 @@
     color: #29e33c;
 }
 
+.person-activities {
+    padding-bottom: 60px;
+}
+
 .person-activities > div:not(:last-child) {
     margin-bottom: 20px;
 }

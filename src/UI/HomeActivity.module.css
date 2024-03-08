@@ -1,3 +1,30 @@
 .person-activities-card {
-    padding: 10px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 15px 30px;
+    font-family: 'Montserrat';
+}
+
+.diet {
+    background: #5a5a5a;
+}
+.training {
+    background: #3a3a3a;
+}
+
+.person-activities-card > div > *:not(:first-child){
+    margin-top: 5px;
+}
+
+.person-activities-card h1 {
+    font-size: 26px;
+    font-weight: 600;
+}
+
+.person-activities-card p {
+    font-size: 20px;
 }
