@@ -7,7 +7,7 @@ import TabBar from './TabBar';
 import plus_icon from '../sources/meals/plus.png';
 import save_icon from '../sources/meals/save.png';
 
-const MealsForm = ({userId}) => {
+const MealsForm = ({ userId }) => {
     const [openAddItem, setOpenAddItem] = useState(false);
     const [mealName, setMealName] = useState("");
     const [foodItems, setFoodItems] = useState([]);
@@ -65,51 +65,51 @@ const MealsForm = ({userId}) => {
         return datetime
     }
 
-    const handleSaveAll = async(e) => {
+    const handleSaveAll = async (e) => {
         e.preventDefault();
         try {
             foodItems.forEach(async item => {
                 var course = mealName;
                 var name = item.name;
                 var weight = item.weight;
-                var calories = item.isTotal ? item.calories : item.calories * (item.weight / 100);
-                var protein = item.isTotal ? item.protein : item.protein * (item.weight / 100);
-                var carbs = item.isTotal ? item.carbs : item.carbs * (item.weight / 100);
-                var fat = item.isTotal ? item.fat : item.fat * (item.weight / 100);
+                var calories = item.calories;
+                var protein = item.protein;
+                var carbs = item.carbs;
+                var fat = item.fat;
                 var timecreated = getCurrentDatetime();
                 var date = dayToday();
-                var items = ["date:'"+date+"'", "course:'"+course+"'", "name:'"+name+"'", "timecreated:'"+timecreated+"'", "weight:"+Number(weight),
-                 "calories:"+Number(calories), "protein:"+Number(protein), "carbs:"+Number(carbs), "fat:"+Number(fat)];
+                var items = ["date:'" + date + "'", "course:'" + course + "'", "name:'" + name + "'", "timecreated:'" + timecreated + "'", "weight:" + Number(weight),
+                "calories:" + Number(calories), "protein:" + Number(protein), "carbs:" + Number(carbs), "fat:" + Number(fat)];
 
                 const response = await fetch('http://localhost:3001/api/users/saveUserCallorie', {
                     method: 'POST',
                     headers: {
-                      'Content-Type': 'application/json',
+                        'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({userId, items}),
-                  });
+                    body: JSON.stringify({ userId, items }),
+                });
 
-                  if (response.ok) {
+                if (response.ok) {
                     const { token, userId } = await response.json();
                     console.log(userId);
                     // Сохранение токена и ID пользователя, например, в локальном хранилище
                     console.log('Log successful');
                     //navigate('/trainings', { state: { userId } });
-                  } else {
+                } else {
                     console.error('Log failed');
-                  }
-                })
-                setSaved(true);
-                setTimeout(() => {setSaved(false)}, 3000);
-                setFoodItems([]);
-            }
-
-            catch (error) {
-                  console.error('Log error:', error);
                 }
-            }
+            })
+            setSaved(true);
+            setTimeout(() => { setSaved(false) }, 3000);
+            setFoodItems([]);
+        }
 
-            const navigate = useNavigate();
+        catch (error) {
+            console.error('Log error:', error);
+        }
+    }
+
+    const navigate = useNavigate();
 
     return (
         <>
@@ -117,7 +117,7 @@ const MealsForm = ({userId}) => {
                 <div className={classes.mealsform__container}>
                     <div className={classes.mealsform_header}>
                         <h1>Добавить приём пищи</h1>
-                        <img src={require('../sources/avatar.png')} alt="" onClick={() => navigate('/profile', { state: { userId } })}/>
+                        <img src={require('../sources/avatar.png')} alt="" onClick={() => navigate('/profile', { state: { userId } })} />
                     </div>
                     <div className={classes.title__container}>
                         <label htmlFor="meal-name-input">Название:</label>
@@ -140,16 +140,16 @@ const MealsForm = ({userId}) => {
                             <div className={classes.icons__container} onClick={toggleAddItemMenu}>
                                 <img src={plus_icon} alt="plus icon" />
                             </div>
-                            
+
                             <div className={classes.icons__container}>
-                                <img src={save_icon} alt="save icon" onClick={handleSaveAll}/>
+                                <img src={save_icon} alt="save icon" onClick={handleSaveAll} />
                             </div>
                             {/* <p className={classes.saved_label, } */}
                         </div>
                     </div>
                 </div>
             </div>
-            <TabBar userId={userId}/>
+            <TabBar userId={userId} />
         </>
     );
 };
