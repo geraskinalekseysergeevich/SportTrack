@@ -12,6 +12,7 @@ const MealsForm = ({userId}) => {
     const [mealName, setMealName] = useState("");
     const [foodItems, setFoodItems] = useState([]);
     const [editedItem, setEditedItem] = useState();
+    const [saved, setSaved] = useState(false);
 
     const toggleAddItemMenu = () => {
         setOpenAddItem(!openAddItem);
@@ -71,16 +72,14 @@ const MealsForm = ({userId}) => {
                 var course = mealName;
                 var name = item.name;
                 var weight = item.weight;
-                var calories = item.isTotal ? item.calories : item.calories * item.weight;
-                var protein = item.isTotal ? item.protein : item.protein * item.weight;
-                var carbs = item.isTotal ? item.carbs : item.carbs * item.weight;
-                var fat = item.isTotal ? item.fat : item.fat * item.weight;
+                var calories = item.isTotal ? item.calories : item.calories * (item.weight / 100);
+                var protein = item.isTotal ? item.protein : item.protein * (item.weight / 100);
+                var carbs = item.isTotal ? item.carbs : item.carbs * (item.weight / 100);
+                var fat = item.isTotal ? item.fat : item.fat * (item.weight / 100);
                 var timecreated = getCurrentDatetime();
                 var date = dayToday();
                 var items = ["date:'"+date+"'", "course:'"+course+"'", "name:'"+name+"'", "timecreated:'"+timecreated+"'", "weight:"+Number(weight),
                  "calories:"+Number(calories), "protein:"+Number(protein), "carbs:"+Number(carbs), "fat:"+Number(fat)];
-
-                console.log(items);
 
                 const response = await fetch('http://localhost:3001/api/users/saveUserCallorie', {
                     method: 'POST',
@@ -99,7 +98,12 @@ const MealsForm = ({userId}) => {
                   } else {
                     console.error('Log failed');
                   }
-                })}
+                })
+                setSaved(true);
+                setTimeout(() => {setSaved(false)}, 3000);
+                setFoodItems([]);
+            }
+
             catch (error) {
                   console.error('Log error:', error);
                 }
@@ -140,6 +144,7 @@ const MealsForm = ({userId}) => {
                             <div className={classes.icons__container}>
                                 <img src={save_icon} alt="save icon" onClick={handleSaveAll}/>
                             </div>
+                            {/* <p className={classes.saved_label, } */}
                         </div>
                     </div>
                 </div>
