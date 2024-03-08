@@ -37,8 +37,8 @@ const RegistrationForm = () => {
         }
 
         // Проверка минимальной длины пароля
-        if (userData.password.length < 8) {
-            toast.error('Пароль должен содержать минимум 8 символов.');
+        if (userData.password.length < 6) {
+            toast.error('Пароль должен содержать минимум 6 символов.');
             return;
         }
         try {
