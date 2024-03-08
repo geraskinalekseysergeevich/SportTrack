@@ -7,6 +7,7 @@
     align-items: center;
     justify-content: space-around;
     margin-bottom: 20px;
+    margin-top: 20px;
 }
 
 .person-data-card {
@@ -16,6 +17,12 @@
     justify-content: space-around;
     width: 100%;
     padding: 15px 0;
+}
+
+.person-data-card > div {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
 }
 
 .person-data-card input {

@@ -34,3 +34,9 @@
 .profile-img {
     width: 200px;
 }
+
+.userName__container {
+    text-align: center;
+    font-family: 'Montserrat';
+    font-size: 22px;
+}

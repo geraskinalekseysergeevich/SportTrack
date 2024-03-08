@@ -43,37 +43,46 @@ const ProfileEdit = ({userId, userInfo}) => {
                 <div className={styles["person-data-card"]}>
                     <i className={`fi fi-rr-ruler-triangle ${styles["card-icon"]}`}></i>
                     <label className={styles["card-name"]}>Рост</label>
-                    <input 
-                        type="number"
-                        name='height'
-                        min={'1'}
-                        value={newUserInfo.height} 
-                        onChange={handleInputChange}
-                    />
+                    <div>
+                        <input 
+                            type="number"
+                            name='height'
+                            min={'1'}
+                            value={newUserInfo.height} 
+                            onChange={handleInputChange}
+                        />
+                        <p>см</p>
+                    </div>
                 </div>
 
                 <div className={styles["person-data-card"]}>
                     <i className={`fi fi-sr-scale ${styles["card-icon"]}`}></i>
                     <label className={styles["card-name"]}>Вес</label>
-                    <input 
-                        type="number" 
-                        name='weight'
-                        min={'1'}
-                        value={newUserInfo.weight}
-                        onChange={handleInputChange}
-                    />
+                    <div>
+                        <input 
+                            type="number" 
+                            name='weight'
+                            min={'1'}
+                            value={newUserInfo.weight}
+                            onChange={handleInputChange}
+                        />
+                        <p>кг</p>
+                    </div>
                 </div>
 
                 <div className={styles["person-data-card"]}>
                     <i className={`fi fi-sr-user ${styles["card-icon"]}`}></i>
                     <label className={styles["card-name"]}>Возраст</label>
-                    <input 
-                        type="number"
-                        name='age'
-                        min={'1'}
-                        value={newUserInfo.age}
-                        onChange={handleInputChange}
-                    />
+                    <div>
+                        <input 
+                            type="number"
+                            name='age'
+                            min={'1'}
+                            value={newUserInfo.age}
+                            onChange={handleInputChange}
+                        />
+                        <p>лет</p>
+                    </div>
                 </div>
             </div>
             <div className={styles.person__information}>

@@ -15,7 +15,7 @@ const ProfileShow = ({userInfo}) => {
                     <div className={styles["card-value"]}>
                         {userInfo.height === 0
                         ? 'Заполните данные'
-                        : userInfo.height}
+                        : <p>{userInfo.height} см</p>}
                     </div>
                 </div>
 
@@ -25,7 +25,7 @@ const ProfileShow = ({userInfo}) => {
                     <div className={styles["card-value"]}>
                         {userInfo.weight === 0
                         ? 'Заполните данные'
-                        : userInfo.weight}
+                        : <p>{userInfo.weight} кг</p>}
                     </div>
                 </div>
 
@@ -35,7 +35,7 @@ const ProfileShow = ({userInfo}) => {
                     <div className={styles["card-value"]}>
                         {userInfo.age === 0
                         ? 'Заполните данные'
-                        : userInfo.age}
+                        : <p>{userInfo.age} лет</p>}
                     </div>
                 </div>
             </div>

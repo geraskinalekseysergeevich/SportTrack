@@ -6,7 +6,7 @@ import HomeActivity from "./HomeActivity";
 const HomeData = ({userId}) => {
     const navigate = useNavigate();
 
-    const [inputData, setInputData] = useState([]);
+    const [inputData, setInputData] = useState({ items: [], exercises: []});
     const [workout, setWorkout] = useState([]);
     const [diet, setDiet] = useState([]);
     const [combined, setCombined] = useState([]);
@@ -15,21 +15,28 @@ const HomeData = ({userId}) => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch(`http://localhost:3001/api/users/user/data?userId=${userId}`);
-                const data = await response.json();
-                setInputData(data);
+                const response = await fetch(`http://localhost:3001/api/users/user/data?userId=${userId}`)
+                const data = await response.json()
+                setInputData(data)
+                
             } catch (error) {
-                //console.log(error);
+                console.log(error)
             }
         };
-        fetchData();
-        setWorkout(inputData.exercises)
-        setDiet(inputData.items)
-
+        fetchData()
         
+    }, [userId])
 
-    }, [inputData.exercises, inputData.items, userId]);
+    useEffect(() => {
+        if(inputData.exercises !== undefined && inputData.items !== undefined) {
+            setWorkout(inputData.exercises)
+            setDiet(inputData.items)
+            
+            prepareData()
 
+            console.log('inputdata', inputData)
+        }
+    }, [inputData.items, inputData.exercises])
 
     const dayToday = () => {
         var currentdate = new Date();
@@ -49,48 +56,43 @@ const HomeData = ({userId}) => {
         return datetime;
     }
 
-    useEffect(() => {
-        if(workout != undefined && diet != undefined){
+    const prepareData = () => {
+        var newArray1 = []
+        var array1 = [];
+        var array2 = [];
+        var newArray2 = []
 
-            const prepareData = () => {
-                var newArray1 = []
-                var array1 = [];
-                var array2 = [];
-                var newArray2 = []
-    
-                workout.forEach(el => {
-                    newArray1 = [];
-                    el.forEach(element => {
-                        var item = element.split(":");
-                        var key = item[0].trim();
-                        if(item[0]==='time'||item[0]==='timecreated')
-                            var value = item[1]+":"+item[2];
-                        else value = item[1].trim();
-                        newArray1[key] = value;
-                    })
-                    if(newArray1['date'] === "'" + dayToday() + "'")
-                    array1.push(newArray1);
-                });
-                diet.forEach(el => {
-                    newArray2 = [];
-                    el.forEach(element => {
-                        var item = element.split(":");
-                        var key = item[0].trim();
-                        if(item[0]==='timecreated')
-                            var value = item[1]+":"+item[2];
-                        else value = item[1].trim();
-                        newArray2[key] = value;
-                    })
-                    if(newArray2['date'] === "'" + dayToday() + "'")
-                    array2.push(newArray2);
-                });
-                // объединяем два массива, добавляем поляm type для определения типа записи
-                setCombined([...array1.map(item=>({...item, type: 'workout'})), ...array2.map(item=>({...item, type: 'diet'}))]);
-                // сортируем объединенный массив по времени создания
-            }
-            prepareData();
-        }
-    }, [workout, inputData.exercises]);
+        workout.forEach(el => {
+            newArray1 = [];
+            el.forEach(element => {
+                var item = element.split(":");
+                var key = item[0].trim()
+                if(item[0] === 'time'|| item[0] === 'timecreated') {
+                    var value = item[1].replace("'", '') + ":" + item[2]
+                }
+                else value = item[1].trim();
+                newArray1[key] = value;
+            })
+            if(newArray1['date'] === "'" + dayToday() + "'")
+            array1.push(newArray1)
+        });
+        diet.forEach(el => {
+            newArray2 = [];
+            el.forEach(element => {
+                var item = element.split(":");
+                var key = item[0].trim();
+                if(item[0]==='timecreated')
+                    var value = item[1]+":"+item[2];
+                else value = item[1].trim();
+                newArray2[key] = value;
+            })
+            if(newArray2['date'] === "'" + dayToday() + "'")
+            array2.push(newArray2);
+        });
+        // объединяем два массива, добавляем поле type для определения типа записи
+        setCombined([...array1.map(item=>({...item, type: 'workout'})), ...array2.map(item=>({...item, type: 'diet'}))]);
+        // сортируем объединенный массив по времени создания
+    }
 
     const returnInfo = (info) => {
         if(inputData.information != undefined) { return inputData.information[info] }

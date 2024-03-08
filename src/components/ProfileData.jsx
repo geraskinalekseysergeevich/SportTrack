@@ -10,6 +10,7 @@ const ProfileData = ({userId}) => {
     const [editPage, setEditPage] = useState(0)
     const navigate = useNavigate();
     const [userInfo, setUserInfo] = useState({})
+    const [userName, setUserName] = useState('')
 
     useEffect(() => {
         const fetchUserData = async () => {
@@ -19,6 +20,7 @@ const ProfileData = ({userId}) => {
                 console.log(data.information)
 
                 setUserInfo(data.information)
+                setUserName(data.username)
 
                 if (!response.ok) {
                     throw new Error('Failed to fetch user information')
@@ -40,6 +42,7 @@ const ProfileData = ({userId}) => {
                     <img src={require("../sources/profile/big-avatar.png")} alt="" className={styles["profile-img"]} />
                     <i className={`fi fi-rr-edit ${styles.profile_icon}`} onClick={() => setEditPage(1)}></i>
                 </div>
+                <div className={styles.userName__container}>{userName.toUpperCase()}</div>
                 {editPage === 0
                 ? <ProfileShow userInfo={userInfo}/> 
                 : <ProfileEdit userId={userId} userInfo={userInfo}/>}

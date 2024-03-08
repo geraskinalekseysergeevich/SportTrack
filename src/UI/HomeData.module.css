@@ -62,11 +62,12 @@
     font-size: 25px;
 }
 
-.card-name {
-}
-
 .card-value {
     color: #29e33c;
+}
+
+.person-activities > div:not(:last-child) {
+    margin-bottom: 20px;
 }
 
 .person-activities-header {
