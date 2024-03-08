@@ -89,13 +89,13 @@ const saveUserExercises = async (req, res) => {
 
 const saveUserCallorie = async (req, res) => {
     try {
-        const { userId, insert } = req.body;
+        const { userId, items } = req.body;
         // Поиск пользователя по ID
         const user = await User.findById(userId);
         if (!user) {
             return res.status(404).json({ error: 'Пользователь не найден' });
         }        // Обновление данных пользователя
-        user.items.push(req.body.items);
+        user.items.push(items);
 
         // Сохранение обновленных данных
         await user.save();
@@ -145,26 +145,89 @@ const putUserData = async (req, res) => {
 
 const saveUserPreset = async (req, res) => {
     try {
-        const { userId, insert } = req.body;
+        const { userId, newPreset } = req.body;
         // Поиск пользователя по ID
         const user = await User.findById(userId);
         if (!user) {
             return res.status(404).json({ error: 'Пользователь не найден' });
         }
         // Обновление данных пользователя
-        user.presets.push(req.body.exercises);
+        user.presets.push(newPreset);
 
         // Сохранение обновленных данных
         await user.save();
 
+        // Находим id созданного пресета по его названию
+        const createdPreset = user.presets.find(preset => preset.name === newPreset.name);
+        if (!createdPreset) {
+            return res.status(404).json({ error: 'Пресет не найден' });
+        }
+        const createdPresetId = createdPreset._id;
+
         res.status(200).json({
             message: 'Данные пользователя успешно сохранены',
+            createdPresetId: createdPresetId
         });
+
     } catch (error) {
         console.error('Ошибка при сохранении данных пользователя:', error);
         res.status(500).json({ error: 'Внутренняя ошибка сервера' });
     }
 };
+
+const deleteUserPreset = async (req, res) => {
+    try {
+        console.log(req.body.userId)
+        console.log(req.body.presetId)
+        // Поиск пользователя по ID
+        const user = await User.findById(req.body.userId);
+        if (!user) {
+            return res.status(404).json({ error: 'Пользователь не найден' });
+        }
+        // Удаление пресета из массива пресетов пользователя
+        user.presets = user.presets.filter(preset => preset._id.toString() !== req.body.presetId)
+
+        await user.save()
+        
+        res.status(200).json({
+            message: 'Пресет успешно удален',
+        });
+    } catch (error) {
+        console.error('Ошибка при удалении пресета пользователя:', error);
+        res.status(500).json({ error: 'Внутренняя ошибка сервера' });
+    }
+};
+
+const updateUserPreset = async (req, res) => {
+    try {
+        const user = await User.findById(req.body.userId);
+        if (!user) {
+            return res.status(404).json({ error: 'Пользователь не найден' });
+        }
+
+        // Находим и обновляем пресет по ID
+        const presets = user.presets;
+        const presetId = req.body.presetId;
+        const presetToUpdate = presets.find(preset => preset._id.toString() === presetId);
+        if (!presetToUpdate) {
+            return res.status(404).json({ error: 'Пресет не найден' });
+        }
+
+        // Обновляем данные пресета
+        Object.assign(presetToUpdate, req.body.updatedPreset);
+
+        // Сохраняем обновленные данные пользователя
+        await user.save();
+
+        res.status(200).json({
+            message: 'Пресет успешно обновлен',
+        });
+    } catch (error) {
+        console.error('Ошибка при обновлении пресета пользователя:', error);
+        res.status(500).json({ error: 'Внутренняя ошибка сервера' });
+    }
+};
+
 
 module.exports = {
     registerUser,
@@ -174,4 +237,6 @@ module.exports = {
     saveUserPreset,
     getUserData,
     putUserData,
+    deleteUserPreset,
+    updateUserPreset
 };
