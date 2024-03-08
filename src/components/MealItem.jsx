@@ -1,7 +1,7 @@
 import React from 'react';
 import classes from '../UI/MealItem.module.css';
 
-const MealItem = ({model, onEditItem, onRemoveItem}) => {
+const MealItem = ({ model, onEditItem, onRemoveItem }) => {
     return (
         <div className={classes.mealitem_container}>
             <div className={classes.meal_info}>
@@ -16,21 +16,21 @@ const MealItem = ({model, onEditItem, onRemoveItem}) => {
 
                 <div>
                     <label>Калорийность: </label>
-                    <span>{model.isTotal ? model.calories : model.calories * model.weight / 100}ккал</span>
+                    <span>{model.calories}ккал</span>
                 </div>
 
                 <div className={classes.bju__container}>
                     <div>
                         <label>Б: </label>
-                        <span>{model.isTotal ? model.protein : model.protein * model.weight / 100}г.,</span>
+                        <span>{model.protein}г.,</span>
                     </div>
                     <div>
                         <label>Ж: </label>
-                        <span>{model.isTotal ? model.fat : model.fat * model.weight / 100}г.,</span>
+                        <span>{model.fat}г.,</span>
                     </div>
                     <div>
                         <label>У: </label>
-                        <span>{model.isTotal ? model.carbs : model.carbs * model.weight / 100}г.</span>
+                        <span>{model.carbs}г.</span>
                     </div>
                 </div>
             </div>

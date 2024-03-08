@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import styles from '../UI/RegistrationForm.module.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const RegistrationForm = () => {
 
@@ -11,6 +14,7 @@ const RegistrationForm = () => {
         confirmPassword: '',
     })
     const [error, setError] = useState('')
+    const navigate = useNavigate();
 
 
     const handleChange = (e) => {
@@ -27,9 +31,15 @@ const RegistrationForm = () => {
 
         // проверка на совпадение пароля и подтвержденного пароля
         if (userData.password !== userData.confirmPassword) {
-            setError('Введённые пароли не совпадают!')
-            console.error('Пароли не совпадают')
-            return
+            toast.error('Введённые пароли не совпадают!');
+            console.error('Пароли не совпадают');
+            return;
+        }
+
+        // Проверка минимальной длины пароля
+        if (userData.password.length < 6) {
+            toast.error('Пароль должен содержать минимум 6 символов.');
+            return;
         }
         try {
             var username = userData.username;
@@ -44,7 +54,10 @@ const RegistrationForm = () => {
             });
 
             if (response.ok) {
-                console.log('Registration successful');
+                toast.success('Регистрация прошла успешно!', {
+                    onClose: () => navigate('/login'),
+                    autoClose: 5000,
+                });
             } else {
                 console.error('Registration failed');
             }
@@ -94,6 +107,7 @@ const RegistrationForm = () => {
                             placeholder='Введите пароль'
                             type="password"
                             name="password"
+                            autoComplete="new-password"
                             value={userData.password}
                             onChange={handleChange}
                             required
@@ -105,6 +119,7 @@ const RegistrationForm = () => {
                             placeholder='Подтверждение пароля'
                             type="password"
                             name="confirmPassword"
+                            autoComplete="new-password"
                             value={userData.confirmPassword}
                             onChange={handleChange}
                             required
@@ -122,6 +137,7 @@ const RegistrationForm = () => {
                     {error !== '' && <p className={styles.error_message}>{error}</p>}
                 </form>
             </div>
+            <ToastContainer />
         </div >
     );
 };

@@ -37,7 +37,7 @@ const MealItemAddForm = ({ _model, onSave }) => {
             console.log('Не указано количество калорий');
         }
 
-        if(errors.length == 0) {
+        if (errors.length == 0) {
             if (!model.protein || model.protein === "") {
                 model.protein = 0;
             }
@@ -49,12 +49,13 @@ const MealItemAddForm = ({ _model, onSave }) => {
             if (!model.carbs || model.carbs === "") {
                 model.carbs = 0;
             }
+            model.id = Date.now();
 
             onSave({
                 id: model.id ?? crypto.randomUUID(),
                 ...model
             })
-            
+
             console.log(model)
         }
 
@@ -104,7 +105,7 @@ const MealItemAddForm = ({ _model, onSave }) => {
                         type="radio"
                         value="TOTAL"
                         checked={model.isTotal}
-                        onChange={() => {setModel({ ...model, isTotal: true }); console.log(model.isTotal)}}
+                        onChange={() => { setModel({ ...model, isTotal: true }); console.log(model.isTotal) }}
                     />
                 </div>
                 <div>
@@ -113,7 +114,7 @@ const MealItemAddForm = ({ _model, onSave }) => {
                         type="radio"
                         value="PER100GRAMM"
                         checked={!model.isTotal}
-                        onChange={() => {setModel({ ...model, isTotal: false }); console.log(model.isTotal)}}
+                        onChange={() => { setModel({ ...model, isTotal: false }); console.log(model.isTotal) }}
                     />
                 </div>
             </div>
