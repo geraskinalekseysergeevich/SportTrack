@@ -3,10 +3,10 @@ import styles from "../UI/HomeData.module.css"
 import { useNavigate } from "react-router-dom";
 import HomeActivity from "./HomeActivity";
 
-const HomeData = ({userId}) => {
+const HomeData = ({ userId }) => {
     const navigate = useNavigate();
 
-    const [inputData, setInputData] = useState({ items: [], exercises: []});
+    const [inputData, setInputData] = useState({ items: [], exercises: [] });
     const [workout, setWorkout] = useState([]);
     const [diet, setDiet] = useState([]);
     const [combined, setCombined] = useState([]);
@@ -30,7 +30,7 @@ const HomeData = ({userId}) => {
         combinedData.sort((a, b) => {
             const timeA = a.timecreated.split(':');
             const timeB = b.timecreated.split(':');
-    
+
             // Сравниваем часы
             if (parseInt(timeA[0]) !== parseInt(timeB[0])) {
                 return parseInt(timeB[0]) - parseInt(timeA[0]);
@@ -40,7 +40,7 @@ const HomeData = ({userId}) => {
             if (parseInt(timeA[1]) !== parseInt(timeB[1])) {
                 return parseInt(timeB[1]) - parseInt(timeA[1]);
             }
-    
+
             // Сравниваем секунды
             return parseInt(timeB[2]) - parseInt(timeA[2]);
         });
@@ -48,7 +48,7 @@ const HomeData = ({userId}) => {
 
     // подготавливаем данные для отображения
     const prepareData = () => {
-        
+
         const array1 = workout.map(el => {
             const obj = {};
             el.forEach(element => {
@@ -58,7 +58,7 @@ const HomeData = ({userId}) => {
             });
             return obj;
         });
-        
+
         const array2 = diet.map(entry => {
             const obj = {};
             entry.forEach(element => {
@@ -69,7 +69,7 @@ const HomeData = ({userId}) => {
             });
             return obj;
         });
-        
+
         // объединяем два массива в combined, добавляем поле type для определения типа записи
         const combinedData = [...array1.map(item => ({ ...item, type: 'workout' })), ...array2.map(item => ({ ...item, type: 'diet' }))]
         // сортируем объединенный массив по времени создания
@@ -79,7 +79,7 @@ const HomeData = ({userId}) => {
 
     // делим полученные с сервера данные на workout и diet и подготавливаем
     useEffect(() => {
-        if(inputData.exercises !== undefined && inputData.items !== undefined) {
+        if (inputData.exercises !== undefined && inputData.items !== undefined) {
             setWorkout(inputData.exercises)
             setDiet(inputData.items)
         }
@@ -90,53 +90,53 @@ const HomeData = ({userId}) => {
     }, [workout, diet])
 
     const returnInfo = (info) => {
-        if(inputData.information !== undefined) {
+        if (inputData.information !== undefined) {
             return inputData.information[info]
         } else { return '' }
     }
 
     return (
         <>
-        <div className={styles.home__section}>
-            <div className={styles.home__container}>
-                <div className={styles.home__header}>
-                    <h1 className={styles.home__title}>Домашняя страница</h1>
+            <div className={styles.home__section}>
+                <div className={styles.home__container}>
+                    <div className={styles.home__header}>
+                        <h1 className={styles.home__title}>Домашняя страница</h1>
 
-                    <div className={styles.home__header__welcome}>
-                        <div className={styles.home__header__text}>
-                            С возвращением в SportTrack,
-                            <p className={styles.name__user}>{inputData.username}!</p>
+                        <div className={styles.home__header__welcome}>
+                            <div className={styles.home__header__text}>
+                                С возвращением в SportTrack,
+                                <p className={styles.name__user}>{inputData.username}!</p>
+                            </div>
+                            <img src={require('../sources/avatar.png')} alt="" onClick={() => navigate('/profile', { state: { userId } })} />
                         </div>
-                        <img src={require('../sources/avatar.png')} alt="" onClick={() => navigate('/profile', { state: { userId } })}/>
+                    </div>
+
+                    <div className={styles["person-data"]}>
+                        <div className={styles["person-data-card"]}>
+                            <i className={`fi fi-rr-ruler-triangle ${styles["card-icon"]}`}></i>
+                            <div className={styles["card-name"]}>Рост</div>
+                            <div className={styles["card-value"]}>{returnInfo('height')} см</div>
+                        </div>
+
+                        <div className={styles["person-data-card"]}>
+                            <i className={`fi fi-sr-scale ${styles["card-icon"]}`}></i>
+                            <div className={styles["card-name"]}>Вес</div>
+                            <div className={styles["card-value"]}>{returnInfo('weight')} кг</div>
+                        </div>
+
+                        <div className={styles["person-data-card"]}>
+                            <i className={`fi fi-sr-user ${styles["card-icon"]}`}></i>
+                            <div className={styles["card-name"]}>Возраст</div>
+                            <div className={styles["card-value"]}>{returnInfo('age')} лет</div>
+                        </div>
+                    </div>
+                    <div className={styles["person-activities"]}>
+                        <h2 className={styles["person-activities-header"]}>Ваша активность:</h2>
+                        <HomeActivity combined={combined} />
                     </div>
                 </div>
 
-                <div className={styles["person-data"]}>
-                    <div className={styles["person-data-card"]}>
-                        <i className={`fi fi-rr-ruler-triangle ${styles["card-icon"]}`}></i>
-                        <div className={styles["card-name"]}>Рост</div>
-                        <div className={styles["card-value"]}>{returnInfo('height')} см</div>
-                    </div>
-
-                    <div className={styles["person-data-card"]}>
-                        <i className={`fi fi-sr-scale ${styles["card-icon"]}`}></i>
-                        <div className={styles["card-name"]}>Вес</div>
-                        <div className={styles["card-value"]}>{returnInfo('weight')} кг</div>
-                    </div>
-
-                    <div className={styles["person-data-card"]}>
-                        <i className={`fi fi-sr-user ${styles["card-icon"]}`}></i>
-                        <div className={styles["card-name"]}>Возраст</div>
-                        <div className={styles["card-value"]}>{returnInfo('age')} лет</div>
-                    </div>
-                </div>
-                <div className={styles["person-activities"]}>
-                    <h2 className={styles["person-activities-header"]}>Ваша активность:</h2>
-                    <HomeActivity combined={combined} />
-                </div>
             </div>
-            
-        </div>
         </>
     );
 };
