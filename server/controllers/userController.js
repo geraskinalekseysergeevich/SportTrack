@@ -94,9 +94,8 @@ const saveUserCallorie = async (req, res) => {
         const user = await User.findById(userId);
         if (!user) {
             return res.status(404).json({ error: 'Пользователь не найден' });
-        }        // Обновление данных пользователя
+        } // Обновление данных пользователя
         user.items.push(items);
-
         // Сохранение обновленных данных
         await user.save();
 
@@ -158,7 +157,9 @@ const saveUserPreset = async (req, res) => {
         await user.save();
 
         // Находим id созданного пресета по его названию
-        const createdPreset = user.presets.find(preset => preset.name === newPreset.name);
+        const createdPreset = user.presets.find(
+            (preset) => preset.name === newPreset.name
+        );
         if (!createdPreset) {
             return res.status(404).json({ error: 'Пресет не найден' });
         }
@@ -166,9 +167,8 @@ const saveUserPreset = async (req, res) => {
 
         res.status(200).json({
             message: 'Данные пользователя успешно сохранены',
-            createdPresetId: createdPresetId
+            createdPresetId: createdPresetId,
         });
-
     } catch (error) {
         console.error('Ошибка при сохранении данных пользователя:', error);
         res.status(500).json({ error: 'Внутренняя ошибка сервера' });
@@ -177,18 +177,20 @@ const saveUserPreset = async (req, res) => {
 
 const deleteUserPreset = async (req, res) => {
     try {
-        console.log(req.body.userId)
-        console.log(req.body.presetId)
+        console.log(req.body.userId);
+        console.log(req.body.presetId);
         // Поиск пользователя по ID
         const user = await User.findById(req.body.userId);
         if (!user) {
             return res.status(404).json({ error: 'Пользователь не найден' });
         }
         // Удаление пресета из массива пресетов пользователя
-        user.presets = user.presets.filter(preset => preset._id.toString() !== req.body.presetId)
+        user.presets = user.presets.filter(
+            (preset) => preset._id.toString() !== req.body.presetId
+        );
 
-        await user.save()
-        
+        await user.save();
+
         res.status(200).json({
             message: 'Пресет успешно удален',
         });
@@ -208,7 +210,9 @@ const updateUserPreset = async (req, res) => {
         // Находим и обновляем пресет по ID
         const presets = user.presets;
         const presetId = req.body.presetId;
-        const presetToUpdate = presets.find(preset => preset._id.toString() === presetId);
+        const presetToUpdate = presets.find(
+            (preset) => preset._id.toString() === presetId
+        );
         if (!presetToUpdate) {
             return res.status(404).json({ error: 'Пресет не найден' });
         }
@@ -228,7 +232,6 @@ const updateUserPreset = async (req, res) => {
     }
 };
 
-
 module.exports = {
     registerUser,
     loginUser,
@@ -238,5 +241,5 @@ module.exports = {
     getUserData,
     putUserData,
     deleteUserPreset,
-    updateUserPreset
+    updateUserPreset,
 };
