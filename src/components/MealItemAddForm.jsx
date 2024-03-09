@@ -52,6 +52,7 @@ const MealItemAddForm = ({ _model, onSave }) => {
 
             if (!model.isTotal) {
                 const weightFactor = model.weight / 100;
+                model.calories = Math.round(model.calories * weightFactor);
                 model.protein = Math.round(model.protein * weightFactor);
                 model.fat = Math.round(model.fat * weightFactor);
                 model.carbs = Math.round(model.carbs * weightFactor);
