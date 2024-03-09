@@ -66,7 +66,7 @@ const loginUser = async (req, res) => {
 
 const saveUserExercises = async (req, res) => {
     try {
-        const { userId, insert } = req.body;
+        const { userId } = req.body;
         // Поиск пользователя по ID
         const user = await User.findById(userId);
         if (!user) {
