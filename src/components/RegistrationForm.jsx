@@ -4,43 +4,54 @@ import { Link, useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-
 const RegistrationForm = () => {
-
     const [userData, setUserData] = useState({
         username: '',
         email: '',
         password: '',
         confirmPassword: '',
-    })
-    const [error, setError] = useState('')
+    });
+    const [showPassword, setShowPassword] = useState(false);
+    const [error, setError] = useState('');
     const navigate = useNavigate();
 
-
     const handleChange = (e) => {
-        // e - событие содержит имя поля и его изменения 
         const { name, value } = e.target;
         setUserData({
-            ...userData, // копирование предыдущего объекта
-            [name]: value, // изменение нужных полей
+            ...userData,
+            [name]: value,
         });
     }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // проверка на совпадение пароля и подтвержденного пароля
         if (userData.password !== userData.confirmPassword) {
             toast.error('Введённые пароли не совпадают!');
             console.error('Пароли не совпадают');
             return;
         }
 
-        // Проверка минимальной длины пароля
-        if (userData.password.length < 6) {
-            toast.error('Пароль должен содержать минимум 6 символов.');
+        // Валидация пароля
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}$/;
+        if (!passwordRegex.test(userData.password)) {
+            toast.error('Пароль должен содержать минимум 6 символов, одну заглавную букву, одну строчную букву и одну цифру.');
             return;
         }
+
+        // Валидация имени
+        if (userData.username.length < 3 || userData.username.length > 20) {
+            toast.error('Имя должно содержать от 3 до 20 символов.');
+            return;
+        }
+
+        // Валидация электронной почты
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(userData.email)) {
+            toast.error('Некорректный адрес электронной почты.');
+            return;
+        }
+
         try {
             var username = userData.username;
             var email = userData.email;
@@ -65,11 +76,12 @@ const RegistrationForm = () => {
             console.error('Registration error:', error);
         }
 
+        setError('');
+        console.log('Отправка данных на БД');
+    };
 
-        // здесь должна быть отправка данных на сервер
-
-        setError('')
-        console.log('Отправка данных на БД')
+    const togglePasswordVisibility = () => {
+        setShowPassword(!showPassword);
     };
 
     return (
@@ -103,21 +115,27 @@ const RegistrationForm = () => {
                     </div>
                     <div className={styles.formField}>
                         <label htmlFor="password"></label>
-                        <input
-                            placeholder='Введите пароль'
-                            type="password"
-                            name="password"
-                            autoComplete="new-password"
-                            value={userData.password}
-                            onChange={handleChange}
-                            required
-                        />
+                        <div className={styles.passwordField}>
+                            <input
+                                placeholder='Введите пароль'
+                                type={showPassword ? "text" : "password"}
+                                name="password"
+                                autoComplete="new-password"
+                                value={userData.password}
+                                onChange={handleChange}
+                                required
+                            />
+                            <i
+                                className={`fi ${showPassword ? 'fi-rs-eye' : 'fi-rs-crossed-eye'} ${styles.passwordIcon}`}
+                                onClick={togglePasswordVisibility}
+                            ></i>
+                        </div>
                     </div>
                     <div className={styles.formField}>
                         <label htmlFor="confirmPassword"></label>
                         <input
                             placeholder='Подтверждение пароля'
-                            type="password"
+                            type={showPassword ? "text" : "password"}
                             name="confirmPassword"
                             autoComplete="new-password"
                             value={userData.confirmPassword}
@@ -138,7 +156,7 @@ const RegistrationForm = () => {
                 </form>
             </div>
             <ToastContainer />
-        </div >
+        </div>
     );
 };
 
