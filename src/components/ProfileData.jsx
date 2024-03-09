@@ -7,17 +7,17 @@ import ProfileEdit from "./ProfileEdit";
 
 const ProfileData = ({userId}) => {
 
-    const [editPage, setEditPage] = useState(0)
     const navigate = useNavigate();
+    const [editPage, setEditPage] = useState(0)
     const [userInfo, setUserInfo] = useState({})
     const [userName, setUserName] = useState('')
 
+    // запрос на сервер для получения username и information
     useEffect(() => {
         const fetchUserData = async () => {
             try {
                 const response = await fetch(`http://localhost:3001/api/users/user/data?userId=${userId}`)
                 const data = await response.json()
-                console.log(data.information)
 
                 setUserInfo(data.information)
                 setUserName(data.username)

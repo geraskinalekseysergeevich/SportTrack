@@ -7,13 +7,14 @@ const ProfileEdit = ({userId, userInfo}) => {
     const [newUserInfo, setNewUserInfo] = useState({...userInfo})
     const navigate = useNavigate();
 
+    // обработчик ввода
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setNewUserInfo({ ...newUserInfo, [name]: value });
     };
 
+    // отправляем put запрос чтобы изменить данные в information
     const updateUserInfo = async () => {
-        console.log('test')
         try {
             const response = await fetch(`http://localhost:3001/api/users/updateData`, {
                 method: 'PUT',
@@ -25,11 +26,7 @@ const ProfileEdit = ({userId, userInfo}) => {
 
             if(!response.ok) {
                 throw new Error('Ошибка при обновлении данных')
-            } else {
-                console.log('Данные успешно обновлены')
             }
-            
-
         }
         catch(error) {
             console.log('Ошибка при обновлении данных:', error)

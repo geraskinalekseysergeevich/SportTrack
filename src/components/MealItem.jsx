@@ -1,7 +1,7 @@
 import React from 'react';
 import classes from '../UI/MealItem.module.css';
 
-const MealItem = ({ model, onEditItem, onRemoveItem }) => {
+const MealItem = ({ model, onRemoveItem, onEditItem }) => {
     return (
         <div className={classes.mealitem_container}>
             <div className={classes.meal_info}>
@@ -36,7 +36,7 @@ const MealItem = ({ model, onEditItem, onRemoveItem }) => {
             </div>
 
             <div className={classes.meal_buttons}>
-                <button onClick={() => onEditItem(model)}>Изменить</button>
+                <button onClick={() => onEditItem(model.id)}>Изменить</button>
                 <button onClick={() => onRemoveItem(model)}>Удалить</button>
             </div>
         </div>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import MealItem from './MealItem';
 import MealItemAddForm from './MealItemAddForm';
@@ -6,16 +6,20 @@ import classes from '../UI/MealsForm.module.css';
 import TabBar from './TabBar';
 import plus_icon from '../sources/meals/plus.png';
 import save_icon from '../sources/meals/save.png';
+import MealItemEditForm from './MealItemEditForm';
 
 const MealsForm = ({ userId }) => {
+    const [model, setModel] = useState( { isTotal: true } );
     const [openAddItem, setOpenAddItem] = useState(false);
+    const [openEditItem, setOpenEditItem] = useState(false)
     const [mealName, setMealName] = useState("");
     const [foodItems, setFoodItems] = useState([]);
-    const [editedItem, setEditedItem] = useState();
-    const [saved, setSaved] = useState(false);
+    const [editedItem, setEditedItem] = useState()
+
 
     const toggleAddItemMenu = () => {
-        setOpenAddItem(!openAddItem);
+        setOpenAddItem(!openAddItem)
+        setOpenEditItem(false)
     };
 
     const onAddItem = async (item) => {
@@ -24,15 +28,26 @@ const MealsForm = ({ userId }) => {
         setFoodItems(items);
         setEditedItem(undefined);
         setOpenAddItem(false);
+        setModel( { isTotal: true } )
     }
 
     const onRemoveItem = (item) => {
         setFoodItems(foodItems.filter(el => el.id !== item.id));
     }
 
-    const onEditItem = (item) => {
-        setEditedItem(item);
-        setOpenAddItem(true);
+    const onEditItem = (id) => {
+        const selectedItem = foodItems.find(item => item.id === id)
+        setEditedItem(selectedItem)
+        setOpenEditItem(true)
+    }
+
+    const saveEdits = (editedItem) => {
+        const updatedItems = foodItems.map(item => {
+            return item.id === editedItem.id ? editedItem : item
+        });
+        setFoodItems(updatedItems);
+        setEditedItem(null);
+        setOpenEditItem(false);
     }
 
     const dayToday = () => {
@@ -90,7 +105,7 @@ const MealsForm = ({ userId }) => {
                 });
 
                 if (response.ok) {
-                    const { token, userId } = await response.json();
+                    const { userId } = await response.json();
                     console.log(userId);
                     // Сохранение токена и ID пользователя, например, в локальном хранилище
                     console.log('Log successful');
@@ -99,8 +114,6 @@ const MealsForm = ({ userId }) => {
                     console.error('Log failed');
                 }
             })
-            setSaved(true);
-            setTimeout(() => { setSaved(false) }, 3000);
             setFoodItems([]);
         }
 
@@ -134,7 +147,8 @@ const MealsForm = ({ userId }) => {
                             <MealItem key={item.id} model={item} onEditItem={onEditItem} onRemoveItem={onRemoveItem} />
                         )}
 
-                        {openAddItem && (<MealItemAddForm model={editedItem} onSave={onAddItem} />)}
+                        {openAddItem && (<MealItemAddForm model={model} setModel={setModel} onSave={onAddItem} />)}
+                        {openEditItem && (<MealItemEditForm editedModel={editedItem} setEditedModel={setEditedItem} saveEdits={() => saveEdits(editedItem)}/>)}
 
                         <div className={classes.bottom_buttons}>
                             <div className={classes.icons__container} onClick={toggleAddItemMenu}>
@@ -144,7 +158,6 @@ const MealsForm = ({ userId }) => {
                             <div className={classes.icons__container}>
                                 <img src={save_icon} alt="save icon" onClick={handleSaveAll} />
                             </div>
-                            {/* <p className={classes.saved_label, } */}
                         </div>
                     </div>
                 </div>

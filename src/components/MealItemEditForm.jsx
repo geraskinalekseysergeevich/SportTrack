@@ -1,73 +1,14 @@
 import React, { useState } from 'react';
-import classes from '../UI/MealItemAddForm.module.css';
+import classes from '../UI/MealItemEditForm.module.css'
 
-const MealItemAddForm = ({ model, setModel, onSave }) => {
+const MealItemEditForm = ({editedModel, setEditedModel, saveEdits}) => {
 
     const [inputError, setInputError] = useState(0);
     const [inputErrors, setInputErrors] = useState([]);
     let errors = Object.assign([], inputErrors);
 
-    const calculateTotal = () => {
-
-        if (!model.name || model.name === "") {
-            errors.push(1);
-            setInputErrors(errors);
-
-            setInputError(1)
-            console.log('Не введено название');
-        }
-
-        if (!model.weight || model.weight === "") {
-            errors.push(2);
-            setInputErrors(errors);
-
-            setInputError(2);
-            console.log('Не указана масса');
-        }
-
-        if (!model.calories || model.calories === "") {
-            errors.push(3);
-            setInputErrors(errors);
-
-            setInputError(3);
-            console.log('Не указано количество калорий');
-        }
-
-        if (errors.length === 0) {
-            if (!model.protein || model.protein === "") {
-                model.protein = 0;
-            }
-
-            if (!model.fat || model.fat === "") {
-                model.fat = 0;
-            }
-
-            if (!model.carbs || model.carbs === "") {
-                model.carbs = 0;
-            }
-
-            if (!model.isTotal) {
-                const weightFactor = model.weight / 100;
-                model.calories = Math.round(model.calories * weightFactor);
-                model.protein = Math.round(model.protein * weightFactor);
-                model.fat = Math.round(model.fat * weightFactor);
-                model.carbs = Math.round(model.carbs * weightFactor);
-            }
-
-            onSave({
-                id: model.id ?? crypto.randomUUID(),
-                ...model
-            })
-        }
-
-        setTimeout(() => {
-            errors = [];
-            setInputErrors(errors);
-        }, 1000);
-    };
-
     return (
-        <div className={classes.mealaddform__container}>
+        <div className={classes.mealeditform__container}>
             <div>
                 <label>Название:</label>
                 <input
@@ -75,9 +16,9 @@ const MealItemAddForm = ({ model, setModel, onSave }) => {
                     type="text"
                     id="meal-item-label-name"
                     placeholder="Введите название"
-                    value={model.name || ''}
+                    value={editedModel.name || ''}
                     onChange={(e) => {
-                        setModel({ ...model, name: e.target.value });
+                        setEditedModel({ ...editedModel, name: e.target.value });
                         setInputError(0);
                     }}
                 />
@@ -89,9 +30,9 @@ const MealItemAddForm = ({ model, setModel, onSave }) => {
                     type="number"
                     min='0'
                     placeholder="Граммовка"
-                    value={model.weight || ''}
+                    value={editedModel.weight || ''}
                     onChange={(e) => {
-                        setModel({ ...model, weight: Number.parseInt(e.target.value) });
+                        setEditedModel({ ...editedModel, weight: Number.parseInt(e.target.value) });
                         setInputError(0);
                     }}
                 />
@@ -105,8 +46,8 @@ const MealItemAddForm = ({ model, setModel, onSave }) => {
                     <input
                         type="radio"
                         value="TOTAL"
-                        checked={model.isTotal}
-                        onChange={() => { setModel({ ...model, isTotal: true }); console.log(model.isTotal) }}
+                        checked={editedModel.isTotal}
+                        onChange={() => { setEditedModel({ ...editedModel, isTotal: true })}}
                     />
                 </div>
                 <div>
@@ -114,8 +55,8 @@ const MealItemAddForm = ({ model, setModel, onSave }) => {
                     <input
                         type="radio"
                         value="PER100GRAMM"
-                        checked={!model.isTotal}
-                        onChange={() => { setModel({ ...model, isTotal: false }); console.log(model.isTotal) }}
+                        checked={!editedModel.isTotal}
+                        onChange={() => { setEditedModel({ ...editedModel, isTotal: false })}}
                     />
                 </div>
             </div>
@@ -126,8 +67,8 @@ const MealItemAddForm = ({ model, setModel, onSave }) => {
                     type="number"
                     min='0'
                     placeholder="Введите калории"
-                    value={model.calories || ''}
-                    onChange={(e) => { setModel({ ...model, calories: Number.parseInt(e.target.value) }); setInputError(0); }}
+                    value={editedModel.calories || ''}
+                    onChange={(e) => { setEditedModel({ ...editedModel, calories: Number.parseInt(e.target.value) }); setInputError(0); }}
                 />
             </div>
             <div className={classes.bju__container}>
@@ -137,8 +78,8 @@ const MealItemAddForm = ({ model, setModel, onSave }) => {
                         type="number"
                         min='0'
                         placeholder="Введите белки"
-                        value={model.protein || ''}
-                        onChange={(e) => setModel({ ...model, protein: Number.parseInt(e.target.value) })}
+                        value={editedModel.protein || ''}
+                        onChange={(e) => setEditedModel({ ...editedModel, protein: Number.parseInt(e.target.value) })}
                     />
                 </div>
                 <div>
@@ -147,8 +88,8 @@ const MealItemAddForm = ({ model, setModel, onSave }) => {
                         type="number"
                         min='0'
                         placeholder="Введите жиры"
-                        value={model.fat || ''}
-                        onChange={(e) => setModel({ ...model, fat: Number.parseInt(e.target.value) })}
+                        value={editedModel.fat || ''}
+                        onChange={(e) => setEditedModel({ ...editedModel, fat: Number.parseInt(e.target.value) })}
                     />
                 </div>
                 <div>
@@ -157,8 +98,8 @@ const MealItemAddForm = ({ model, setModel, onSave }) => {
                         type="number"
                         min='0'
                         placeholder="Введите углеводы"
-                        value={model.carbs || ''}
-                        onChange={(e) => setModel({ ...model, carbs: Number.parseInt(e.target.value) })}
+                        value={editedModel.carbs || ''}
+                        onChange={(e) => setEditedModel({ ...editedModel, carbs: Number.parseInt(e.target.value) })}
                     />
                 </div>
             </div>
@@ -170,10 +111,10 @@ const MealItemAddForm = ({ model, setModel, onSave }) => {
                 ) : null
             }
             <div className={classes.footer_button}>
-                <button onClick={calculateTotal}>Сохранить</button>
+                <button onClick={saveEdits}>Сохранить</button>
             </div>
         </div>
     );
 };
 
-export default MealItemAddForm;
+export default MealItemEditForm;

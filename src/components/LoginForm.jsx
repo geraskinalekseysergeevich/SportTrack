@@ -93,7 +93,9 @@ const LoginForm = () => {
                     {error !== '' && <p className={classes.error_message}>{error}</p>}
                 </form>
             </div>
-            <ToastContainer />
+            <div data-cy="error">
+                <ToastContainer />
+            </div>
         </div>
     );
 };
