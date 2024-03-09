@@ -11,6 +11,7 @@ const navigateMock = require('react-router-dom').useNavigate;
 const originalNavigate = window.location.href;
 window.location.href = 'http://localhost/';
 
+// Test 1: renders RouterMenu component
 test('renders RouterMenu component', () => {
   render(
     <BrowserRouter>
@@ -22,9 +23,10 @@ test('renders RouterMenu component', () => {
   expect(screen.getByText('Sport Track')).toBeInTheDocument();
 
   // Check if each navigation link is rendered
-  // ...
+  // Add assertions for each navigation link as needed
 });
 
+// Test 2: navigates to the correct path when a link is clicked
 test('navigates to the correct path when a link is clicked', () => {
   const { container } = render(
     <BrowserRouter>

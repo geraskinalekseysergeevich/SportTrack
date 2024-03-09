@@ -6,6 +6,7 @@ import GetExerciseForm from '../GetExerciseForm';
 // Mock your dependencies or provide necessary props for testing
 
 describe('GetExerciseForm', () => {
+  // Test 1: renders ExerciseFormSelect component with proper props
   it('renders ExerciseFormSelect component with proper props', () => {
     const mockSelectSaveFunc = jest.fn();
     const mockSelectedWorkout = {}; // provide a sample workout object
@@ -22,6 +23,7 @@ describe('GetExerciseForm', () => {
     // Add more assertions based on your component's behavior
   });
 
+  // Test 2: renders VisualExerciseForm and Timer components when selectChange is 1
   it('renders VisualExerciseForm and Timer components when selectChange is 1', () => {
     const mockChangeFunc = jest.fn();
     const mockGetFormattedTime = jest.fn();
@@ -47,6 +49,7 @@ describe('GetExerciseForm', () => {
     // Add more assertions based on your component's behavior
   });
 
+  // Test 3: calls saveStatsFunc when "Завершить" button is clicked
   it('calls saveStatsFunc when "Завершить" button is clicked', () => {
     const mockSaveStatsFunc = jest.fn();
     const { getByText } = render(

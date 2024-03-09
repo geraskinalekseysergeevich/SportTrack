@@ -4,6 +4,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import ProfileShow from '../ProfileShow';
 
 describe('ProfileShow component', () => {
+  // Sample user information
   const userInfo = {
     height: 170,
     weight: 70,
@@ -11,6 +12,7 @@ describe('ProfileShow component', () => {
     info: 'User information',
   };
 
+  // Test 1: renders profile information correctly
   test('renders profile information correctly', () => {
     render(
       <Router>
@@ -30,6 +32,7 @@ describe('ProfileShow component', () => {
     expect(screen.getByText('Выйти')).toBeInTheDocument();
   });
 
+  // Test 2: renders "Заполните данные" for zero values
   test('renders "Заполните данные" for zero values', () => {
     const userInfoWithZeroValues = {
       height: 0,
@@ -48,6 +51,7 @@ describe('ProfileShow component', () => {
     expect(screen.getByText('Заполните данные')).toBeInTheDocument();
   });
 
+  // Test 3: navigates to "/" when the "Выйти" button is clicked
   test('navigates to "/" when the "Выйти" button is clicked', () => {
     const navigateMock = jest.fn();
 

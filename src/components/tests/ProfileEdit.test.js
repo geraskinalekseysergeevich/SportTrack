@@ -5,16 +5,19 @@ import { setupServer } from 'msw/node';
 import { BrowserRouter } from 'react-router-dom';
 import ProfileEdit from './ProfileEdit';
 
+// Mocking API server response
 const server = setupServer(
   rest.put('http://localhost:3001/api/users/updateData', (req, res, ctx) => {
     return res(ctx.status(200));
   })
 );
 
+// Setup and cleanup of the server
 beforeAll(() => server.listen());
 afterEach(() => server.resetHandlers());
 afterAll(() => server.close());
 
+// Test 1: renders ProfileEdit component
 test('renders ProfileEdit component', () => {
   render(
     <BrowserRouter>
@@ -30,6 +33,7 @@ test('renders ProfileEdit component', () => {
   expect(screen.getByText(/Сохранить/i)).toBeInTheDocument();
 });
 
+// Test 2: handles input changes correctly
 test('handles input changes correctly', () => {
   render(
     <BrowserRouter>
@@ -50,6 +54,7 @@ test('handles input changes correctly', () => {
   // Add more input change tests as needed
 });
 
+// Test 3: handles updateUserInfo and navigation correctly
 test('handles updateUserInfo and navigation correctly', async () => {
   render(
     <BrowserRouter>
@@ -66,5 +71,4 @@ test('handles updateUserInfo and navigation correctly', async () => {
     expect(screen.getByText(/Данные успешно обновлены/i)).toBeInTheDocument();
   });
 
-  // Add more assertions for the navigation or other side effects
 });

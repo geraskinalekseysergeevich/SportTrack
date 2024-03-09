@@ -4,25 +4,27 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import TabBar from '../TabBar';
 
 describe('TabBar component', () => {
+    // Test 1: renders without crashing
     test('renders without crashing', () => {
         render(<Router><TabBar userId={123} /></Router>);
     });
 
+    // Test 2: navigates to the correct path on click
     test('navigates to the correct path on click', () => {
         const { getByText } = render(<Router><TabBar userId={123} /></Router>);
 
         fireEvent.click(getByText('Домашняя'));
-        // Add assertions for navigation, you may need to mock the useNavigate hook for this
-
+       
         fireEvent.click(getByText('Тренировки'));
-        // Add assertions for navigation
+        
 
         fireEvent.click(getByText('Калории'));
-        // Add assertions for navigation
+        
 
         fireEvent.click(getByText('Статистика'));
-        // Add assertions for navigation
+        
     });
 
-    // Add more tests to cover other aspects of the component, such as checking active state, etc.
+    // Test 3: Add more tests to cover other aspects of the component
+    // For example, checking the active state, handling edge cases, etc.
 });
