@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
 import classes from '../UI/LoginForm.module.css';
 import { Link, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const LoginForm = () => {
     const [userData, setUserData] = useState({
         email: '',
         password: ''
-    })
-    const [error, setError] = useState('')
-    const navigate = useNavigate()
+    });
+    const [error, setError] = useState('');
+    const navigate = useNavigate();
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -26,25 +29,26 @@ const LoginForm = () => {
             if (response.ok) {
                 const { token, userId } = await response.json();
                 console.log('Login successful');
-
-                navigate('/home', { state: { userId } });
+                toast.success('Успшно! Входим в аккаунт!');
+                setTimeout(() => {
+                    navigate('/home', { state: { userId } });
+                }, 2000);
 
             } else {
                 console.error('Login failed');
+                toast.error('Неверный адрес электронной почты или пароль. Попробуйте еще раз.');
             }
         } catch (error) {
             console.error('Login error:', error);
+            toast.error('Произошла ошибка во время входа. Пожалуйста, попробуйте позже.');
         }
     };
 
     const handleChange = (e) => {
-
-        // e - событие содержит имя поля и его изменения 
         const { name, value } = e.target;
-
         setUserData({
-            ...userData, // копирование предыдущего объекта
-            [name]: value, // изменение нужных полей
+            ...userData,
+            [name]: value,
         });
     }
 
@@ -89,6 +93,7 @@ const LoginForm = () => {
                     {error !== '' && <p className={classes.error_message}>{error}</p>}
                 </form>
             </div>
+            <ToastContainer />
         </div>
     );
 };
