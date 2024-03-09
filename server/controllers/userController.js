@@ -94,7 +94,7 @@ const saveUserCallorie = async (req, res) => {
         const user = await User.findById(userId);
         if (!user) {
             return res.status(404).json({ error: 'Пользователь не найден' });
-        }        // Обновление данных пользователя
+        } // Обновление данных пользователя
         user.items.push(req.body.items);
 
         // Сохранение обновленных данных
