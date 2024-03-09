@@ -14,8 +14,12 @@ describe('Login Page', () => {
       const email = 'test@example.com';
       const password = 'password123';
   
-      cy.get('input[name="email"]').type(email).should('have.value', email);
-      cy.get('input[name="password"]').type(password).should('have.value', password);
+      cy.get('input[name="email"]').type(email);
+      cy.get('input[name="email"]').should('have.value', email);
+
+      cy.get('input[name="password"]').type(password);
+      cy.get('input[name="password"]').should('have.value', password);
+
     });
   
     it('should submit the form with valid email and password', () => {

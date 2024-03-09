@@ -17,10 +17,17 @@ describe('Register Page', () => {
         const email = 'test@example.com';
         const password = 'password123';
         
-        cy.get('input[name="username"').type(username).should('have.value', username);
-        cy.get('input[name="email"]').type(email).should('have.value', email);
-        cy.get('input[name="password"]').type(password).should('have.value', password);
-        cy.get('input[name="confirmPassword"]').type(password).should('have.value', password);
+        cy.get('input[name="username"]').type(username);
+        cy.get('input[name="username"]').should('have.value', username);
+
+        cy.get('input[name="email"]').type(email);
+        cy.get('input[name="email"]').should('have.value', email);
+
+        cy.get('input[name="password"]').type(password);
+        cy.get('input[name="password"]').should('have.value', password);
+
+        cy.get('input[name="confirmPassword"]').type(password);
+        cy.get('input[name="confirmPassword"]').should('have.value', password);
     });
 
     it('should navigate to register page', () => {
