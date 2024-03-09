@@ -18,6 +18,7 @@
 }
 
 .formField {
+    position: relative;
     width: 400px;
     margin-bottom: 15px;
 }
@@ -28,7 +29,7 @@
     color: white;
 }
 
-.formField > input {
+.formField input {
     width: 100%;
     padding: 8px;
     box-sizing: border-box;
@@ -102,6 +103,18 @@
     font-weight: 700;
     line-height: 20px; /* 111.111% */
     letter-spacing: 0.18px;
+}
+.passwordIcon {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-35%);
+    right: 15px;
+    color: rgba(0, 0, 0, 0.6);
+    transition: 0.3s;
+}
+
+.passwordIcon:hover {
+    color: rgba(0, 0, 0, 0.9);
 }
 
 @media screen and (width <= 576px) {
