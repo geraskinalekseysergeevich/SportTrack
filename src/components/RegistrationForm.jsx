@@ -14,6 +14,7 @@ const RegistrationForm = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [error, setError] = useState('');
     const navigate = useNavigate();
+    const [errorMessage, setErrorMessage] = useState('');
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -21,6 +22,12 @@ const RegistrationForm = () => {
             ...userData,
             [name]: value,
         });
+
+        if (name === 'password' && (value === '1234' | value === 'qwerty')) {
+            setErrorMessage('Не шутите с безопасностью!');
+        } else {
+            setErrorMessage('');
+        }
     }
 
     const handleSubmit = async (e) => {
@@ -32,12 +39,20 @@ const RegistrationForm = () => {
             return;
         }
 
+
+
         // Валидация пароля
+
+
+
+
         const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}$/;
         if (!passwordRegex.test(userData.password)) {
             toast.error('Пароль должен содержать минимум 6 символов, одну заглавную букву, одну строчную букву и одну цифру.');
             return;
         }
+
+
 
         // Валидация имени
         if (userData.username.length < 3 || userData.username.length > 20) {
@@ -146,6 +161,7 @@ const RegistrationForm = () => {
                     <button type="submit">
                         <p className={styles.button_text}>Создать аккаунт</p>
                     </button>
+                    <p>{errorMessage}</p>
                     <div className={styles.footer_text}>
                         <div className={styles.flex__container}>
                             <p className={styles.noaccount_link}>Уже есть аккаунт?</p>
