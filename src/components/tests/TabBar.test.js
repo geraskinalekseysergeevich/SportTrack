@@ -13,15 +13,15 @@ describe('TabBar component', () => {
     test('navigates to the correct path on click', () => {
         const { getByText } = render(<Router><TabBar userId={123} /></Router>);
 
-        fireEvent.click(getByText('Домашняя'));
+        fireEvent.click(getByText.screen('Домашняя'));
        
-        fireEvent.click(getByText('Тренировки'));
+        fireEvent.click(getByText.screen('Тренировки'));
         
 
-        fireEvent.click(getByText('Калории'));
+        fireEvent.click(getByText.screen('Калории'));
         
 
-        fireEvent.click(getByText('Статистика'));
+        fireEvent.click(getByText.screen('Статистика'));
         
     });
 

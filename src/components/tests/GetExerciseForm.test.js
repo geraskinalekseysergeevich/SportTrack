@@ -1,17 +1,15 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import GetExerciseForm from '../GetExerciseForm';
 
-// Mock your dependencies or provide necessary props for testing
-
 describe('GetExerciseForm', () => {
   // Test 1: renders ExerciseFormSelect component with proper props
-  it('renders ExerciseFormSelect component with proper props', () => {
+  test('renders ExerciseFormSelect component with proper props', () => {
     const mockSelectSaveFunc = jest.fn();
     const mockSelectedWorkout = {}; // provide a sample workout object
     const mockSavedWorkouts = []; // provide a sample array of saved workouts
-    const { getByText } = render(
+    render(
       <GetExerciseForm
         selectedWorkout={mockSelectedWorkout}
         selectSaveFunc={mockSelectSaveFunc}
@@ -19,18 +17,18 @@ describe('GetExerciseForm', () => {
       />
     );
 
-    expect(getByText('Провести тренировку')).toBeInTheDocument();
+    expect(screen.getByText('Провести тренировку')).toBeInTheDocument();
     // Add more assertions based on your component's behavior
   });
 
   // Test 2: renders VisualExerciseForm and Timer components when selectChange is 1
-  it('renders VisualExerciseForm and Timer components when selectChange is 1', () => {
+  test('renders VisualExerciseForm and Timer components when selectChange is 1', () => {
     const mockChangeFunc = jest.fn();
     const mockGetFormattedTime = jest.fn();
     const mockStartStopTimer = jest.fn();
     const mockResetTimer = jest.fn();
     const mockSaveStatsFunc = jest.fn();
-    const { getByText } = render(
+    render(
       <GetExerciseForm
         selectedWorkout={{}}
         selectSaveFunc={jest.fn()}
@@ -45,14 +43,14 @@ describe('GetExerciseForm', () => {
       />
     );
 
-    expect(getByText('Завершить')).toBeInTheDocument();
+    expect(screen.getByText('Завершить')).toBeInTheDocument();
     // Add more assertions based on your component's behavior
   });
 
   // Test 3: calls saveStatsFunc when "Завершить" button is clicked
-  it('calls saveStatsFunc when "Завершить" button is clicked', () => {
+  test('calls saveStatsFunc when "Завершить" button is clicked', () => {
     const mockSaveStatsFunc = jest.fn();
-    const { getByText } = render(
+    render(
       <GetExerciseForm
         selectedWorkout={{}}
         selectSaveFunc={jest.fn()}
@@ -67,7 +65,7 @@ describe('GetExerciseForm', () => {
       />
     );
 
-    fireEvent.click(getByText('Завершить'));
+    fireEvent.click(screen.getByText('Завершить'));
     expect(mockSaveStatsFunc).toHaveBeenCalled();
   });
 });
