@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import styles from "../UI/HomeData.module.css"
 import { useNavigate } from "react-router-dom";
 import HomeActivity from "./HomeActivity";
+import { BrowserRouter as Router, Link } from "react-router-dom";
 
 const HomeData = ({ userId }) => {
     const navigate = useNavigate();
@@ -101,7 +102,8 @@ const HomeData = ({ userId }) => {
                 <div className={styles.home__container}>
                     <div className={styles.home__header}>
                         <h1 className={styles.home__title}>Домашняя страница</h1>
-
+                        <Link to="/new">New Page Link</Link>
+                        <a href="/new">New Page a</a>
                         <div className={styles.home__header__welcome}>
                             <div className={styles.home__header__text}>
                                 С возвращением в SportTrack,
